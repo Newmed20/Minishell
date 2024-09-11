@@ -23,7 +23,7 @@
 
 enum e_state
 {
-	IN_QUOTE,
+	IN_SQUOTE,
 	IN_DQUOTE,
 	GENERAL
 };
@@ -32,7 +32,7 @@ enum e_type
 {
 	WORD,
 	WHITE_SPACE,
-	QUOTE,
+	S_QUOTE,
 	D_QUOTE,
 	PIPE_LINE,
 	NEW_LINE,
@@ -59,5 +59,8 @@ typedef struct s_lst
 	t_token	*head;
 	t_token	*tail;
 }	t_lst;
+
+
+t_token	*skip_spaces(t_token *el, int flg);
 
 #endif
