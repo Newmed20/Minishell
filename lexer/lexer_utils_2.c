@@ -57,10 +57,10 @@ void	_quote_tokenize(t_lst *tokens, char *line,
 	enum e_type		tp;
 	enum e_state	st;
 
-	if (type == QUOTE)
+	if (type == S_QUOTE)
 	{
-		tp = QUOTE;
-		st = IN_QUOTE;
+		tp = S_QUOTE;
+		st = IN_SQUOTE;
 	}
 	else if (type == D_QUOTE)
 	{
@@ -87,13 +87,13 @@ int	_env_tokenize(t_lst *tokens, char *line,
 	int	i;
 
 	i = 1;
-	if (!not_special(line[i]))
-	{
-		while (!not_special(line[i]))
-			i++;
-		lst_token_add_back(tokens, create_token(line, i, type, state));
-	}
+	if (line[i] == '?')
+		i++;
 	else
-		lst_token_add_back(tokens, create_token(line, i, type, state));
+		while ((line[i] >= '0' && line[i] <= '9') 
+			|| (line[i] >= 'a' && line[i] <= 'z') 
+			|| (line[i] >= 'A' && line[i] <= 'Z'))
+			i++;
+	lst_token_add_back(tokens, create_token(line, i, type, state));
 	return (i);
 }

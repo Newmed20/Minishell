@@ -4,10 +4,11 @@ char	*print_state(enum e_state state)
 {
 	switch (state)
 	{
-		case IN_QUOTE: return "IN_QUOTE";
+		case IN_SQUOTE: return "IN_SQUOTE";
 		case IN_DQUOTE: return "IN_DQUOTE";
 		case GENERAL: return "GENERAL";
 	}
+	return NULL;
 }
 
 char	*print_type(enum e_type type)
@@ -16,7 +17,7 @@ char	*print_type(enum e_type type)
 	{
 		case WORD: return "WORD";
 		case WHITE_SPACE: return "WHITE_SPACE";
-		case QUOTE: return "QUOTE";
+		case S_QUOTE: return "S_QUOTE";
 		case D_QUOTE: return "D_QUOTE";
 		case PIPE_LINE: return "PIPE_LINE";
 		case ENV: return "ENV";
@@ -27,6 +28,7 @@ char	*print_type(enum e_type type)
 		case ESCAPE: return "ESCAPE";
 		case REDIR_OUT: return "REDIR_OUT";
 	}
+	return NULL;
 }
 
 void	print_token(t_lst *lst)

@@ -44,7 +44,7 @@ int	_tokenize(char *line, t_lst *tokens, int pos, enum e_state *state)
 		lst_token_add_back(tokens, create_token(line + (pos++), 1, 
 				WHITE_SPACE, *state));
 	else if (line[pos] == '\'')
-		_quote_tokenize(tokens, line + (pos++), QUOTE, state);
+		_quote_tokenize(tokens, line + (pos++), S_QUOTE, state);
 	else if (line[pos] == '\"')
 		_quote_tokenize(tokens, line + (pos++), D_QUOTE, state);
 	else if (line[pos] == '$')
