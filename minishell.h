@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/08 13:17:45 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:02:31 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <readline/readline.h>
 # include <stdbool.h>
 # include "libft/libft.h"
-# include "lexer/lexer.h"
 
 enum e_state
 {
@@ -52,7 +51,7 @@ typedef struct s_token
 	enum e_state	state;
 	struct s_token	*next;
 	struct s_token	*prev;
-} t_token;
+}	t_token;
 
 typedef struct s_lst
 {
@@ -60,7 +59,8 @@ typedef struct s_lst
 	t_token	*tail;
 }	t_lst;
 
-
 t_token	*skip_spaces(t_token *el, int flg);
+int		syntax_error(t_lst *lst);
+int		print_error(void);
 
 #endif
