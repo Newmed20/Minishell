@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:09:31 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/10 11:00:11 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/12 12:08:39 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,4 @@ t_lst	*lexer(char *line)
 		i = _tokenize(line, tokens, i, &state);
 	}
 	return (tokens);
-}
-
-int main()
-{
-	char *line = "echo \"hello  $USER \" > file | grep h | cat << eof | cat >> file | echo 'done'";
-	t_lst *token;
-
-	token = lexer(line);
-	print_token(token);
 }
