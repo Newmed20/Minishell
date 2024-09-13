@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:46:46 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/12 11:13:07 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:37:47 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ char	*ft_strndup(const char *s1, int n);
 void	print_token(t_lst *lst); // ~~!!!!!!!!~~
 int		_env_tokenize(t_lst *tokens, char *line, 
 			enum e_type type, enum e_state state);
+t_lst	*lexer(char *line);
 
 #endif
