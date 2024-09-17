@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 03:08:36 by mjadid            #+#    #+#             */
-/*   Updated: 2024/09/17 08:20:43 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/09/17 10:05:26 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	is_option(char **args, int *flag)
 	return (i);
 }
 
-int	ft_echo(t_command *s_command , int *exit_status)
+int	ft_echo(t_command *s_command)
 {
 	int	i;
 	int	flag;
@@ -56,7 +56,7 @@ int	ft_echo(t_command *s_command , int *exit_status)
 	}
 	if (!args[1] || flag)
 		ft_putstr_fd("\n", 1);
-	*exit_status = 0;
+	exit_status = 0;
 	return (0);
 }
 
