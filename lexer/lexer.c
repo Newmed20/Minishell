@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:09:31 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/13 16:28:11 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:50:16 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,4 @@ t_lst	*lexer(char *line)
 		i = _tokenize(line, tokens, i, &state);
 	}
 	return (tokens);
-}
-
-int main()
-{
-	t_lst *lst = lexer("echo $USER ++++");
-	t_env *env = expand(lst);
-	if (syntax_error(lst))
-		return (1);
-	while (env)
-	{
-		printf("%s\n", env->content);
-		env = env->next;
-	}
 }

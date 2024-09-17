@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 12:48:18 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/10 10:52:34 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:47:39 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,10 @@ int	_env_tokenize(t_lst *tokens, char *line,
 	int	i;
 
 	i = 1;
-	if (line[i] == '?')
+	if (line[i] == '?' || (line[i] >= '0' && line[i] <= '9'))
 		i++;
 	else
-		while ((line[i] >= '0' && line[i] <= '9') 
-			|| (line[i] >= 'a' && line[i] <= 'z') 
-			|| (line[i] >= 'A' && line[i] <= 'Z'))
+		while (ft_isalnum(line[i]))
 			i++;
 	lst_token_add_back(tokens, create_token(line, i, type, state));
 	return (i);
