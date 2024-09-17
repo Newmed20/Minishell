@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:34:29 by mjadid            #+#    #+#             */
-/*   Updated: 2024/09/17 02:30:26 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/09/17 05:59:31 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_exit
 	int						exit_status;
 }							t_check;
 
-t_check						g_check;
+// t_check						g_check;
 
 typedef struct s_environment
 {

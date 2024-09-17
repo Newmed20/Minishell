@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:19:39 by mjadid            #+#    #+#             */
-/*   Updated: 2024/09/17 02:39:07 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/09/17 06:13:44 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-
 void	display_chdir_error(const char *path)
 {
 	write(STDERR_FILENO, "minishell: cd: ", 15);
@@ -31,31 +30,32 @@ void	display_chdir_error(const char *path)
 	write(STDERR_FILENO, ": No such file or directory\n", 29);
 }
 
-int	change_directory(const char *path)
+int	change_directory(const char *path , int *exit_status)
 {
 	if (chdir(path) != 0)
 	{
 		display_chdir_error(path);
-		g_check.exit_status = 1;
+		*exit_status = 1;
 		return (1);
 	}
+	*exit_status = 0;
 	return (0);
 }
 
-int	handle_change_directory(char *path)
+int	handle_change_directory(char *path , int *exit_status)
 {
 	char	current_working_dir[PATH_MAX];
 
-	if (change_directory(path) != 0)
+	if (change_directory(path , exit_status) != 0)
 	{
 		return (1);
 	}
 	getcwd(current_working_dir, PATH_MAX);
-	//printf("%s\n", current_working_dir);
+	// printf("%s\n", current_working_dir);  // Print current working directory
 	return (0);
 }
 
-int	ft_cd(t_command *command)
+int	ft_cd(t_command *command , int *exit_status)
 {
 	char	*home_dir;
 
@@ -65,25 +65,12 @@ int	ft_cd(t_command *command)
 		if (home_dir == NULL)
 		{
 			write(STDERR_FILENO, "minishell: cd: HOME not set\n", 29);
+			*exit_status = 1;
 			return (1);
 		}
-		handle_change_directory(home_dir);
+		handle_change_directory(home_dir , exit_status);
 		return (0);
 	}
 	else
-	{
-		return (handle_change_directory(command->args[1]));
-	}
-	g_check.exit_status = 0;
-	return (0);
-}
-
-int main(int ac, char **av)
-{
-	t_command *command = malloc(sizeof(t_command));
-	command->args = malloc(sizeof(char *) * 2);
-	command->args[0] = av[0];
-	command->args[1] = av[1];
-	ft_cd(command);
-	return 0;
+		return (handle_change_directory(command->args[1] , exit_status));
 }
