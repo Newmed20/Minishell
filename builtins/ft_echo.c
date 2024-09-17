@@ -6,14 +6,14 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 03:08:36 by mjadid            #+#    #+#             */
-/*   Updated: 2024/09/17 03:09:07 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/09/17 06:15:40 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"      
 
 
-int    ft_echo(t_command *command)
+int    ft_echo(t_command *command  , int *exit_status)
 {
     int	i;
     int	n_flag;
