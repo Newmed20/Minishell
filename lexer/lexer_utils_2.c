@@ -12,7 +12,7 @@
 
 #include "lexer.h"
 
-int	get_word(t_lst *tokens, char *line, enum e_state state)
+int	get_word(t_tkn_lst *tokens, char *line, enum e_state state)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ int	get_word(t_lst *tokens, char *line, enum e_state state)
 	return (i);
 }
 
-int	_redir_tokenize(t_lst *tokens, char *line, int pos, enum e_state *state)
+int	_redir_tokenize(t_tkn_lst *tokens, char *line, int pos, enum e_state *state)
 {
 	int	i;
 
@@ -51,7 +51,7 @@ int	_redir_tokenize(t_lst *tokens, char *line, int pos, enum e_state *state)
 	return (pos - i);
 }
 
-void	_quote_tokenize(t_lst *tokens, char *line, 
+void	_quote_tokenize(t_tkn_lst *tokens, char *line, 
 		enum e_type type, enum e_state *state)
 {
 	enum e_type		tp;
@@ -81,7 +81,7 @@ void	_quote_tokenize(t_lst *tokens, char *line,
 		lst_token_add_back(tokens, create_token(line, 1, tp, st));
 }
 
-int	_env_tokenize(t_lst *tokens, char *line, 
+int	_env_tokenize(t_tkn_lst *tokens, char *line, 
 	enum e_type type, enum e_state state)
 {
 	int	i;

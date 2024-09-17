@@ -31,7 +31,7 @@ char	*print_type(enum e_type type)
 	return NULL;
 }
 
-void	print_token(t_lst *lst)
+void	print_token(t_tkn_lst *lst)
 {
 	t_token *tmp;
 

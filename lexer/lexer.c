@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:09:31 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/16 11:50:16 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:01:19 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_token	*create_token(char *content, int len,
 	return (token);
 }
 
-int	_tokenize(char *line, t_lst *tokens, int pos, enum e_state *state)
+int	_tokenize(char *line, t_tkn_lst *tokens, int pos, enum e_state *state)
 {
 	if (!not_special(line[pos]))
 		pos += get_word(tokens, line + pos, *state);
@@ -52,9 +52,9 @@ int	_tokenize(char *line, t_lst *tokens, int pos, enum e_state *state)
 	return (pos);
 }
 
-t_lst	*lexer(char *line)
+t_tkn_lst	*lexer(char *line)
 {
-	t_lst			*tokens;
+	t_tkn_lst		*tokens;
 	enum e_state	state;
 	int				i;
 

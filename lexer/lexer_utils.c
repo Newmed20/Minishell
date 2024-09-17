@@ -25,15 +25,15 @@ bool	not_special(char c)
 		|| c == '\0' || ft_isspace(c));
 }
 
-t_lst	*init_lst(t_lst *lst)
+t_tkn_lst	*init_lst(t_tkn_lst *lst)
 {
-	lst = malloc(sizeof(t_lst));
+	lst = malloc(sizeof(t_tkn_lst));
 	if (!lst)
 		return (NULL);
 	return (lst);
 }
 
-void	lst_token_add_back(t_lst *lst, t_token *new)
+void	lst_token_add_back(t_tkn_lst *lst, t_token *new)
 {
 	if (lst->head == NULL)
 		lst->head = new;

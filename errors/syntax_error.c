@@ -48,7 +48,7 @@ int	_pipe_error(t_token *elem)
 	return (EXIT_SUCCESS);
 }
 
-int	syntax_error(t_lst *lst)
+int	syntax_error(t_tkn_lst *lst)
 {
 	t_token	*token;
 
