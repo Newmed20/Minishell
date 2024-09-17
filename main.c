@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:59:13 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/17 09:49:34 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/17 19:12:54 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,36 @@ int	init_data(int ac, char **av, char **env, t_data *data)
 	data->lex = NULL;
 	data->prompt = NULL;
 	get_env_cpy(data, env_tmp);
-	t_env	*tmp;
-	tmp = data->env_copy;
-	while (tmp)
+	return (0);
+}
+
+int	init_prompt(t_data *data)
+{
+	char	*input;
+	
+	input = readline(PROMPT);
+	if (!input)
 	{
-		printf("%s=%s\n", tmp->key, tmp->value);
-		tmp = tmp->next;
+		printf("exit\n");
+		return (1);
 	}
+	data->prompt = input;
+	add_history(input);
+	search_name(data);
 	return (0);
 }
 
 int	main(int ac, char **av, char **env)
 {
 	t_data	data;
-	
+
 	if (init_data(ac, av, env, &data) == 1)
 		return (0);
+	while (1)
+	{
+		if (init_prompt(&data) == 1)
+			break ;
+	}
+	
 	return (0);
 }
