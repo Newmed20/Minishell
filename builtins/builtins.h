@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:34:29 by mjadid            #+#    #+#             */
-/*   Updated: 2024/09/17 08:16:46 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/09/17 10:05:09 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include "../libft/libft.h"
 
 
-extern int g_exit_status;
+extern int exit_status;
 
 
 typedef struct s_command
