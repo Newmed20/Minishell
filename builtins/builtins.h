@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:34:29 by mjadid            #+#    #+#             */
-/*   Updated: 2024/09/17 05:59:31 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/09/17 08:16:46 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,9 @@
 #include <limits.h>
 # include "../libft/libft.h"
 
-// typedef struct s_list
-// {
-//     void            *content;
-//     int             type;
-//     struct s_list   *next;
-// }   t_list;
+
+extern int g_exit_status;
+
 
 typedef struct s_command
 {
