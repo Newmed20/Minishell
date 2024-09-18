@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:09:31 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/16 19:01:19 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:01:24 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ t_tkn_lst	*lexer(char *line)
 	if (!tokens)
 		return (NULL);
 	while (line[i])
-	{
 		i = _tokenize(line, tokens, i, &state);
-	}
 	return (tokens);
 }
