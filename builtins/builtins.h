@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:34:29 by mjadid            #+#    #+#             */
-/*   Updated: 2024/09/17 10:05:09 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/09/18 04:39:52 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 #include <stdlib.h>
 #include <limits.h>
 # include "../libft/libft.h"
+# include "../minishell.h"
 
 
-extern int exit_status;
 
+// extern int exit_status;
 
 typedef struct s_command
 {
