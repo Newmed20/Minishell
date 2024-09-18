@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+         #
+#    By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/13 12:34:49 by abmahfou          #+#    #+#              #
-#    Updated: 2024/09/17 09:48:24 by abmahfou         ###   ########.fr        #
+#    Updated: 2024/09/17 11:52:38 by mjadid           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SRC = ft_atoi.c \
       ft_substr.c \
       ft_tolower.c \
       ft_toupper.c \
-      ft_strtok.c
+      ft_strtok.c  \
 
 SRC_B = ft_lstnew_bonus.c \
         ft_lstadd_front_bonus.c \
