@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:13:52 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/17 18:21:55 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:51:16 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*get_var_value(t_env *env, char *key)
 	t_env	*tmp;
 
 	tmp = env;
+	if (!key)
+		return (NULL);
 	while (tmp)
 	{
 		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
@@ -36,6 +38,8 @@ char	*get_name(char *str, int n, t_var_name *var_name)
 	j = 0;
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
+	// if (i == 0)
+	// 	return (NULL);
 	name = malloc((i + 1) * sizeof(char));
 	if (!name)
 		return (NULL);
@@ -104,6 +108,8 @@ t_var_name	*search_name(t_data *data)
 		{
 			var_name->pos = i;
 			i++;
+			if (!ft_isalnum(data->prompt[i]) && data->prompt[i] != '_')
+				break ;
 			var_name->start = i;
 			name = get_name(data->prompt + i, i, var_name);
 			before = get_before(data->prompt, var_name);
