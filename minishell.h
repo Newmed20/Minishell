@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/17 09:47:36 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/18 04:45:57 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "libft/libft.h"
 
 #define	PROMPT "minishell <$"
+
+extern int exit_status;
 
 typedef struct	s_list_ t_list_;
 
