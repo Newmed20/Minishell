@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/09/18 04:45:57 by mjadid           ###   ########.fr       */
-=======
-/*   Updated: 2024/09/17 12:10:45 by abmahfou         ###   ########.fr       */
->>>>>>> abmahfou
+/*   Updated: 2024/09/19 12:27:20 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +130,8 @@ char	**ft_strdup_2d(char **_2d);
 
 t_data		*get_env_cpy(t_data *data, char **env);
 t_var_name	*search_name(t_data *data);
+char		*get_digit(char c);
+char		*get_var_value(t_env *env, char *key);
 
 
 
