@@ -23,6 +23,8 @@
 
 #define	PROMPT "minishell <$"
 
+extern int exit_status;
+
 typedef struct	s_list_ t_list_;
 
 enum e_state
