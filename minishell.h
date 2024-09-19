@@ -21,7 +21,7 @@
 # include <stdbool.h>
 # include "libft/libft.h"
 
-#define	PROMPT "minishell <$"
+#define PROMPT "\033[1;31mMinishell$ \033[0m"
 
 extern int exit_status;
 
@@ -115,12 +115,13 @@ t_token	*skip_spaces(t_token *el, int flg);
 
 /* ------------------- errors ------------------- */
 
-int		syntax_error(t_tkn_lst	*lst);
-int		print_error(void);
+int	syntax_error(t_tkn_lst	*lst);
+int	print_error(void);
+int	input_error(t_data *data);
 
 /* ------------------- lexer ------------------- */
 
-t_tkn_lst	*lexer(char *line);
+t_tkn_lst *lexer(char *line);
 
 /* ------------------- utils ------------------- */
 

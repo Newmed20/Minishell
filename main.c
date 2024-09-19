@@ -43,7 +43,6 @@ int	init_prompt(t_data *data)
 	}
 	data->prompt = input;
 	add_history(input);
-	search_name(data);
 	return (0);
 }
 
