@@ -6,27 +6,11 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:13:52 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/18 20:51:16 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:30:44 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*get_var_value(t_env *env, char *key)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	if (!key)
-		return (NULL);
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
-			return (tmp->value);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
 
 char	*get_name(char *str, int n, t_var_name *var_name)
 {
@@ -38,8 +22,6 @@ char	*get_name(char *str, int n, t_var_name *var_name)
 	j = 0;
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
-	// if (i == 0)
-	// 	return (NULL);
 	name = malloc((i + 1) * sizeof(char));
 	if (!name)
 		return (NULL);
@@ -87,6 +69,26 @@ char	*get_after(char *str, t_var_name *var_name)
 	return (after);
 }
 
+char	*get_full(char *prompt, t_var_name *var)
+{
+	int		i;
+	int		j;
+	char	*full;
+
+	i = 0;
+	j = var->pos;
+	while (prompt[j] && prompt[j] != ' ')
+	{
+		i++;
+		j++;
+	}
+	full = malloc((i + 1) * sizeof(char));
+	if (!full)
+		return (NULL);
+	ft_strlcpy(full, prompt + var->pos, i + 1);
+	return (full);
+}
+
 t_var_name	*search_name(t_data *data)
 {
 	int			i;
@@ -108,19 +110,22 @@ t_var_name	*search_name(t_data *data)
 		{
 			var_name->pos = i;
 			i++;
-			if (!ft_isalnum(data->prompt[i]) && data->prompt[i] != '_')
-				break ;
+			if (ft_isdigit(data->prompt[i]))
+				name = get_digit(data->prompt[i]);
+			else if (!ft_isalnum(data->prompt[i]) && data->prompt[i] != '_')
+			{
+				printf("full => %s\n", get_full(data->prompt, var_name));
+				return (NULL);
+			}
 			var_name->start = i;
-			name = get_name(data->prompt + i, i, var_name);
+			var_name->name = get_name(data->prompt + i, i, var_name);
 			before = get_before(data->prompt, var_name);
 			after = get_after(data->prompt, var_name);
 		}
 		i++;
 	}
-	var_name->name = name;
 	var_name->value = get_var_value(data->env_copy, var_name->name);
-	printf("%s=%s\n", var_name->name, var_name->value);
-	printf("before: %s\n", before);
-	printf("after: %s\n", after);
+	char	*s = ft_strjoin(before, var_name->value);
+	printf("%s\n", ft_strjoin(s, after));
 	return (var_name);
 }
