@@ -6,7 +6,11 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/09/18 04:45:57 by mjadid           ###   ########.fr       */
+=======
+/*   Updated: 2024/09/17 12:10:45 by abmahfou         ###   ########.fr       */
+>>>>>>> abmahfou
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +77,15 @@ typedef struct	s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct	s_var_name
+{
+	char	*name;
+	char	*value;
+	int		pos;
+	int		start;
+	int		end;
+}	t_var_name;
+
 typedef struct	s_command
 {
 	char				*command; // The command name (e.g., "echo", "ls")
@@ -119,7 +132,8 @@ char	**ft_strdup_2d(char **_2d);
 
 /* ------------------- expander ------------------- */
 
-t_data	*get_env_cpy(t_data *data, char **env);
+t_data		*get_env_cpy(t_data *data, char **env);
+t_var_name	*search_name(t_data *data);
 
 
 
