@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 12:48:18 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/16 11:47:39 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:11:00 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	get_word(t_tkn_lst *tokens, char *line, enum e_state state)
 	i = 0;
 	while (line[i] && !not_special(line[i]))
 		i++;
-	lst_token_add_back(tokens, create_token(line, i, WORD, state));
+	lst_token_add_back(&tokens, create_token(line, i, WORD, state));
 	return (i);
 }
 
@@ -31,20 +31,20 @@ int	_redir_tokenize(t_tkn_lst *tokens, char *line, int pos, enum e_state *state)
 	if (line[pos] == '>')
 	{
 		if (line[pos + 1] == '>')
-			lst_token_add_back(tokens, create_token(line + (pos++), 2, 
+			lst_token_add_back(&tokens, create_token(line + (pos++), 2, 
 					DREDIR_OUT, *state));
 		else
-			lst_token_add_back(tokens, create_token(line + (pos), 1, 
+			lst_token_add_back(&tokens, create_token(line + (pos), 1, 
 					REDIR_OUT, *state));
 		pos++;
 	}
 	else if (line[pos] == '<')
 	{
 		if (line[pos + 1] == '<')
-			lst_token_add_back(tokens, create_token(line + (pos++), 2, 
+			lst_token_add_back(&tokens, create_token(line + (pos++), 2, 
 					HERE_DOC, *state));
 		else
-			lst_token_add_back(tokens, create_token(line + (pos), 1, 
+			lst_token_add_back(&tokens, create_token(line + (pos), 1, 
 					REDIR_IN, *state));
 		pos++;
 	}
@@ -69,16 +69,16 @@ void	_quote_tokenize(t_tkn_lst *tokens, char *line,
 	}
 	if (*state == GENERAL)
 	{
-		lst_token_add_back(tokens, create_token(line, 1, tp, GENERAL));
+		lst_token_add_back(&tokens, create_token(line, 1, tp, GENERAL));
 		*state = st;
 	}
 	else if (*state == st)
 	{
 		*state = GENERAL;
-		lst_token_add_back(tokens, create_token(line, 1, tp, GENERAL));
+		lst_token_add_back(&tokens, create_token(line, 1, tp, GENERAL));
 	}
 	else
-		lst_token_add_back(tokens, create_token(line, 1, tp, st));
+		lst_token_add_back(&tokens, create_token(line, 1, tp, st));
 }
 
 int	_env_tokenize(t_tkn_lst *tokens, char *line, 
@@ -92,6 +92,6 @@ int	_env_tokenize(t_tkn_lst *tokens, char *line,
 	else
 		while (ft_isalnum(line[i]))
 			i++;
-	lst_token_add_back(tokens, create_token(line, i, type, state));
+	lst_token_add_back(&tokens, create_token(line, i, type, state));
 	return (i);
 }

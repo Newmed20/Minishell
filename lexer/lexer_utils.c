@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:40:39 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/10 11:15:23 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:31:41 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,36 @@ t_tkn_lst	*init_lst(t_tkn_lst *lst)
 	lst = malloc(sizeof(t_tkn_lst));
 	if (!lst)
 		return (NULL);
+	lst->tokens = NULL;
 	return (lst);
 }
 
-void	lst_token_add_back(t_tkn_lst *lst, t_token *new)
+t_token	*get_last(t_token *last)
 {
-	if (lst->head == NULL)
-		lst->head = new;
+	t_token	*l;
+
+	l = last;
+	if (!l)
+		return (NULL);
+	while (l->next)
+		l = l->next;
+	return (l);
+}
+
+void	lst_token_add_back(t_tkn_lst **lst, t_token *new)
+{
+	t_token	*last;
+
+	if (!*lst || !new)
+		return ;
+	if ((*lst)->tokens == NULL)
+		(*lst)->tokens = new;
 	else
 	{
-		lst->tail->next = new;
-		new->prev = lst->tail;
+		last = get_last((*lst)->tokens);
+		last->next = new;
+		new->prev = last;
 	}
-	lst->tail = new;
 }
 
 char	*ft_strndup(const char *s1, int n)

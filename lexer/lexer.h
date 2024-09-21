@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:46:46 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/12 17:37:47 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:12:17 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 bool		not_special(char c);
 t_tkn_lst	*init_lst(t_tkn_lst *lst); 
-void		lst_token_add_back(t_tkn_lst *lst, t_token *new);
+void		lst_token_add_back(t_tkn_lst **lst, t_token *new);
 int			get_word(t_tkn_lst *tokens, char *line, enum e_state state);
 t_token		*create_token(char *content, int len, enum e_type type, 
 			enum e_state state);
