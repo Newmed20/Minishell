@@ -6,13 +6,13 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:13:52 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/19 12:30:44 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:00:31 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_name(char *str, int n, t_var_name *var_name)
+char	*get_name(char *str, int start, t_var_name *var_name)
 {
 	int		i;
 	int		j;
@@ -22,11 +22,8 @@ char	*get_name(char *str, int n, t_var_name *var_name)
 	j = 0;
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
-	name = malloc((i + 1) * sizeof(char));
-	if (!name)
-		return (NULL);
-	ft_strlcpy(name, str, i + 1);
-	var_name->end = n + i;
+	name = ft_substr(str, 0, i);
+	var_name->end = start + i;
 	return (name);
 }
 
@@ -41,10 +38,7 @@ char	*get_before(char *str, t_var_name *var_name)
 		start--;
 	start++;
 	len = var_name->pos - start;
-	before = malloc((len + 1) * sizeof(char));
-	if (!before)
-		return (NULL);
-	ft_strlcpy(before, str + start, len + 1);
+	before = ft_substr(str, start, len);
 	return (before);
 }
 
@@ -52,20 +46,18 @@ char	*get_after(char *str, t_var_name *var_name)
 {
 	int		start;
 	int		i;
+	int		j;
 	char	*after;
 
 	start = var_name->end;
+	j = var_name->end;
 	i = 0;
-	while (str[start] && str[start] != ' ')
+	while (str[j] && str[j] != ' ')
 	{
 		i++;
-		start++;
+		j++;
 	}
-	start -= i;
-	after = malloc((i + 1) * sizeof(char));
-	if (!after)
-		return (NULL);
-	ft_strlcpy(after, str + start, i + 1);
+	after = ft_substr(str, start, i);
 	return (after);
 }
 
