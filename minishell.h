@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/19 12:27:20 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:18:01 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "libft/libft.h"
 
 #define PROMPT "\033[1;31mMinishell$ \033[0m"
+#define EXIT_FAILURE 1
+#define EXIT_SUCCESS 0
 
 extern int exit_status;
 
@@ -62,8 +64,7 @@ typedef struct s_token
 
 typedef struct s_tkn_lst
 {
-	t_token	*head;
-	t_token	*tail;
+	t_token	*tokens;
 }	t_tkn_lst;
 
 typedef struct	s_env
@@ -108,16 +109,15 @@ typedef struct	s_data
 	char		*prompt;
 	t_command	*cmd;
 	t_env		*env_copy;
-	t_tkn_lst	*lex;
+	t_tkn_lst	*lexer;
 }	t_data;
 
 t_token	*skip_spaces(t_token *el, int flg);
 
 /* ------------------- errors ------------------- */
 
-int	syntax_error(t_tkn_lst	*lst);
-int	print_error(void);
-int	input_error(t_data *data);
+int		syntax_error(t_tkn_lst	*lst);
+int		print_error(int errror);
 
 /* ------------------- lexer ------------------- */
 
@@ -134,7 +134,7 @@ t_var_name	*search_name(t_data *data);
 char		*get_digit(char c);
 char		*get_var_value(t_env *env, char *key);
 
-
+void	ft_parser(t_data *data);
 
 void	print_token(t_tkn_lst *lst); // !!!!!!!!!!!!!!!
 
