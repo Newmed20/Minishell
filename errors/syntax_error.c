@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:07:54 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/12 10:39:44 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:21:35 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_token	*_unclosed_quotes(t_token **elem, enum e_type type)
 			break ;
 	}
 	if (!*elem)
-		write(2, "syntax error !\n", 15);
+		write(2, "syntax error unexpected EOF\n", 28);
 	return (*elem);
 }
 
@@ -52,19 +52,19 @@ int	syntax_error(t_tkn_lst *lst)
 {
 	t_token	*token;
 
-	token = lst->head;
+	token = lst->tokens;
 	while (token)
 	{
 		if (token->type == REDIR_IN || token->type == DREDIR_OUT 
 			|| token->type == REDIR_OUT || token->type == HERE_DOC)
 		{
 			if (_redir_error(token))
-				return (print_error());
+				return (print_error(1));
 		}
 		else if (token->type == PIPE_LINE)
 		{
 			if (_pipe_error(token))
-				return (print_error());
+				return (print_error(2));
 		}
 		else if (token->type == S_QUOTE || token->type == D_QUOTE)
 		{

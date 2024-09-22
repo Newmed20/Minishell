@@ -35,7 +35,7 @@ void	print_token(t_tkn_lst *lst)
 {
 	t_token *tmp;
 
-	tmp = lst->head;
+	tmp = lst->tokens;
 	while (tmp)
 	{
 		printf("\'%s\'	 |	%d	 |	%s	 |	%s\n", tmp->content, tmp->len, 
