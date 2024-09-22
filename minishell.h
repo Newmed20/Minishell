@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/21 17:18:01 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:53:13 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdbool.h>
 # include "libft/libft.h"
 
-#define PROMPT "\033[1;31mMinishell$ \033[0m"
+#define PROMPT "\033[1;31m$ \033[0m"
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0
 
@@ -78,6 +78,7 @@ typedef struct	s_var_name
 {
 	char	*name;
 	char	*value;
+	char	*after;
 	int		pos;
 	int		start;
 	int		end;
@@ -130,9 +131,11 @@ char	**ft_strdup_2d(char **_2d);
 /* ------------------- expander ------------------- */
 
 t_data		*get_env_cpy(t_data *data, char **env);
-t_var_name	*search_name(t_data *data);
-char		*get_digit(char c);
+t_var_name	*ft_expand(t_data *data);
+char		*get_digit(char c, int pos, t_var_name *name, t_data *data);
 char		*get_var_value(t_env *env, char *key);
+char		*get_after(char *str, t_var_name *var_name);
+char		*get_full(char *prompt, t_var_name *var);
 
 void	ft_parser(t_data *data);
 
