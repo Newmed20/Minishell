@@ -6,15 +6,15 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:10:37 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/17 11:15:53 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:50:41 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_env   *env_lst_new(t_data *data, char *var)
+t_env	*env_lst_new(t_data *data, char *var)
 {
-	t_env   *env;
+	t_env	*env;
 
 	env = malloc(sizeof(t_env));
 	if (!env)
@@ -26,7 +26,7 @@ t_env   *env_lst_new(t_data *data, char *var)
 	return (data->env_copy);
 }
 
-void    env_lst_last(t_data *data, t_env *env)
+void	env_lst_last(t_data *data, t_env *env)
 {
 	t_env	*tmp;
 

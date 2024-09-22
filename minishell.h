@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/19 12:27:20 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:53:13 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
 # include <stdbool.h>
 # include "libft/libft.h"
 
-#define	PROMPT "minishell <$"
+#define PROMPT "\033[1;31m$ \033[0m"
+#define EXIT_FAILURE 1
+#define EXIT_SUCCESS 0
 
 extern int exit_status;
 
@@ -62,8 +64,7 @@ typedef struct s_token
 
 typedef struct s_tkn_lst
 {
-	t_token	*head;
-	t_token	*tail;
+	t_token	*tokens;
 }	t_tkn_lst;
 
 typedef struct	s_env
@@ -77,6 +78,7 @@ typedef struct	s_var_name
 {
 	char	*name;
 	char	*value;
+	char	*after;
 	int		pos;
 	int		start;
 	int		end;
@@ -108,7 +110,7 @@ typedef struct	s_data
 	char		*prompt;
 	t_command	*cmd;
 	t_env		*env_copy;
-	t_tkn_lst	*lex;
+	t_tkn_lst	*lexer;
 }	t_data;
 
 t_token	*skip_spaces(t_token *el, int flg);
@@ -116,11 +118,11 @@ t_token	*skip_spaces(t_token *el, int flg);
 /* ------------------- errors ------------------- */
 
 int		syntax_error(t_tkn_lst	*lst);
-int		print_error(void);
+int		print_error(int errror);
 
 /* ------------------- lexer ------------------- */
 
-t_tkn_lst	*lexer(char *line);
+t_tkn_lst *lexer(char *line);
 
 /* ------------------- utils ------------------- */
 
@@ -129,11 +131,13 @@ char	**ft_strdup_2d(char **_2d);
 /* ------------------- expander ------------------- */
 
 t_data		*get_env_cpy(t_data *data, char **env);
-t_var_name	*search_name(t_data *data);
-char		*get_digit(char c);
+t_var_name	*ft_expand(t_data *data);
+char		*get_digit(char c, int pos, t_var_name *name, t_data *data);
 char		*get_var_value(t_env *env, char *key);
+char		*get_after(char *str, t_var_name *var_name);
+char		*get_full(char *prompt, t_var_name *var);
 
-
+void	ft_parser(t_data *data);
 
 void	print_token(t_tkn_lst *lst); // !!!!!!!!!!!!!!!
 

@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:09:31 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/18 21:01:24 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:22:35 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_token	*create_token(char *content, int len,
 	token->len = len;
 	token->state = state;
 	token->type = type;
+	// token->next = NULL;
+	// token->prev = NULL;
 	return (token);
 }
 
@@ -38,10 +40,10 @@ int	_tokenize(char *line, t_tkn_lst *tokens, int pos, enum e_state *state)
 	else if (line[pos] == '>' || line[pos] == '<')
 		pos += _redir_tokenize(tokens, line, pos, state);
 	else if (line[pos] == '|')
-		lst_token_add_back(tokens, create_token(line + (pos++), 1, 
+		lst_token_add_back(&tokens, create_token(line + (pos++), 1, 
 				PIPE_LINE, *state));
 	else if (ft_isspace(line[pos]))
-		lst_token_add_back(tokens, create_token(line + (pos++), 1, 
+		lst_token_add_back(&tokens, create_token(line + (pos++), 1, 
 				WHITE_SPACE, *state));
 	else if (line[pos] == '\'')
 		_quote_tokenize(tokens, line + (pos++), S_QUOTE, state);
