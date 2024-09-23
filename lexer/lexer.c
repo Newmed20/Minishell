@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:09:31 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/21 17:22:35 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:36:37 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ t_token	*create_token(char *content, int len,
 	token->len = len;
 	token->state = state;
 	token->type = type;
-	// token->next = NULL;
-	// token->prev = NULL;
 	return (token);
 }
 
