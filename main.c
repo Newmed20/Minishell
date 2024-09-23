@@ -28,6 +28,7 @@ int	init_data(int ac, char **av, char **env, t_data *data)
 	data->lexer = NULL;
 	data->prompt = NULL;
 	get_env_cpy(data, env_tmp);
+	free_split(env_tmp);
 	return (EXIT_SUCCESS);
 }
 

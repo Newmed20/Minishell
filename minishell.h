@@ -129,10 +129,11 @@ t_tkn_lst *lexer(char *line);
 
 char	**ft_strdup_2d(char **_2d);
 void	free_2d(char **str, int n);
+void	free_split(char **arr);
 
 /* ------------------- expander ------------------- */
 
-t_data		*get_env_cpy(t_data *data, char **env);
+t_data 		*get_env_cpy(t_data *data, char **env);
 t_var_name	*ft_expand(t_data *data);
 char		*get_digit(char c, int pos, t_var_name *name, t_data *data);
 char		*get_var_value(t_env *env, char *key);
