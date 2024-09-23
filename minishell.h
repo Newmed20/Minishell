@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/22 14:53:13 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:05:16 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct	s_command
 	t_list_				*oa_files; // For output redirection (>)
 	t_list_				*heredoc_delimiters; // For heredoc (<<)
 	t_list_				*heredoc_content; // Content of heredoc
+	bool				cmd_found; // if found a command
 	int					pipe_out; // 1 if this command pipes to next, 0 otherwise
 	struct s_command	*next; // Pointer to next command in pipeline
 }	t_command;
@@ -127,6 +128,7 @@ t_tkn_lst *lexer(char *line);
 /* ------------------- utils ------------------- */
 
 char	**ft_strdup_2d(char **_2d);
+void	free_2d(char **str, int n);
 
 /* ------------------- expander ------------------- */
 
@@ -138,6 +140,7 @@ char		*get_after(char *str, t_var_name *var_name);
 char		*get_full(char *prompt, t_var_name *var);
 
 void	ft_parser(t_data *data);
+int		ft_is_command(t_data *data, char *cmd);
 
 void	print_token(t_tkn_lst *lst); // !!!!!!!!!!!!!!!
 
