@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/23 16:05:16 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:52:37 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 extern int exit_status;
 
-typedef struct	s_list_ t_list_;
+typedef struct	s_redir t_redir;
 
 enum e_state
 {
@@ -90,20 +90,20 @@ typedef struct	s_command
 	char				*full_path; // The full path to the command (e.g., "/bin/echo", "/bin
 	char				**args; // Array of arguments including the command
 	int					arg_count; // Number of arguments
-	t_list_				*input_files; // For input redirection (<)
-	t_list_				*oa_files; // For output redirection (>)
-	t_list_				*heredoc_delimiters; // For heredoc (<<)
-	t_list_				*heredoc_content; // Content of heredoc
+	t_redir				*input_files; // For input redirection (<)
+	t_redir				*oa_files; // For output redirection (>)
+	t_redir				*heredoc_delimiters; // For heredoc (<<)
+	t_redir				*heredoc_content; // Content of heredoc
 	bool				cmd_found; // if found a command
 	int					pipe_out; // 1 if this command pipes to next, 0 otherwise
 	struct s_command	*next; // Pointer to next command in pipeline
 }	t_command;
 
-struct s_list_
+struct s_redir
 {
-	void	*content;
-	int		type;
-	struct s_list_	*next;
+	void			*content;
+	int				type;
+	struct s_redir	*next;
 };
 
 typedef struct	s_data
