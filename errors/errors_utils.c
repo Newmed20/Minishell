@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:53:24 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/20 11:24:45 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:06:29 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@ t_token	*skip_spaces(t_token *el, int flg)
 {
 	while (el && el->type == WHITE_SPACE)
 	{
-		if (flg)
+		if (flg && el->next)
 			el = el->next;
-		else
+		else if (!flg && el->prev)
 			el = el->prev;
+		else
+			break;
 	}
 	return (el);
 }
