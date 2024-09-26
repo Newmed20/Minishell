@@ -6,11 +6,17 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:38:10 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/16 22:38:10 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:39:41 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+bool	ft_isspace(char c)
+{
+	return (c == ' ' || c == '\v' || c == '\t' 
+		|| c == '\f' || c == '\r' || c == '\n');
+}
 
 void	free_split(char **arr)
 {
