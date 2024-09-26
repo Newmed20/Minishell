@@ -6,17 +6,11 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:40:39 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/21 17:31:41 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:39:32 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-bool	ft_isspace(char c)
-{
-	return (c == ' ' || c == '\v' || c == '\t' 
-		|| c == '\f' || c == '\r' || c == '\n');
-}
 
 bool	not_special(char c)
 {

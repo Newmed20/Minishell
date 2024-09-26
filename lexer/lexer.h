@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:46:46 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/23 11:15:48 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:40:00 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_token		*create_token(char *content, int len, enum e_type type,
 			enum e_state state);
 int			_redir_tokenize(t_tkn_lst *tokens, char *line, int pos, 
 			enum e_state *state);
-bool		ft_isspace(char c);
 void		_quote_tokenize(t_tkn_lst *tokens, char *line, enum e_type type, 
 			enum e_state *state);
 char		*ft_strndup(const char *s1, int n);
