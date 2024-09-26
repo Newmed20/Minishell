@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+         #
+#    By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/13 12:34:49 by abmahfou          #+#    #+#              #
-#    Updated: 2024/09/17 11:52:38 by mjadid           ###   ########.fr        #
+#    Updated: 2024/09/25 15:29:43 by abmahfou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,18 +68,21 @@ OBJS = $(SRC:.c=.o)
 
 OBJS_B = $(SRC_B:.c=.o)
 
+%.o: %.c $(HEADER)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 all: $(NAME)
 
 $(NAME): $(OBJS) $(HEADER)
-	ar rcs $(NAME) $(OBJS)
+	@ar rcs $(NAME) $(OBJS)
 
 clean: 
-	rm -rf $(OBJS) $(OBJS_B)
+	@rm -rf $(OBJS) $(OBJS_B)
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all
 
 bonus: $(OBJS_B) $(HEADER)
-	ar rcs $(NAME) $(OBJS_B)
+	@ar rcs $(NAME) $(OBJS_B)
