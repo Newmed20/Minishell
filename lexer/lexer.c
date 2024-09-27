@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:09:31 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/22 20:36:37 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:27:58 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ t_tkn_lst	*lexer(char *line)
 	i = 0;
 	tokens = NULL;
 	state = GENERAL;
-	tokens = init_lst(tokens);
+	tokens = malloc(sizeof(t_tkn_lst));
+	if (!tokens)
+		return (NULL);
+	tokens->tokens = NULL;
 	if (!tokens)
 		return (NULL);
 	while (line[i])
