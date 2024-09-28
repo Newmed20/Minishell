@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 19:07:14 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/26 18:16:09 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/27 20:10:45 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,21 @@ void	free_tkn_lst(t_tkn_lst *lst)
 		tmp = next;
 	}
 	free(lst);
+}
+
+void	free_command(t_command **cmd)
+{
+	t_command	*tmp;
+
+	if (!*cmd)
+		return ;
+	while (*cmd)
+	{
+		tmp = (*cmd)->next;
+		free((*cmd)->command);
+		free((*cmd)->full_path);
+		free_split((*cmd)->args);
+		free(*cmd);
+		*cmd = tmp;
+	}
 }

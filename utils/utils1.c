@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:38:10 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/25 18:39:41 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/28 23:51:46 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	free_split(char **arr)
 {
 	int	i;
 
+	if (!arr)
+		return ;
 	i = 0;
 	while (arr[i])
 	{
