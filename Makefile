@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 LDFLAGS = -lreadline -L/Users/abmahfou/.brew/opt/readline/lib
 INCLUDES = -I/Users/abmahfou/.brew/opt/readline/include
 
@@ -18,7 +18,7 @@ SRCS = main.c \
 	   lexer/lexer.c lexer/lexer_utils.c lexer/lexer_utils_2.c lexer/print_tokens.c \
 	   errors/errors_utils.c errors/syntax_error.c errors/input_errors.c \
 	   expander/expander.c expander/env_lst.c expander/expander_utils.c \
-	   parser/parser.c parser/parser_utils.c parser/check_cmd.c \
+	   parser/parser.c parser/parser_utils.c parser/check_cmd.c parser/ft_redirection.c \
 	   utils/utils1.c utils/clean_up.c
 OBJS = $(SRCS:.c=.o)
 
