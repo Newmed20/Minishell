@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:59:13 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/21 16:33:13 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:44:31 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	init_data(int ac, char **av, char **env, t_data *data)
 	data->lexer = NULL;
 	data->prompt = NULL;
 	get_env_cpy(data, env_tmp);
+	free_split(env_tmp);
 	return (EXIT_SUCCESS);
 }
 
@@ -55,7 +56,7 @@ int	main(int ac, char **av, char **env)
 		return (EXIT_SUCCESS);
 	while (1)
 	{
-		if (init_prompt(&data) == 1)
+		if (init_prompt(&data))
 			break ;
 	}
 	return (EXIT_SUCCESS);

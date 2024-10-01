@@ -1,36 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_utils.c                                     :+:      :+:    :+:   */
+/*   clean_up.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/12 10:53:24 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/26 18:06:29 by abmahfou         ###   ########.fr       */
+/*   Created: 2024/09/25 19:07:14 by abmahfou          #+#    #+#             */
+/*   Updated: 2024/09/27 20:10:45 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token	*skip_spaces(t_token *el, int flg)
+void	free_tkn_lst(t_tkn_lst *lst)
 {
-	while (el && el->type == WHITE_SPACE)
+	t_token	*tmp;
+	t_token	*next;
+
+	if (!lst)
+		return ;
+	tmp = lst->tokens;
+	while (tmp)
 	{
-		if (flg && el->next)
-			el = el->next;
-		else if (!flg && el->prev)
-			el = el->prev;
-		else
-			break;
+		free(tmp->content);
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
 	}
-	return (el);
+	free(lst);
 }
 
-int	print_error(int error)
+void	free_command(t_command **cmd)
 {
-	if (error == 1)
-		write(2, "syntax error: redirection\n", 26);
-	else if (error == 2)
-		write(2, "syntax error near unexpected token `|'\n", 39);
-	return (EXIT_FAILURE);
+	t_command	*tmp;
+
+	if (!*cmd)
+		return ;
+	while (*cmd)
+	{
+		tmp = (*cmd)->next;
+		free((*cmd)->command);
+		free((*cmd)->full_path);
+		free_split((*cmd)->args);
+		free(*cmd);
+		*cmd = tmp;
+	}
 }

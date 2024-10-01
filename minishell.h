@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/30 20:23:25 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/01 10:44:28 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 extern int exit_status;
 
-typedef struct	s_list_ t_list_;
+typedef struct	s_redir t_redir;
 
 enum e_state
 {
@@ -91,19 +91,20 @@ typedef struct	s_command
 	char				*full_path; // The full path to the command (e.g., "/bin/echo", "/bin
 	char				**args; // Array of arguments including the command
 	int					arg_count; // Number of arguments
-	t_list_				*input_files; // For input redirection (<)
-	t_list_				*oa_files; // For output redirection (>)
-	t_list_				*heredoc_delimiters; // For heredoc (<<)
-	t_list_				*heredoc_content; // Content of heredoc
+	t_redir				*input_files; // For input redirection (<)
+	t_redir				*oa_files; // For output redirection (>)
+	t_redir				*heredoc_delimiters; // For heredoc (<<)
+	t_redir				*heredoc_content; // Content of heredoc
+	bool				cmd_found; // if found a command
 	int					pipe_out; // 1 if this command pipes to next, 0 otherwise
 	struct s_command	*next; // Pointer to next command in pipeline
 }	t_command;
 
-struct s_list_
+struct s_redir
 {
-	void	*content;
-	int		type;
-	struct s_list_	*next;
+	void			*content;
+	int				type;
+	struct s_redir	*next;
 };
 
 typedef struct	s_data
@@ -114,20 +115,24 @@ typedef struct	s_data
 	t_tkn_lst	*lexer;
 }	t_data;
 
-t_token	*skip_spaces(t_token *el, int flg);
 
 /* ------------------- errors ------------------- */
 
-int		syntax_error(t_tkn_lst	*lst);
-int		print_error(int errror);
+int	syntax_error(t_tkn_lst	*lst);
+int	print_error(int errror);
 
 /* ------------------- lexer ------------------- */
 
-t_tkn_lst *lexer(char *line);
+t_tkn_lst	*lexer(char *line);
+void		free_tkn_lst(t_tkn_lst *lst);
+t_token		*skip_spaces(t_token *el, int flg);
 
 /* ------------------- utils ------------------- */
 
 char	**ft_strdup_2d(char **_2d);
+void	free_2d(char **str, int n);
+void	free_split(char **arr);
+bool	ft_isspace(char c);
 
 /* ------------------- expander ------------------- */
 
@@ -138,8 +143,21 @@ char		*get_var_value(t_env *env, char *key);
 char		*get_after(char *str, t_var_name *var_name);
 char		*get_full(char *prompt, t_var_name *var);
 
+/* ------------------- parser ------------------- */
+
 void	ft_parser(t_data *data);
+int		ft_is_command(t_data *data, t_command *command, char *cmd);
+t_redir	*init_list(void);
+void	append_to_list(t_redir **lst, t_redir *new);
+void	free_command(t_command **cmd);
+void	handle_redirections_heredoc(t_token *token, t_command *cmd);
+t_redir	*create_redir(t_token *token);
+int		is_redir(t_token *token);
+void	handle_heredoc(t_token *token, t_command *cmd);
+void	lst_add_back(t_command **cmds, t_command *cmd);
 
 void	print_token(t_tkn_lst *lst); // !!!!!!!!!!!!!!!
+char	*print_type(enum e_type type); // !!!!!!!!!!!!!!
+
 
 #endif
