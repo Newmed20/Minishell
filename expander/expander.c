@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:13:52 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/04 21:46:56 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:29:18 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,12 @@ char	*ft_expand(t_data *data, char *env_var)
 	var_name = malloc(sizeof(t_var_name));
 	if (!var_name)
 		return (NULL);
+	var_name->after = NULL;
+	var_name->name = NULL;
+	var_name->value = NULL;
+	var_name->pos = 0;
+	var_name->start = 0;
+	var_name->end = 0;
 	search_name(data, var_name, env_var);
 	var = ft_strjoin(var_name->value, var_name->after);
 	return (var);

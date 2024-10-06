@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 11:24:34 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/04 21:08:40 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:29:30 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*get_digit(char c, int pos, t_var_name *name, char *env_var)
 		len++;
 		j++;
 	}
-	str = ft_substr(env_var, pos, 32);
+	str = ft_substr(env_var, pos, len);
 	return (str);
 }
 
