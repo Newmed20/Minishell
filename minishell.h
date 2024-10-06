@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/04 21:38:29 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/06 19:57:26 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ struct s_redir
 {
 	void			*content;
 	int				type;
+	int				state; // 1 for valid expand in herdoc , 0 for invalid expand in herdoc
 	struct s_redir	*next;
 };
 
@@ -123,7 +124,7 @@ int	print_error(int errror);
 /* ------------------- lexer ------------------- */
 
 t_tkn_lst	*lexer(char *line);
-void		free_tkn_lst(t_tkn_lst *lst);
+void		free_tkn_lst(t_tkn_lst **lst);
 t_token		*skip_spaces(t_token *el, int flg);
 
 /* ------------------- utils ------------------- */
@@ -149,12 +150,11 @@ int		ft_is_command(t_data *data, t_command *command, char *cmd);
 t_redir	*init_list(void);
 void	append_to_list(t_redir **lst, t_redir *new);
 void	free_command(t_command **cmd);
-void	handle_redirections_heredoc(t_token **token, t_command *cmd);
-t_redir	*create_redir(t_token *token);
+void	handle_redirections_heredoc(t_token **token, t_command *cmd, t_data *data);
+t_redir	*create_redir(t_token *token, t_data *data);
 int		is_redir(t_token *token);
-void	handle_heredoc(t_token *token, t_command *cmd);
+void	handle_heredoc(t_token *token, t_command *cmd, t_data *data);
 void	lst_add_back(t_command **cmds, t_command *cmd);
-void	handle_heredoc(t_token *token, t_command *cmd);
 
 void	print_token(t_tkn_lst *lst); // !!!!!!!!!!!!!!!
 char	*print_type(enum e_type type); // !!!!!!!!!!!!!!
