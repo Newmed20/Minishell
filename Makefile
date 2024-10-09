@@ -10,6 +10,7 @@ BLUE=\033[1;34m
 NC=\033[0m
 
 HEADER = minishell.h
+LXR_HEADER = lexer/lexer.h
 LIBFHDR = libft/libft.h
 
 LIBFT = libft/libft.a
@@ -22,7 +23,7 @@ SRCS = main.c \
 	   utils/utils1.c utils/clean_up.c
 OBJS = $(SRCS:.c=.o)
 
-%.o: %.c $(HEADER) $(LIBFHDR)
+%.o: %.c $(HEADER) $(LXR_HEADER) $(LIBFHDR)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 all: $(NAME)
