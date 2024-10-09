@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:48:22 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/01 13:02:21 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/09 13:00:47 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_command	*init_command()
 	cmd->oa_files = NULL;
 	cmd->next = NULL;
 	cmd->cmd_found = false;
+	cmd->pipe_out = 0;
 	return (cmd);
 }
 
@@ -36,30 +37,62 @@ void	fill_command(t_data *data, t_token *token, t_command *cmd)
 {
 	char	*command;
 
-	ft_is_command(data, cmd, token->content);
-	command = ft_strdup(token->content);
-	if (!command)
-		return ;
+	if (token->type == ENV)
+		command = ft_expand(data, token);
+	else
+	{
+		command = ft_strdup(token->content);
+		if (!command)
+			return ;
+	}
+	ft_is_command(data, cmd, command);
 	cmd->command = command;
 	cmd->cmd_found = true;
 }
 
-void	fill_args(t_token *token, t_command *cmd)
+void	is_env(t_token **token)
+{
+	if ((*token)->next && (*token)->next->type == WORD)
+		*token = (*token)->next;
+}
+
+void	_first_arg(t_token **token, t_command *cmd, char ***args)
+{
+	*args = malloc(sizeof(char *) * 2);
+	if (!args)
+		return ;
+	(*args)[0] = ft_strdup((*token)->content);
+	(*args)[1] = NULL;
+	cmd->args = *args;
+	cmd->arg_count++;
+}
+
+void	_fill(t_token **token, t_command *cmd, t_data *data, char ***args, int pos)
+{
+	if ((*token)->type != ENV && (*token)->next && (*token)->next->type == ENV)
+		*token = (*token)->next;
+	if ((*token)->type == ENV && ((*token)->state != IN_SQUOTE))
+	{
+		(*args)[pos] = ft_expand(data, *token);
+		is_env(token);
+	}
+	else
+		(*args)[pos] = ft_strdup((*token)->content);
+	(*args)[pos + 1] = NULL;
+	free(cmd->args);
+	cmd->args = *args;
+	cmd->arg_count++;
+}
+
+void	fill_args(t_token **token, t_command *cmd, t_data *data)
 {
 	char	**args;
 	int		i;
-	
+
 	i = 0;
+	args = NULL;
 	if (cmd->args == NULL)
-	{
-		args = malloc(sizeof(char *) * 2);
-		if (!args)
-			return ;
-		args[0]	= ft_strdup(token->content);
-		args[1] = NULL;
-		cmd->args = args;
-		cmd->arg_count++;
-	}
+		_first_arg(token, cmd, &args);
 	else
 	{
 		while (cmd->args[i])
@@ -78,50 +111,15 @@ void	fill_args(t_token *token, t_command *cmd)
 			}
 			i++;
 		}
-		args[i] = ft_strdup(token->content);
-		args[i + 1] = NULL;
-		free(cmd->args);
-		cmd->args = args;
-		cmd->arg_count++;
+		_fill(token, cmd, data, &args, i);
 	}
 }
 
-t_redir	*create_heredoc(char *line)
-{
-	t_redir	*node;
-	
-	node = init_list();
-	if (!node)
-		return (NULL);
-	node->content = ft_strdup(line);
-	if (!node->content)
-		return (NULL);
-	node->type = HERE_DOC;
-	node->next = NULL;
-	return (node);
-}
-
-void	handle_heredoc(t_token *token, t_command *cmd)
-{
-	char	*line;
-
-	append_to_list(&cmd->heredoc_delimiters, create_redir(token));
-	while (1)
-	{
-		line = readline("> ");
-		if (ft_strncmp(line, cmd->heredoc_delimiters->content,
-			ft_strlen(line)) == 0)
-			break ;
-		append_to_list(&cmd->heredoc_content, create_heredoc(line));
-	}
-}
-
-t_command	*create_command(t_data *data, t_command *cmd, t_token *token)
+t_command	*create_command(t_data *data, t_command *cmd, t_token **token)
 {
 	if (!cmd->cmd_found)
-		fill_command(data, token, cmd);
-	fill_args(token, cmd);
-	handle_redirections_heredoc(token, cmd);
+		fill_command(data, *token, cmd);
+	fill_args(token, cmd, data);
 	return (cmd);
 }
 
@@ -138,10 +136,11 @@ t_command	*fill_struct(t_data *data)
 		return (NULL);
 	while (tmp)
 	{
-		if (tmp->type == WORD)
-			cmd = create_command(data, cmd, tmp);
+		if (tmp->type == WORD || tmp->type == ENV 
+			|| tmp->state == IN_DQUOTE || tmp->state == IN_SQUOTE)
+			cmd = create_command(data, cmd, &tmp);
 		else if (is_redir(tmp))
-			handle_redirections_heredoc(tmp, cmd);
+			handle_redirections_heredoc(&tmp, cmd, data);
 		else if (tmp->type == PIPE_LINE)
 		{
 			lst_add_back(&data->cmd, cmd);
@@ -155,6 +154,49 @@ t_command	*fill_struct(t_data *data)
 	return (data->cmd);
 }
 
+void	_debug(t_data *data)
+{
+	t_command	*tmp = data->cmd;
+	while (tmp)
+	{
+		t_redir	*t = tmp->input_files;
+		while (t)
+		{
+			printf("CONTENT => %s\n", t->content);
+			printf("TYPE => %s\n", print_type(t->type));
+			t = t->next;
+		}
+		t_redir	*s = tmp->oa_files;
+		while (s)
+		{
+			printf("CONTENT => %s\n", s->content);
+			printf("TYPE => %s\n", print_type(s->type));
+			s = s->next;
+		}
+		t_redir	*heredoc = tmp->heredoc_delimiters;
+		while (heredoc)
+		{
+			printf("DELIMITER => %s\n", heredoc->content);
+			printf("TYPE => %s\n", print_type(heredoc->type));
+			heredoc = heredoc->next;
+		}
+		printf("------------------------------\n");
+		printf("------------------------------\n");
+		printf("COMMAND => %s\n", tmp->command);
+		int i = 0;
+		if (!tmp->args)
+			return ;
+		while (tmp->args[i])
+			printf("%s\n", tmp->args[i++]);
+		printf("------------------------------\n");
+		printf("------------------------------\n");
+		printf("PATH => %s\n", tmp->full_path);
+		printf("ARG_COUNT: %d\n", tmp->arg_count);
+		tmp = tmp->next;
+		printf("\n------------------------------\n");
+	}
+}
+
 void	ft_parser(t_data *data)
 {
 	data->lexer = lexer(data->prompt);
@@ -166,40 +208,6 @@ void	ft_parser(t_data *data)
 		data->cmd = fill_struct(data);
 		if (!data->cmd)
 			return ;
-		t_command	*tmp = data->cmd;
-		while (tmp)
-		{
-			t_redir	*t = tmp->input_files;
-			while (t)
-			{
-				printf("CONTENT => %s\n", t->content);
-				printf("TYPE => %s\n", print_type(t->type));
-				t = t->next;
-			}
-			t_redir	*s = tmp->oa_files;
-			while (s)
-			{
-				printf("CONTENT => %s\n", s->content);
-				printf("TYPE => %s\n", print_type(s->type));
-				s = s->next;
-			}
-			t_redir	*heredoc = tmp->heredoc_delimiters;
-			while (heredoc)
-			{
-				printf("CONTENT => %s\n", heredoc->content);
-				printf("TYPE => %s\n", print_type(heredoc->type));
-				heredoc = heredoc->next;
-			}
-			printf("------------------------------\n");
-			printf("COMMAND => %s\n", tmp->command);
-			int i = 0;
-			if (!tmp->args)
-				return ;
-			while (tmp->args[i])
-				printf("%s\n", tmp->args[i++]);
-			printf("------------------------------\n");
-			printf("PATH => %s\n", tmp->full_path);
-			tmp = tmp->next;
-		}
+		_debug(data);
 	}
 }

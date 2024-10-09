@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 23:48:46 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/01 10:40:56 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/06 11:24:27 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_redir *init_list(void)
 	lst->content = NULL;
 	lst->next = NULL;
 	lst->type = 0;
+	lst->state = 0;
 	return (lst);
 }
 
