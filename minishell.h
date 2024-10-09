@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/02 19:23:53 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/09 21:50:34 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
@@ -159,6 +160,12 @@ void	lst_add_back(t_command **cmds, t_command *cmd);
 
 void	print_token(t_tkn_lst *lst); // !!!!!!!!!!!!!!!
 char	*print_type(enum e_type type); // !!!!!!!!!!!!!!
+
+
+/* ------------------- execution ------------------- */
+
+int     ft_execute(t_data *data);
+char **ft_transform_env(t_env *env);
 
 
 #endif
