@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/04 15:02:33 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/04 21:18:02 by abmahfou         ###   ########.fr       */
+/*   Created: 2024/10/02 19:52:33 by abmahfou          #+#    #+#             */
+/*   Updated: 2024/10/06 19:57:10 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-size_t	ft_strlen(const char *s)
+void	handle_heredoc(t_token *token, t_command *cmd, t_data *data)
 {
-	int	len;
-
-	if (!s)
-		return (0);
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	append_to_list(&cmd->heredoc_delimiters, create_redir(token, data));
 }

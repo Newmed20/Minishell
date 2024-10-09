@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 12:48:18 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/21 16:11:00 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/09 12:45:25 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	_redir_tokenize(t_tkn_lst *tokens, char *line, int pos, enum e_state *state)
 	{
 		if (line[pos + 1] == '>')
 			lst_token_add_back(&tokens, create_token(line + (pos++), 2, 
-					DREDIR_OUT, *state));
+					APPEND, *state));
 		else
 			lst_token_add_back(&tokens, create_token(line + (pos), 1, 
 					REDIR_OUT, *state));

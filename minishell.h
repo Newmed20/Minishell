@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/02 19:23:53 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/09 12:44:45 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ enum e_type
 	S_QUOTE,
 	D_QUOTE,
 	PIPE_LINE,
-	NEW_LINE,
-	ESCAPE,
 	ENV,
 	REDIR_IN,
 	REDIR_OUT,
-	DREDIR_OUT,
+	APPEND,
 	HERE_DOC
 };
 
@@ -80,6 +78,7 @@ typedef struct	s_var_name
 	char	*name;
 	char	*value;
 	char	*after;
+	char	*before;
 	int		pos;
 	int		start;
 	int		end;
@@ -104,7 +103,7 @@ struct s_redir
 {
 	void			*content;
 	int				type;
-	int				state;  // 0 for valid expand in herdoc , 1 for invalid expand in herdoc
+	int				state; // 1 for valid expand in herdoc , 0 for invalid expand in herdoc
 	struct s_redir	*next;
 };
 
@@ -113,9 +112,9 @@ typedef struct	s_data
 	char		*prompt;
 	t_command	*cmd;
 	t_env		*env_copy;
+	t_var_name	*env_var;
 	t_tkn_lst	*lexer;
 }	t_data;
-
 
 /* ------------------- errors ------------------- */
 
@@ -125,7 +124,7 @@ int	print_error(int errror);
 /* ------------------- lexer ------------------- */
 
 t_tkn_lst	*lexer(char *line);
-void		free_tkn_lst(t_tkn_lst *lst);
+void		free_tkn_lst(t_tkn_lst **lst);
 t_token		*skip_spaces(t_token *el, int flg);
 
 /* ------------------- utils ------------------- */
@@ -137,12 +136,12 @@ bool	ft_isspace(char c);
 
 /* ------------------- expander ------------------- */
 
-t_data		*get_env_cpy(t_data *data, char **env);
-t_var_name	*ft_expand(t_data *data);
-char		*get_digit(char c, int pos, t_var_name *name, t_data *data);
-char		*get_var_value(t_env *env, char *key);
-char		*get_after(char *str, t_var_name *var_name);
-char		*get_full(char *prompt, t_var_name *var);
+t_data	*get_env_cpy(t_data *data, char **env);
+char	*ft_expand(t_data *data, t_token *token);
+char	*get_digit(char c, int pos, t_var_name *name, char *env_var);
+char	*get_var_value(t_env *env, char *key);
+char	*get_after(char *str, t_var_name *var_name);
+char	*get_full(char *prompt, t_var_name *var);
 
 /* ------------------- parser ------------------- */
 
@@ -151,14 +150,13 @@ int		ft_is_command(t_data *data, t_command *command, char *cmd);
 t_redir	*init_list(void);
 void	append_to_list(t_redir **lst, t_redir *new);
 void	free_command(t_command **cmd);
-void	handle_redirections_heredoc(t_token *token, t_command *cmd);
-t_redir	*create_redir(t_token *token);
+void	handle_redirections_heredoc(t_token **token, t_command *cmd, t_data *data);
+t_redir	*create_redir(t_token *token, t_data *data);
 int		is_redir(t_token *token);
-void	handle_heredoc(t_token *token, t_command *cmd);
+void	handle_heredoc(t_token *token, t_command *cmd, t_data *data);
 void	lst_add_back(t_command **cmds, t_command *cmd);
 
 void	print_token(t_tkn_lst *lst); // !!!!!!!!!!!!!!!
 char	*print_type(enum e_type type); // !!!!!!!!!!!!!!
-
 
 #endif
