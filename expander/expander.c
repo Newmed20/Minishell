@@ -6,117 +6,87 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:13:52 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/05 17:29:18 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/09 12:58:50 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_name(char *str, int start, t_var_name *var_name)
+char	*get_var_value(t_env *env, char *key)
+{
+	t_env	*tmp;	
+
+	tmp = env;
+	if (!key)
+		return (NULL);
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->key, key, ft_strlen(key) + 1) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+char	*get_name(char *str)
 {
 	int		i;
-	int		j;
 	char	*name;
 
-	i = 0;
-	j = 0;
-	while (ft_isalnum(str[i]) || str[i] == '_')
+	i = 1;
+	while (str[i])
 		i++;
-	name = ft_substr(str, 0, i);
-	var_name->end = start + i;
+	name = ft_substr(str, 1, i);
 	return (name);
 }
 
-/* char	*get_before(char *str, t_var_name *var_name)
+void	search_name(t_var_name *var_name, t_token *token)
 {
-	int		start;
-	int		len;
-	char	*before;
-
-	start = var_name->pos - 1;
-	while (start >= 0 && str[start] != ' ')
-		start--;
-	start++;
-	len = var_name->pos - start;
-	before = ft_substr(str, start, len);
-	return (before);
-} */
-
-char	*get_after(char *str, t_var_name *var_name)
-{
-	int		start;
-	int		i;
-	int		j;
-	char	*after;
-
-	start = var_name->end;
-	j = var_name->end;
-	i = 0;
-	while (str[j] && str[j] != ' ')
+	if (token->next && token->len == 1)
+		var_name->value = ft_strjoin(token->content, token->next->content);
+	if (token->next && token->len == 2 && ft_isdigit(token->content[1]))
+		var_name->value = token->next->content;
+	if ((token->next && token->next->type == WORD) && (token->prev && token->prev->type == WORD))
 	{
-		i++;
-		j++;
+		var_name->name = get_name(token->content);
+		var_name->before = token->prev->content;
+		var_name->after = token->next->content;
 	}
-	after = ft_substr(str, start, i);
-	return (after);
+	if (token->next && token->next->type == WORD)
+	{
+		var_name->name = get_name(token->content);
+		var_name->after = token->next->content;
+	}
+	if (token->prev && token->prev->type == WORD)
+	{
+		var_name->name = get_name(token->content);
+		var_name->before = token->prev->content;
+	}
+	else
+		var_name->name = get_name(token->content);
 }
 
-int	extra_check(int pos, t_var_name *var_name, char *env_var)
-{
-	if (ft_isdigit(env_var[pos]))
-	{
-		var_name->value = get_digit(env_var[pos], pos, var_name, env_var);
-		return (1);
-	}
-	else if (!ft_isalnum(env_var[pos]) && env_var[pos] != '_')
-	{
-		var_name->value = get_full(env_var, var_name);
-		return (1);
-	}
-	return (0);
-}
-
-void	search_name(t_data *data, t_var_name *var_name, char *env_var)
-{
-	int			i;
-	char		*name;
-	char		*after;
-
-	i = 0;
-	name = NULL;
-	after = NULL;
-	while (env_var[i])
-	{
-		if (env_var[i] == '$')
-		{
-			var_name->pos = i;
-			var_name->start = i++;
-			if (extra_check(i, var_name, env_var))
-				return ;
-			var_name->name = get_name(env_var + i, i, var_name);
-			after = get_after(env_var, var_name);
-		}
-		i++;
-	}
-	var_name->after = after;
-	var_name->value = get_var_value(data->env_copy, var_name->name);
-}
-
-char	*ft_expand(t_data *data, char *env_var)
+char	*ft_expand(t_data *data, t_token *token)
 {
 	t_var_name	*var_name;
-	char	*var;
+	char		*var;
 
+	if (token->type != ENV)
+		return (token->content);
 	var_name = malloc(sizeof(t_var_name));
 	if (!var_name)
 		return (NULL);
 	var_name->after = NULL;
 	var_name->name = NULL;
 	var_name->value = NULL;
+	var_name->before = NULL;
 	var_name->pos = 0;
 	var_name->start = 0;
 	var_name->end = 0;
-	search_name(data, var_name, env_var);
-	var = ft_strjoin(var_name->value, var_name->after);
-	return (var);
+	search_name(var_name, token);
+	if (var_name->value && var_name->value[0] == '$')
+		return (var_name->value);
+	var_name->value = get_var_value(data->env_copy, var_name->name);
+	var = ft_strjoin(var_name->before, var_name->value);
+	return (ft_strjoin(var, var_name->after));
 }

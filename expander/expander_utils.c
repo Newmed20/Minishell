@@ -6,27 +6,11 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 11:24:34 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/05 17:29:30 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:54:16 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*get_var_value(t_env *env, char *key)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	if (!key)
-		return (NULL);
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
-			return (tmp->value);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
 
 char	*get_digit(char c, int pos, t_var_name *name, char *env_var)
 {
