@@ -22,10 +22,10 @@ char	*print_type(enum e_type type)
 		case PIPE_LINE: return "PIPE_LINE";
 		case ENV: return "ENV";
 		case REDIR_IN: return "REDIR_IN";
-		case DREDIR_OUT: return "DREDIR_OUT";
+		case APPEND: return "DREDIR_OUT";
 		case HERE_DOC: return "HERE_DOC";
-		case NEW_LINE: return "NEW_LINE";
-		case ESCAPE: return "ESCAPE";
+		// case NEW_LINE: return "NEW_LINE";
+		// case ESCAPE: return "ESCAPE";
 		case REDIR_OUT: return "REDIR_OUT";
 	}
 	return NULL;

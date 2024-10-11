@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:07:54 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/21 17:21:35 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/09 12:46:02 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	syntax_error(t_tkn_lst *lst)
 	token = lst->tokens;
 	while (token)
 	{
-		if (token->type == REDIR_IN || token->type == DREDIR_OUT 
+		if (token->type == REDIR_IN || token->type == APPEND 
 			|| token->type == REDIR_OUT || token->type == HERE_DOC)
 		{
 			if (_redir_error(token))
