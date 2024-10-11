@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:48:22 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/09 13:00:47 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:17:07 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,19 @@ void	fill_command(t_data *data, t_token *token, t_command *cmd)
 		command = ft_expand(data, token);
 	else
 	{
-		command = ft_strdup(token->content);
+		if (token->next && token->type == WORD && token->next->type == ENV)
+		{
+			token = token->next;
+			command = ft_expand(data, token);
+		}
+		else
+			command = ft_strdup(token->content);
 		if (!command)
 			return ;
 	}
 	ft_is_command(data, cmd, command);
 	cmd->command = command;
 	cmd->cmd_found = true;
-}
-
-void	is_env(t_token **token)
-{
-	if ((*token)->next && (*token)->next->type == WORD)
-		*token = (*token)->next;
 }
 
 void	_first_arg(t_token **token, t_command *cmd, char ***args)
@@ -74,7 +74,8 @@ void	_fill(t_token **token, t_command *cmd, t_data *data, char ***args, int pos)
 	if ((*token)->type == ENV && ((*token)->state != IN_SQUOTE))
 	{
 		(*args)[pos] = ft_expand(data, *token);
-		is_env(token);
+		if ((*token)->next && (*token)->next->type == WORD)
+			*token = (*token)->next;
 	}
 	else
 		(*args)[pos] = ft_strdup((*token)->content);
@@ -194,6 +195,7 @@ void	_debug(t_data *data)
 		printf("ARG_COUNT: %d\n", tmp->arg_count);
 		tmp = tmp->next;
 		printf("\n------------------------------\n");
+		print_token(data->lexer);
 	}
 }
 
