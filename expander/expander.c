@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:13:52 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/09 12:58:50 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:12:13 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,22 @@ void	search_name(t_var_name *var_name, t_token *token)
 	if (token->next && token->len == 1)
 		var_name->value = ft_strjoin(token->content, token->next->content);
 	if (token->next && token->len == 2 && ft_isdigit(token->content[1]))
-		var_name->value = token->next->content;
+		var_name->value = ft_strdup(token->next->content);
 	if ((token->next && token->next->type == WORD) && (token->prev && token->prev->type == WORD))
 	{
 		var_name->name = get_name(token->content);
-		var_name->before = token->prev->content;
-		var_name->after = token->next->content;
+		var_name->before = ft_strdup(token->prev->content);
+		var_name->after = ft_strdup(token->next->content);
 	}
 	if (token->next && token->next->type == WORD)
 	{
 		var_name->name = get_name(token->content);
-		var_name->after = token->next->content;
+		var_name->after = ft_strdup(token->next->content);
 	}
 	if (token->prev && token->prev->type == WORD)
 	{
 		var_name->name = get_name(token->content);
-		var_name->before = token->prev->content;
+		var_name->before = ft_strdup(token->prev->content);
 	}
 	else
 		var_name->name = get_name(token->content);
@@ -71,8 +71,6 @@ char	*ft_expand(t_data *data, t_token *token)
 	t_var_name	*var_name;
 	char		*var;
 
-	if (token->type != ENV)
-		return (token->content);
 	var_name = malloc(sizeof(t_var_name));
 	if (!var_name)
 		return (NULL);
