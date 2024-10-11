@@ -10,12 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
@@ -95,7 +97,7 @@ typedef struct	s_command
 	t_redir				*heredoc_delimiters; // For heredoc (<<)
 	t_redir				*heredoc_content; // Content of heredoc
 	bool				cmd_found; // if found a command
-	int					pipe_out; // 1 if this command pipes to next, 0 otherwise
+	int					pipe_out; // 1 if this c , 0 otherwise
 	struct s_command	*next; // Pointer to next command in pipeline
 }	t_command;
 
@@ -158,5 +160,11 @@ void	lst_add_back(t_command **cmds, t_command *cmd);
 
 void	print_token(t_tkn_lst *lst); // !!!!!!!!!!!!!!!
 char	*print_type(enum e_type type); // !!!!!!!!!!!!!!
+
+
+/* ------------------- execution ------------------- */
+
+int     ft_execute(t_data *data);
+char **ft_transform_env(t_env *env);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:59:13 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/25 16:44:31 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/10 23:38:35 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	main(int ac, char **av, char **env)
 	{
 		if (init_prompt(&data))
 			break ;
+		// if(data.cmd)
+			// ft_execute(&data);
 	}
 	return (EXIT_SUCCESS);
 }
