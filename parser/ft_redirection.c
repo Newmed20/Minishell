@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:35:09 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/09 21:50:54 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/10 13:11:17 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ void	handle_redirections_heredoc(t_token **token, t_command *cmd, t_data *data)
 		append_to_list(&cmd->oa_files, create_redir((*token), data));
 	else if ((*token)->type == HERE_DOC)
 		handle_heredoc((*token), cmd, data);
-	if ((*token)->next->type == WORD)
-		(*token) = (*token)->next;
-	else
-		(*token) = skip_spaces((*token)->next, 1);
+	(*token) = skip_spaces((*token)->next, 1);
+	if ((*token)->next && (*token)->type == WORD)
+		*token = (*token)->next;
 	if ((*token)->next && ((*token)->next->type == D_QUOTE
 		|| (*token)->next->type == S_QUOTE))
 		cmd->heredoc_delimiters->state = 1;
