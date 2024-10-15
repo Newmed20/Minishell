@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 14:50:28 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/09 13:24:36 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:07:50 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strdup(const char *s1)
 	char	*str;
 	int		i;
 
+	if (!s1)
+		return (NULL);
 	i = 0;
 	str = malloc(ft_strlen(s1) * sizeof(char) + 1);
 	if (str == NULL)
