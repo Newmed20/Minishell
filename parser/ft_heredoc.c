@@ -6,13 +6,13 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 19:52:33 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/10 12:53:35 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:38:09 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_heredoc(t_token *token, t_command *cmd, t_data *data)
+void	handle_heredoc(t_token **token, t_command *cmd, t_data *data)
 {
 	append_to_list(&cmd->heredoc_delimiters, create_redir(token, data));
 }
