@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:48:22 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/10 16:17:07 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:34:27 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,56 +33,82 @@ t_command	*init_command()
 	return (cmd);
 }
 
-void	fill_command(t_data *data, t_token *token, t_command *cmd)
+void	fill_command(t_data *data, t_token **token, t_command *cmd)
 {
 	char	*command;
+	char	*tmp;
 
-	if (token->type == ENV)
-		command = ft_expand(data, token);
-	else
+	command = NULL;
+	tmp = NULL;
+	while ((*token))
 	{
-		if (token->next && token->type == WORD && token->next->type == ENV)
+		if (((*token)->type == WHITE_SPACE && (*token)->state == GENERAL)
+			|| (is_redir(*token) && (*token)->state == GENERAL)
+			|| ((*token)->type == PIPE_LINE && (*token)->state == GENERAL))
+			break;
+		if ((*token)->type == ENV && (*token)->state != IN_SQUOTE)
+			tmp = ft_expand(data, (*token));
+		else if ((*token)->type != S_QUOTE && (*token)->type != D_QUOTE)
+			tmp = ft_strdup((*token)->content);
+		else if ((*token)->state == IN_DQUOTE || (*token)->state == IN_SQUOTE)
+			tmp = ft_strdup((*token)->content);
+		command = ft_strjoin(command, tmp);
+		if (tmp)
 		{
-			token = token->next;
-			command = ft_expand(data, token);
+			free(tmp);
+			tmp = NULL;
 		}
-		else
-			command = ft_strdup(token->content);
-		if (!command)
-			return ;
+		(*token) = (*token)->next;
 	}
 	ft_is_command(data, cmd, command);
 	cmd->command = command;
 	cmd->cmd_found = true;
 }
 
-void	_first_arg(t_token **token, t_command *cmd, char ***args)
+void	_first_arg(t_command *cmd, char ***args)
 {
 	*args = malloc(sizeof(char *) * 2);
 	if (!args)
 		return ;
-	(*args)[0] = ft_strdup((*token)->content);
+	(*args)[0] = ft_strdup(cmd->command);
 	(*args)[1] = NULL;
 	cmd->args = *args;
 	cmd->arg_count++;
 }
 
-void	_fill(t_token **token, t_command *cmd, t_data *data, char ***args, int pos)
+void	_fill_args(t_token **token, t_command *cmd, t_data *data, char ***args, int pos)
 {
-	if ((*token)->type != ENV && (*token)->next && (*token)->next->type == ENV)
-		*token = (*token)->next;
-	if ((*token)->type == ENV && ((*token)->state != IN_SQUOTE))
+	char	*tmp;
+	char	*arg;
+
+	arg = NULL;
+	tmp = NULL;
+	while (*token)
 	{
-		(*args)[pos] = ft_expand(data, *token);
-		if ((*token)->next && (*token)->next->type == WORD)
-			*token = (*token)->next;
+		if (((*token)->type == WHITE_SPACE && (*token)->state == GENERAL)
+			|| (is_redir(*token) && (*token)->state == GENERAL)
+			|| ((*token)->type == PIPE_LINE && (*token)->state == GENERAL))
+			break;
+		if ((*token)->type == ENV && (*token)->state != IN_SQUOTE)
+			tmp = ft_expand(data, *token);
+		else if (((*token)->type != S_QUOTE && (*token)->type != D_QUOTE))
+			tmp = ft_strdup((*token)->content);
+		else if ((*token)->state == IN_DQUOTE || (*token)->state == IN_SQUOTE)
+			tmp = ft_strdup((*token)->content);
+		arg = ft_strjoin(arg, tmp);
+		if (tmp)
+		{
+			free(tmp);
+			tmp = NULL;
+		}
+		*token = (*token)->next;
 	}
-	else
-		(*args)[pos] = ft_strdup((*token)->content);
+	(*args)[pos] = ft_strdup(arg);
 	(*args)[pos + 1] = NULL;
 	free(cmd->args);
 	cmd->args = *args;
-	cmd->arg_count++;
+	if (arg)
+		cmd->arg_count++;
 }
 
 void	fill_args(t_token **token, t_command *cmd, t_data *data)
@@ -93,7 +119,7 @@ void	fill_args(t_token **token, t_command *cmd, t_data *data)
 	i = 0;
 	args = NULL;
 	if (cmd->args == NULL)
-		_first_arg(token, cmd, &args);
+		_first_arg(cmd, &args);
 	else
 	{
 		while (cmd->args[i])
@@ -112,14 +138,14 @@ void	fill_args(t_token **token, t_command *cmd, t_data *data)
 			}
 			i++;
 		}
-		_fill(token, cmd, data, &args, i);
+		_fill_args(token, cmd, data, &args, i);
 	}
 }
 
 t_command	*create_command(t_data *data, t_command *cmd, t_token **token)
 {
 	if (!cmd->cmd_found)
-		fill_command(data, *token, cmd);
+		fill_command(data, token, cmd);
 	fill_args(token, cmd, data);
 	return (cmd);
 }
@@ -138,11 +164,20 @@ t_command	*fill_struct(t_data *data)
 	while (tmp)
 	{
 		if (tmp->type == WORD || tmp->type == ENV 
-			|| tmp->state == IN_DQUOTE || tmp->state == IN_SQUOTE)
+			|| tmp->state == IN_SQUOTE || tmp->type == IN_DQUOTE
+			|| tmp->type == D_QUOTE || tmp->type == S_QUOTE)
+		{
 			cmd = create_command(data, cmd, &tmp);
-		else if (is_redir(tmp))
+			if (!tmp)
+				break;
+		}
+		if (is_redir(tmp))
+		{
 			handle_redirections_heredoc(&tmp, cmd, data);
-		else if (tmp->type == PIPE_LINE)
+			if (!tmp)
+				break;
+		}
+		if (tmp->type == PIPE_LINE)
 		{
 			lst_add_back(&data->cmd, cmd);
 			cmd->pipe_out = 1;
@@ -195,7 +230,7 @@ void	_debug(t_data *data)
 		printf("ARG_COUNT: %d\n", tmp->arg_count);
 		tmp = tmp->next;
 		printf("\n------------------------------\n");
-		print_token(data->lexer);
+		// print_token(data->lexer);
 	}
 }
 
