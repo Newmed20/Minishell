@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:13:52 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/15 12:30:25 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/17 10:05:12 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,12 @@ char	*ft_expand(t_data *data, t_token *token)
 
 	name = NULL;
 	value = NULL;
-	if (token && token->len == 1)
+	if (token && ft_strncmp(token->content, "$?", 3) == 0)
+		return (ft_itoa(exit_status));
+	else if (token->next && token->next->next &&
+		(token->next->type == D_QUOTE || token->next->type == S_QUOTE))
+		name = get_name(token->content);
+	else if (token && token->len == 1)
 	{
 		value = ft_strdup(token->content);
 		return (value);
@@ -55,5 +60,5 @@ char	*ft_expand(t_data *data, t_token *token)
 	else
 		name = get_name(token->content);
 	value = get_var_value(data->env_copy, name);
-	return (value);	
+	return (value);
 }
