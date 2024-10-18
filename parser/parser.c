@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:48:22 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/16 18:34:27 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/18 22:00:50 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void	_fill_args(t_token **token, t_command *cmd, t_data *data, char ***args, int
 		*token = (*token)->next;
 	}
 	(*args)[pos] = ft_strdup(arg);
+	free(arg);
 	(*args)[pos + 1] = NULL;
 	free(cmd->args);
 	cmd->args = *args;
@@ -163,6 +164,7 @@ t_command	*fill_struct(t_data *data)
 		return (NULL);
 	while (tmp)
 	{
+		tmp = skip_spaces(tmp, 1);
 		if (tmp->type == WORD || tmp->type == ENV 
 			|| tmp->state == IN_SQUOTE || tmp->type == IN_DQUOTE
 			|| tmp->type == D_QUOTE || tmp->type == S_QUOTE)
@@ -247,4 +249,5 @@ void	ft_parser(t_data *data)
 			return ;
 		_debug(data);
 	}
+	// system("leaks minishell");
 }
