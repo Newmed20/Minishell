@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:07:54 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/14 12:50:03 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/16 19:46:02 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	_redir_error(t_token *elem)
 
 	redir = skip_spaces(elem->next, 1);
 	if (!redir || (redir->type != WORD && redir->type != ENV
-		&& redir->type != S_QUOTE && redir->type != D_QUOTE))
+			&& redir->type != S_QUOTE && redir->type != D_QUOTE))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

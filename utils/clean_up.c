@@ -6,35 +6,17 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 19:07:14 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/08 15:18:55 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/21 10:08:43 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_tkn_lst(t_tkn_lst **lst)
-{
-	t_token	*tmp;
-	t_token	*next;
-
-	if (!lst)
-		return ;
-	tmp = (*lst)->tokens;
-	while (tmp)
-	{
-		free(tmp->content);
-		next = tmp->next;
-		free(tmp);
-		tmp = next;
-	}
-	free(lst);
-}
-
 void	free_tkn(t_token **tkn)
 {
 	t_token	*tmp;
 
-	if (!*tkn)
+	if (!*tkn || !*tkn)
 		return ;
 	while (*tkn)
 	{
@@ -45,11 +27,29 @@ void	free_tkn(t_token **tkn)
 	}
 }
 
+void	free_tkn_lst(t_tkn_lst **lst)
+{
+	t_token	*tmp;
+	t_token	*next;
+
+	if (!lst || !*lst)
+		return ;
+	tmp = (*lst)->tokens;
+	while (tmp)
+	{
+		free(tmp->content);
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
+	}
+	free(*lst);
+}
+
 void	free_cmd_cmd(t_redir **redir)
 {
 	t_redir	*tmp;
 
-	if (!*redir)
+	if (!redir || !*redir)
 		return ;
 	while (*redir)
 	{
@@ -64,7 +64,7 @@ void	free_command(t_command **cmd)
 {
 	t_command	*tmp;
 
-	if (!*cmd)
+	if (!*cmd || !cmd)
 		return ;
 	while (*cmd)
 	{
@@ -78,5 +78,21 @@ void	free_command(t_command **cmd)
 		free_cmd_cmd(&(*cmd)->heredoc_content);
 		free(*cmd);
 		*cmd = tmp;
+	}
+}
+
+void	free_env(t_env **env)
+{
+	t_env	*tmp;
+
+	if (!*env || !env)
+		return ;
+	while (*env)
+	{
+		tmp = (*env)->next;
+		free((*env)->key);
+		free((*env)->value);
+		free(*env);
+		*env = tmp;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:35:09 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/16 11:26:41 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/21 11:03:53 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ t_redir	*create_redir(t_token **token, t_data *data)
 	t_redir	*node;
 	char	*tmp;
 	char	*file;
+	char	*redir;
 
 	file = NULL;
 	tmp = NULL;
+	redir = NULL;
 	node = init_list();
 	if (!node)
 		return (NULL);
@@ -43,7 +45,10 @@ t_redir	*create_redir(t_token **token, t_data *data)
 			tmp = ft_strdup((*token)->content);
 		else if ((*token)->state == IN_DQUOTE || (*token)->state == IN_SQUOTE)
 			tmp = ft_strdup((*token)->content);
-		file = ft_strjoin(file, tmp);
+		redir = ft_strjoin(file, tmp);
+		if (file)
+			free(file);
+		file = redir;
 		if (tmp)
 		{
 			free(tmp);
@@ -52,6 +57,7 @@ t_redir	*create_redir(t_token **token, t_data *data)
 		(*token) = (*token)->next;
 	}
 	node->content = ft_strdup(file);
+	free(file);
 	node->next = NULL;
 	return (node);
 }
@@ -64,12 +70,7 @@ void	handle_redirections_heredoc(t_token **token, t_command *cmd, t_data *data)
 		append_to_list(&cmd->oa_files, create_redir(token, data));
 	else if ((*token)->type == HERE_DOC)
 		handle_heredoc(token, cmd, data);
-	// (*token) = skip_spaces((*token)->next, 1);
-	// if ((*token)->next && (*token)->type == WORD)
-	// 	*token = (*token)->next;
-	// if ((*token)->next && (*token)->type == ENV)
-	// 	*token = (*token)->next;
-	// if ((*token)->next && ((*token)->next->type == D_QUOTE
-	// 	|| (*token)->next->type == S_QUOTE))
-	// 	cmd->heredoc_delimiters->state = 1;
+	if ((*token)->type == HERE_DOC && (*token)->next && ((*token)->next->type == D_QUOTE
+		|| (*token)->next->type == S_QUOTE))
+		cmd->heredoc_delimiters->state = 1;
 }

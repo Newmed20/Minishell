@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:59:13 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/15 14:00:50 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:36:50 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,14 @@ int	init_prompt(t_data *data)
 		printf("exit\n");
 		return (EXIT_FAILURE);
 	}
+	if (data->prompt)
+		free(data->prompt);
 	data->prompt = input;
 	add_history(input);
+	if (data->prompt[0] == '\0')
+		return (EXIT_SUCCESS);
 	ft_parser(data);
+	system("leaks minishell");
 	return (EXIT_SUCCESS);
 }
 
@@ -58,8 +63,8 @@ int	main(int ac, char **av, char **env)
 	{
 		if (init_prompt(&data))
 			break ;
-		// if(data.cmd)
-		// 	ft_execute(&data);
+		if(data.cmd)
+			ft_execute(&data);
 	}
 	return (EXIT_SUCCESS);
 }

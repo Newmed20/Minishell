@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:48:22 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/16 18:34:27 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/21 12:27:59 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ void	fill_command(t_data *data, t_token **token, t_command *cmd)
 {
 	char	*command;
 	char	*tmp;
+	char	*full_command;
 
 	command = NULL;
 	tmp = NULL;
+	full_command = NULL;
 	while ((*token))
 	{
 		if (((*token)->type == WHITE_SPACE && (*token)->state == GENERAL)
@@ -52,7 +54,10 @@ void	fill_command(t_data *data, t_token **token, t_command *cmd)
 			tmp = ft_strdup((*token)->content);
 		else if ((*token)->state == IN_DQUOTE || (*token)->state == IN_SQUOTE)
 			tmp = ft_strdup((*token)->content);
-		command = ft_strjoin(command, tmp);
+		full_command = ft_strjoin(command, tmp);
+		if (command)
+			free(command);
+		command = full_command;
 		if (tmp)
 		{
 			free(tmp);
@@ -71,6 +76,8 @@ void	_first_arg(t_command *cmd, char ***args)
 	if (!args)
 		return ;
 	(*args)[0] = ft_strdup(cmd->command);
+	if (!(*args)[0])
+		return ;
 	(*args)[1] = NULL;
 	cmd->args = *args;
 	cmd->arg_count++;
@@ -80,9 +87,11 @@ void	_fill_args(t_token **token, t_command *cmd, t_data *data, char ***args, int
 {
 	char	*tmp;
 	char	*arg;
+	char	*full_arg;
 
 	arg = NULL;
 	tmp = NULL;
+	full_arg = NULL;
 	while (*token)
 	{
 		if (((*token)->type == WHITE_SPACE && (*token)->state == GENERAL)
@@ -95,7 +104,10 @@ void	_fill_args(t_token **token, t_command *cmd, t_data *data, char ***args, int
 			tmp = ft_strdup((*token)->content);
 		else if ((*token)->state == IN_DQUOTE || (*token)->state == IN_SQUOTE)
 			tmp = ft_strdup((*token)->content);
-		arg = ft_strjoin(arg, tmp);
+		full_arg = ft_strjoin(arg, tmp);
+		if (arg)
+			free(arg);
+		arg = full_arg;
 		if (tmp)
 		{
 			free(tmp);
@@ -103,9 +115,10 @@ void	_fill_args(t_token **token, t_command *cmd, t_data *data, char ***args, int
 		}
 		*token = (*token)->next;
 	}
-	(*args)[pos] = ft_strdup(arg);
+	(*args)[pos] = ft_strdup(full_arg);
+	free(full_arg);
 	(*args)[pos + 1] = NULL;
-	free(cmd->args);
+	free_split(cmd->args);
 	cmd->args = *args;
 	if (arg)
 		cmd->arg_count++;
@@ -118,6 +131,8 @@ void	fill_args(t_token **token, t_command *cmd, t_data *data)
 
 	i = 0;
 	args = NULL;
+	if (!cmd->command)
+		return ;
 	if (cmd->args == NULL)
 		_first_arg(cmd, &args);
 	else
@@ -163,6 +178,7 @@ t_command	*fill_struct(t_data *data)
 		return (NULL);
 	while (tmp)
 	{
+		tmp = skip_spaces(tmp, 1);
 		if (tmp->type == WORD || tmp->type == ENV 
 			|| tmp->state == IN_SQUOTE || tmp->type == IN_DQUOTE
 			|| tmp->type == D_QUOTE || tmp->type == S_QUOTE)
@@ -238,13 +254,21 @@ void	ft_parser(t_data *data)
 {
 	data->lexer = lexer(data->prompt);
 	if (!data->lexer)
+	{
+		free_tkn_lst(&data->lexer);
 		return ;
-	free_command(&data->cmd);
+	}
 	if (!syntax_error(data->lexer))
 	{
 		data->cmd = fill_struct(data);
 		if (!data->cmd)
+		{
+			free_tkn_lst(&data->lexer);
+			free_command(&data->cmd);
 			return ;
+		}
 		_debug(data);
 	}
+	free_tkn_lst(&data->lexer);
+	free_command(&data->cmd);
 }

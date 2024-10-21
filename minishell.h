@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/16 10:06:47 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/21 09:12:37 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	print_error(int errror);
 
 t_tkn_lst	*lexer(char *line);
 void		free_tkn_lst(t_tkn_lst **lst);
+void		free_tkn(t_token **tkn);
 t_token		*skip_spaces(t_token *el, int flg);
 
 /* ------------------- utils ------------------- */
@@ -124,6 +125,7 @@ void	free_2d(char **str, int n);
 void	free_split(char **arr);
 bool	ft_isspace(char c);
 char	*ft_strndup(const char *s1, int n);
+void	free_env(t_env **env);
 
 /* ------------------- expander ------------------- */
 
