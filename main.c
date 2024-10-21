@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:59:13 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/21 12:31:58 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:36:50 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	main(int ac, char **av, char **env)
 	{
 		if (init_prompt(&data))
 			break ;
-		// if(data.cmd)
-		// 	ft_execute(&data);
+		if(data.cmd)
+			ft_execute(&data);
 	}
 	return (EXIT_SUCCESS);
 }
