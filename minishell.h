@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/21 09:12:37 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:40:37 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ void	free_split(char **arr);
 bool	ft_isspace(char c);
 char	*ft_strndup(const char *s1, int n);
 void	free_env(t_env **env);
+void	get_string(t_token **token, t_data *data, char **redir, char **file);
+void	free_str(char **str);
 
 /* ------------------- expander ------------------- */
 
