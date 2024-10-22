@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 19:52:33 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/15 10:38:09 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/22 12:03:02 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,4 +15,7 @@
 void	handle_heredoc(t_token **token, t_command *cmd, t_data *data)
 {
 	append_to_list(&cmd->heredoc_delimiters, create_redir(token, data));
+	if ((*token)->next 
+		&& ((*token)->next->type == D_QUOTE || (*token)->next->type == S_QUOTE))
+		cmd->heredoc_delimiters->state = 1;
 }

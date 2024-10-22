@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:48:22 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/21 12:27:59 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:48:33 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,43 +33,6 @@ t_command	*init_command()
 	return (cmd);
 }
 
-void	fill_command(t_data *data, t_token **token, t_command *cmd)
-{
-	char	*command;
-	char	*tmp;
-	char	*full_command;
-
-	command = NULL;
-	tmp = NULL;
-	full_command = NULL;
-	while ((*token))
-	{
-		if (((*token)->type == WHITE_SPACE && (*token)->state == GENERAL)
-			|| (is_redir(*token) && (*token)->state == GENERAL)
-			|| ((*token)->type == PIPE_LINE && (*token)->state == GENERAL))
-			break;
-		if ((*token)->type == ENV && (*token)->state != IN_SQUOTE)
-			tmp = ft_expand(data, (*token));
-		else if ((*token)->type != S_QUOTE && (*token)->type != D_QUOTE)
-			tmp = ft_strdup((*token)->content);
-		else if ((*token)->state == IN_DQUOTE || (*token)->state == IN_SQUOTE)
-			tmp = ft_strdup((*token)->content);
-		full_command = ft_strjoin(command, tmp);
-		if (command)
-			free(command);
-		command = full_command;
-		if (tmp)
-		{
-			free(tmp);
-			tmp = NULL;
-		}
-		(*token) = (*token)->next;
-	}
-	ft_is_command(data, cmd, command);
-	cmd->command = command;
-	cmd->cmd_found = true;
-}
-
 void	_first_arg(t_command *cmd, char ***args)
 {
 	*args = malloc(sizeof(char *) * 2);
@@ -85,36 +48,12 @@ void	_first_arg(t_command *cmd, char ***args)
 
 void	_fill_args(t_token **token, t_command *cmd, t_data *data, char ***args, int pos)
 {
-	char	*tmp;
 	char	*arg;
 	char	*full_arg;
 
 	arg = NULL;
-	tmp = NULL;
 	full_arg = NULL;
-	while (*token)
-	{
-		if (((*token)->type == WHITE_SPACE && (*token)->state == GENERAL)
-			|| (is_redir(*token) && (*token)->state == GENERAL)
-			|| ((*token)->type == PIPE_LINE && (*token)->state == GENERAL))
-			break;
-		if ((*token)->type == ENV && (*token)->state != IN_SQUOTE)
-			tmp = ft_expand(data, *token);
-		else if (((*token)->type != S_QUOTE && (*token)->type != D_QUOTE))
-			tmp = ft_strdup((*token)->content);
-		else if ((*token)->state == IN_DQUOTE || (*token)->state == IN_SQUOTE)
-			tmp = ft_strdup((*token)->content);
-		full_arg = ft_strjoin(arg, tmp);
-		if (arg)
-			free(arg);
-		arg = full_arg;
-		if (tmp)
-		{
-			free(tmp);
-			tmp = NULL;
-		}
-		*token = (*token)->next;
-	}
+	get_string(token, data, &full_arg, &arg);
 	(*args)[pos] = ft_strdup(full_arg);
 	free(full_arg);
 	(*args)[pos + 1] = NULL;
@@ -159,11 +98,53 @@ void	fill_args(t_token **token, t_command *cmd, t_data *data)
 
 t_command	*create_command(t_data *data, t_command *cmd, t_token **token)
 {
+	char	*command;
+	char	*full_command;
+
+	command = NULL;
+	full_command = NULL;
 	if (!cmd->cmd_found)
-		fill_command(data, token, cmd);
+	{
+		get_string(token, data, &full_command, &command);
+		cmd->command = command;
+		cmd->cmd_found = true;
+		if (ft_is_command(data, cmd, cmd->command) == 0)
+		{
+			printf("%s: command not found\n", cmd->command);
+			return (cmd);
+		}
+	}
 	fill_args(token, cmd, data);
 	return (cmd);
 }
+
+/* void	tokens_loop(t_token **tmp, t_data *data, t_command **cmd)
+{
+	while (*tmp)
+	{
+		if ((*tmp)->type == WORD || (*tmp)->type == ENV 
+			|| (*tmp)->state == IN_SQUOTE || (*tmp)->state == IN_DQUOTE
+			|| (*tmp)->type == D_QUOTE || (*tmp)->type == S_QUOTE)
+		{
+			*cmd = create_command(data, *cmd, tmp);
+			if (!tmp)
+				break;
+		}
+		if (is_redir(*tmp))
+		{
+			handle_redirections_heredoc(tmp, *cmd, data);
+			if (!tmp)
+				break;
+		}
+		if ((*tmp)->type == PIPE_LINE)
+		{
+			lst_add_back(&data->cmd, *cmd);
+			(*cmd)->pipe_out = 1;
+			*cmd = init_command();
+		}
+		*tmp = (*tmp)->next;
+	}
+} */
 
 t_command	*fill_struct(t_data *data)
 {
@@ -178,9 +159,8 @@ t_command	*fill_struct(t_data *data)
 		return (NULL);
 	while (tmp)
 	{
-		tmp = skip_spaces(tmp, 1);
 		if (tmp->type == WORD || tmp->type == ENV 
-			|| tmp->state == IN_SQUOTE || tmp->type == IN_DQUOTE
+			|| tmp->state == IN_SQUOTE || tmp->state == IN_DQUOTE
 			|| tmp->type == D_QUOTE || tmp->type == S_QUOTE)
 		{
 			cmd = create_command(data, cmd, &tmp);
