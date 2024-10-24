@@ -6,122 +6,47 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:48:22 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/21 12:27:59 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:43:27 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_command	*init_command()
+void	_fill_args(t_token **token, t_command *cmd, t_data *data, char ***args)
 {
-	t_command	*cmd;
-
-	cmd = malloc(sizeof(t_command));
-	if (!cmd)
-		return (NULL);
-	cmd->command = NULL;
-	cmd->arg_count = 0;
-	cmd->args = NULL;
-	cmd->full_path = NULL;
-	cmd->heredoc_content = NULL;
-	cmd->heredoc_delimiters = NULL;
-	cmd->input_files = NULL;
-	cmd->oa_files = NULL;
-	cmd->next = NULL;
-	cmd->cmd_found = false;
-	cmd->pipe_out = 0;
-	return (cmd);
-}
-
-void	fill_command(t_data *data, t_token **token, t_command *cmd)
-{
-	char	*command;
-	char	*tmp;
-	char	*full_command;
-
-	command = NULL;
-	tmp = NULL;
-	full_command = NULL;
-	while ((*token))
-	{
-		if (((*token)->type == WHITE_SPACE && (*token)->state == GENERAL)
-			|| (is_redir(*token) && (*token)->state == GENERAL)
-			|| ((*token)->type == PIPE_LINE && (*token)->state == GENERAL))
-			break;
-		if ((*token)->type == ENV && (*token)->state != IN_SQUOTE)
-			tmp = ft_expand(data, (*token));
-		else if ((*token)->type != S_QUOTE && (*token)->type != D_QUOTE)
-			tmp = ft_strdup((*token)->content);
-		else if ((*token)->state == IN_DQUOTE || (*token)->state == IN_SQUOTE)
-			tmp = ft_strdup((*token)->content);
-		full_command = ft_strjoin(command, tmp);
-		if (command)
-			free(command);
-		command = full_command;
-		if (tmp)
-		{
-			free(tmp);
-			tmp = NULL;
-		}
-		(*token) = (*token)->next;
-	}
-	ft_is_command(data, cmd, command);
-	cmd->command = command;
-	cmd->cmd_found = true;
-}
-
-void	_first_arg(t_command *cmd, char ***args)
-{
-	*args = malloc(sizeof(char *) * 2);
-	if (!args)
-		return ;
-	(*args)[0] = ft_strdup(cmd->command);
-	if (!(*args)[0])
-		return ;
-	(*args)[1] = NULL;
-	cmd->args = *args;
-	cmd->arg_count++;
-}
-
-void	_fill_args(t_token **token, t_command *cmd, t_data *data, char ***args, int pos)
-{
-	char	*tmp;
 	char	*arg;
 	char	*full_arg;
+	int		i;
 
 	arg = NULL;
-	tmp = NULL;
 	full_arg = NULL;
-	while (*token)
-	{
-		if (((*token)->type == WHITE_SPACE && (*token)->state == GENERAL)
-			|| (is_redir(*token) && (*token)->state == GENERAL)
-			|| ((*token)->type == PIPE_LINE && (*token)->state == GENERAL))
-			break;
-		if ((*token)->type == ENV && (*token)->state != IN_SQUOTE)
-			tmp = ft_expand(data, *token);
-		else if (((*token)->type != S_QUOTE && (*token)->type != D_QUOTE))
-			tmp = ft_strdup((*token)->content);
-		else if ((*token)->state == IN_DQUOTE || (*token)->state == IN_SQUOTE)
-			tmp = ft_strdup((*token)->content);
-		full_arg = ft_strjoin(arg, tmp);
-		if (arg)
-			free(arg);
-		arg = full_arg;
-		if (tmp)
-		{
-			free(tmp);
-			tmp = NULL;
-		}
-		*token = (*token)->next;
-	}
-	(*args)[pos] = ft_strdup(full_arg);
+	i = 0;
+	while ((*args)[i])
+		i++;
+	get_string(token, data, &full_arg, &arg);
+	(*args)[i - 1] = ft_strdup(full_arg);
 	free(full_arg);
-	(*args)[pos + 1] = NULL;
 	free_split(cmd->args);
 	cmd->args = *args;
 	if (arg)
 		cmd->arg_count++;
+}
+
+void	loop_arg(t_command *cmd, char ***args)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->args[i])
+	{
+		(*args)[i] = ft_strdup(cmd->args[i]);
+		if (!(*args)[i])
+		{
+			free(cmd->args[i]);
+			return ;
+		}
+		i++;
+	}
 }
 
 void	fill_args(t_token **token, t_command *cmd, t_data *data)
@@ -131,8 +56,6 @@ void	fill_args(t_token **token, t_command *cmd, t_data *data)
 
 	i = 0;
 	args = NULL;
-	if (!cmd->command)
-		return ;
 	if (cmd->args == NULL)
 		_first_arg(cmd, &args);
 	else
@@ -142,27 +65,10 @@ void	fill_args(t_token **token, t_command *cmd, t_data *data)
 		args = malloc(sizeof(char *) * (i + 2));
 		if (!args)
 			return ;
-		i = 0;
-		while (cmd->args[i])
-		{
-			args[i] = ft_strdup(cmd->args[i]);
-			if (!args[i])
-			{
-				free(cmd->args[i]);
-				return ;
-			}
-			i++;
-		}
-		_fill_args(token, cmd, data, &args, i);
+		loop_arg(cmd, &args);
+		args[i + 1] = NULL;
+		_fill_args(token, cmd, data, &args);
 	}
-}
-
-t_command	*create_command(t_data *data, t_command *cmd, t_token **token)
-{
-	if (!cmd->cmd_found)
-		fill_command(data, token, cmd);
-	fill_args(token, cmd, data);
-	return (cmd);
 }
 
 t_command	*fill_struct(t_data *data)
@@ -176,31 +82,7 @@ t_command	*fill_struct(t_data *data)
 	tmp = data->lexer->tokens;
 	if (!tmp)
 		return (NULL);
-	while (tmp)
-	{
-		tmp = skip_spaces(tmp, 1);
-		if (tmp->type == WORD || tmp->type == ENV 
-			|| tmp->state == IN_SQUOTE || tmp->type == IN_DQUOTE
-			|| tmp->type == D_QUOTE || tmp->type == S_QUOTE)
-		{
-			cmd = create_command(data, cmd, &tmp);
-			if (!tmp)
-				break;
-		}
-		if (is_redir(tmp))
-		{
-			handle_redirections_heredoc(&tmp, cmd, data);
-			if (!tmp)
-				break;
-		}
-		if (tmp->type == PIPE_LINE)
-		{
-			lst_add_back(&data->cmd, cmd);
-			cmd->pipe_out = 1;
-			cmd = init_command();
-		}
-		tmp = tmp->next;
-	}
+	tokens_loop(data, &tmp, &cmd);
 	if (cmd)
 		lst_add_back(&data->cmd, cmd);
 	return (data->cmd);
@@ -246,7 +128,6 @@ void	_debug(t_data *data)
 		printf("ARG_COUNT: %d\n", tmp->arg_count);
 		tmp = tmp->next;
 		printf("\n------------------------------\n");
-		// print_token(data->lexer);
 	}
 }
 
@@ -269,6 +150,4 @@ void	ft_parser(t_data *data)
 		}
 		_debug(data);
 	}
-	free_tkn_lst(&data->lexer);
-	free_command(&data->cmd);
 }

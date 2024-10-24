@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/21 09:12:37 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:06:58 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ void	free_split(char **arr);
 bool	ft_isspace(char c);
 char	*ft_strndup(const char *s1, int n);
 void	free_env(t_env **env);
+void	get_string(t_token **token, t_data *data, char **redir, char **file);
+void	free_str(char **str);
 
 /* ------------------- expander ------------------- */
 
@@ -135,24 +137,28 @@ char	*get_var_value(t_env *env, char *key);
 
 /* ------------------- parser ------------------- */
 
-void	ft_parser(t_data *data);
-int		ft_is_command(t_data *data, t_command *command, char *cmd);
-t_redir	*init_list(void);
-void	append_to_list(t_redir **lst, t_redir *new);
-void	free_command(t_command **cmd);
-void	handle_redirections_heredoc(t_token **token, t_command *cmd, t_data *data);
-t_redir	*create_redir(t_token **token, t_data *data);
-int		is_redir(t_token *token);
-void	handle_heredoc(t_token **token, t_command *cmd, t_data *data);
-void	lst_add_back(t_command **cmds, t_command *cmd);
+void		ft_parser(t_data *data);
+int			ft_is_command(t_data *data, t_command *command, char *cmd);
+t_redir		*init_list(void);
+void		append_to_list(t_redir **lst, t_redir *new);
+void		free_command(t_command **cmd);
+void		handle_redirections_heredoc(t_token **token, t_command *cmd, t_data *data);
+t_redir		*create_redir(t_token **token, t_data *data);
+int			is_redir(t_token *token);
+void		handle_heredoc(t_token **token, t_command *cmd, t_data *data);
+void		lst_add_back(t_command **cmds, t_command *cmd);
+t_command	*init_command(void);
+t_command	*create_command(t_data *data, t_command *cmd, t_token **token);
+void		_first_arg(t_command *cmd, char ***args);
+void		tokens_loop(t_data *data, t_token **tmp, t_command **cmd);
+void		fill_args(t_token **token, t_command *cmd, t_data *data);
 
 void	print_token(t_tkn_lst *lst); // !!!!!!!!!!!!!!!
 char	*print_type(enum e_type type); // !!!!!!!!!!!!!!
 
-
 /* ------------------- execution ------------------- */
 
 int     ft_execute(t_data *data);
-char **ft_transform_env(t_env *env);
+char 	**ft_transform_env(t_env *env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:38:10 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/09/28 23:51:46 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:40:22 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,13 @@ char	**ft_strdup_2d(char **_2d)
 	}
 	res[i] = NULL;
 	return (res);
+}
+
+void	free_str(char **str)
+{
+	if (*str)
+	{
+		free(*str);
+		*str = NULL;
+	}
 }
