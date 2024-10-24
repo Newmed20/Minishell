@@ -6,11 +6,32 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 23:48:46 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/06 11:24:27 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:30:37 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_command	*init_command(void)
+{
+	t_command	*cmd;
+
+	cmd = malloc(sizeof(t_command));
+	if (!cmd)
+		return (NULL);
+	cmd->command = NULL;
+	cmd->arg_count = 0;
+	cmd->args = NULL;
+	cmd->full_path = NULL;
+	cmd->heredoc_content = NULL;
+	cmd->heredoc_delimiters = NULL;
+	cmd->input_files = NULL;
+	cmd->oa_files = NULL;
+	cmd->next = NULL;
+	cmd->cmd_found = false;
+	cmd->pipe_out = 0;
+	return (cmd);
+}
 
 t_redir *init_list(void)
 {
