@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:13:52 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/22 15:14:11 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/26 13:01:37 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ char	*ft_expand(t_data *data, t_token *token)
 	char	*value;
 
 	name = NULL;
-	value = NULL;
 	if (token && ft_strncmp(token->content, "$?", 3) == 0)
 		return (ft_itoa(exit_status));
 	else if (token->len == 1 && (token->state == IN_DQUOTE 
