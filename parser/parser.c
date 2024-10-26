@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:48:22 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/24 10:43:27 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/26 10:51:49 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,6 @@ void	ft_parser(t_data *data)
 			free_command(&data->cmd);
 			return ;
 		}
-		_debug(data);
+		// _debug(data);
 	}
 }
