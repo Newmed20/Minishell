@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/11 00:02:17 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/27 23:41:21 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void	ft_herdoc(t_command *cmd)
 	int	fd;
 	handler_heredoc(cmd);
 	fd = open("/tmp/heredoc.txt",  O_RDWR);
+    // printf(">>>%d\n", fd);
 	if (fd == -1)
 		exit(0);
 	if (dup2(fd, 0) == -1)

@@ -1,8 +1,8 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
-LDFLAGS = -lreadline -L/Users/abmahfou/.brew/opt/readline/lib
-INCLUDES = -I/Users/abmahfou/.brew/opt/readline/include
+LDFLAGS = -lreadline -L/Users/mjadid/.brew/opt/readline/lib
+INCLUDES = -I/Users/mjadid/.brew/opt/readline/include
 
 GREEN=\033[1;32m
 YELLOW=\033[1;33m
@@ -16,7 +16,7 @@ LIBFHDR = libft/libft.h
 LIBFT = libft/libft.a
 
 SRCS = main.c \
-	   lexer/lexer.c lexer/lexer_utils.c lexer/lexer_utils_2.c print_tokens.c \
+	   lexer/lexer.c lexer/lexer_utils.c lexer/lexer_utils_2.c  \
 	   errors/errors_utils.c errors/syntax_error.c \
 	   expander/expander.c expander/env_lst.c \
 	   parser/parser.c parser/parser_utils.c parser/check_cmd.c parser/ft_redirection.c parser/ft_heredoc.c parser/parser_extra.c\
