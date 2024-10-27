@@ -6,10 +6,9 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/24 10:06:58 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/26 14:07:32 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -23,11 +22,11 @@
 # include <stdbool.h>
 # include "libft/libft.h"
 
-#define PROMPT "\033[1;31m$ \033[0m"
-#define EXIT_FAILURE 1
-#define EXIT_SUCCESS 0
+# define PROMPT "\033[1;31m$ \033[0m"
+# define EXIT_FAILURE 1
+# define EXIT_SUCCESS 0
 
-extern int exit_status;
+extern int		exit_status;
 
 typedef struct	s_redir t_redir;
 

@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 23:48:46 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/23 18:30:37 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/26 14:17:24 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ t_command	*init_command(void)
 	return (cmd);
 }
 
-t_redir *init_list(void)
+t_redir	*init_list(void)
 {
-	t_redir *lst;
+	t_redir	*lst;
 
 	lst = malloc(sizeof(t_redir));
 	if (!lst)

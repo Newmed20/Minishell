@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 LDFLAGS = -lreadline -L/Users/abmahfou/.brew/opt/readline/lib
 INCLUDES = -I/Users/abmahfou/.brew/opt/readline/include
 
