@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 10:00:34 by mjadid            #+#    #+#             */
-/*   Updated: 2024/09/18 04:47:31 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/28 13:38:48 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "../minishell.h"
 
 int     ft_env(t_data *data)
 {

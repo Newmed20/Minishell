@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:19:39 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/02 21:06:07 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/28 16:40:13 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "../minishell.h"
 
 
 void	display_chdir_error(const char *path)
@@ -32,7 +32,7 @@ int	change_directory(const char *path)
 	return (0);
 }
 
-int	handle_change_directory(char *path , int *exit_status)
+int	handle_change_directory(char *path)
 {
 	char	current_working_dir[PATH_MAX];
 
@@ -58,9 +58,14 @@ int	ft_cd(t_command *command)
 			exit_status = 1;
 			return (1);
 		}
-		handle_change_directory(home_dir , exit_status);
+		handle_change_directory(home_dir);
 		return (0);
 	}
 	else
-		return (handle_change_directory(command->args[1] , exit_status));
+		return (handle_change_directory(command->args[1]));
 }
+
+/* int	main()
+{
+	
+} */

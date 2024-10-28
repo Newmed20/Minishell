@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 04:09:22 by mjadid            #+#    #+#             */
-/*   Updated: 2024/09/17 06:16:46 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/28 13:38:23 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "../minishell.h"
 
 int	ft_pwd(int *exit_status)
 {
