@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/27 23:49:03 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/28 10:54:09 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,12 @@ typedef struct	s_env
 	int 			is_valid;
 	struct s_env	*next;
 }	t_env;
+
+typedef struct s_fds
+{
+	int					prev_pfd[2];
+	int					pfd[2];
+}						t_fds;
 
 typedef struct	s_command
 {
@@ -159,5 +165,10 @@ char	*print_type(enum e_type type); // !!!!!!!!!!!!!!
 
 int     ft_execute(t_data *data);
 char 	**ft_transform_env(t_env *env);
+void ft_redirection(t_command *cmd);
+// here-doc
+void	ft_heredoc(t_command *cmd, t_env *env, int flag);
+//pipe
+void     execute_multiple(t_data *data, char **env);
 
 #endif

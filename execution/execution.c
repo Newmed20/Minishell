@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/27 23:41:21 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/28 10:51:11 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,61 +67,7 @@ void ft_redirection(t_command *cmd)
 }
 
 
-void	write_in_file(char *line)
-{
-	int	fd;
-
-	fd = open("/tmp/heredoc.txt", O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
-	{
-		perror("open");
-		exit(1);
-	}
-	ft_putstr_fd(line, fd);
-	write(fd, "\n", 1);
-	close(fd);
-}
-
-void	handler_heredoc(t_command *cmd)
-{
-	char	*line;
-    
-		while (cmd->heredoc_delimiters)
-		{
-			unlink("/tmp/heredoc.txt");
-			line = readline(">");
-			while (ft_strncmp(line, cmd->heredoc_delimiters->content, 
-					ft_strlen(cmd->heredoc_delimiters->content) + 1))
-			{
-				if (cmd->heredoc_delimiters->next == NULL)
-					write_in_file(line);
-				add_history(line);
-				free(line);
-				line = readline(">");
-			}
-			free(line);
-			cmd->heredoc_delimiters = cmd->heredoc_delimiters->next;
-		}
-		// exit(0);
-}
-
-void	ft_herdoc(t_command *cmd)
-{
-	int	fd;
-	handler_heredoc(cmd);
-	fd = open("/tmp/heredoc.txt",  O_RDWR);
-    // printf(">>>%d\n", fd);
-	if (fd == -1)
-		exit(0);
-	if (dup2(fd, 0) == -1)
-	{
-		perror("dup2");
-		exit(1);
-	}
-	close(fd);
-}
-
-int     ft_execute(t_data *data)
+int     execute_one(t_data *data)
 {
     t_command *comand;
     char **env;
@@ -138,11 +84,30 @@ int     ft_execute(t_data *data)
         if(comand->input_files || comand->oa_files)
             ft_redirection(comand);
         if(comand->heredoc_delimiters)
-            ft_herdoc(comand);    
-        execve(comand->full_path, comand->args, env);
+            ft_heredoc(comand , data->env_copy , comand->heredoc_delimiters->state);
+        if(comand->full_path)
+            execve(comand->full_path, comand->args, env);
+        else
+            exit(EXIT_FAILURE);
     }
     
     else
         waitpid(pid, &exit_status, 0);
     return (0);
 }
+
+
+int     ft_execute(t_data *data)
+{
+    t_command *cmd;
+    char **env;
+
+    
+    env = ft_transform_env(data->env_copy);
+    cmd = data->cmd;
+    if(!cmd->pipe_out)
+        execute_one(data);
+    else
+        execute_multiple(data , env);
+    return (0);
+} 
