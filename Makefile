@@ -20,8 +20,10 @@ SRCS = main.c \
 	   errors/errors_utils.c errors/syntax_error.c \
 	   expander/expander.c expander/env_lst.c \
 	   parser/parser.c parser/parser_utils.c parser/check_cmd.c parser/ft_redirection.c parser/ft_heredoc.c parser/parser_extra.c\
-	   utils/utils1.c utils/clean_up.c \
-	   execution/execution.c 
+	   utils/utils1.c utils/clean_up.c utils/utils2.c \
+	   execution/execution.c \
+	   builtins/ft_cd.c builtins/ft_echo.c builtins/ft_env.c builtins/ft_pwd.c builtins/ft_export.c \
+
 OBJS = $(SRCS:.c=.o)
 
 %.o: %.c $(HEADER) $(LXR_HEADER) $(LIBFHDR)
