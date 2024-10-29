@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/28 13:40:15 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:56:55 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,6 @@ t_command	*create_command(t_data *data, t_command *cmd, t_token **token);
 void		_first_arg(t_command *cmd, char ***args);
 void		tokens_loop(t_data *data, t_token **tmp, t_command **cmd);
 void		fill_args(t_token **token, t_command *cmd, t_data *data);
-
-void	print_token(t_tkn_lst *lst); // !!!!!!!!!!!!!!!
-char	*print_type(enum e_type type); // !!!!!!!!!!!!!!
 
 /* ------------------- execution ------------------- */
 
