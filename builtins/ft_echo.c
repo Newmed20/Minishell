@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 03:08:36 by mjadid            #+#    #+#             */
 /*   Updated: 2024/10/29 09:21:35 by mjadid           ###   ########.fr       */
@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 int	is_option(char **args, int *flag)
 {
@@ -39,13 +38,13 @@ int	is_option(char **args, int *flag)
 	return (i);
 }
 
-int	ft_echo(t_command *s_command)
+int	ft_echo(t_command *command)
 {
 	int	i;
 	int	flag;
     char	**args;
     
-    args = s_command->args;
+    args = command->args;
 	flag = 1;
 	i = is_option(args, &flag);
 	while (args[i])
@@ -60,19 +59,3 @@ int	ft_echo(t_command *s_command)
 	exit_status = 0;
 	return (0);
 }
-
-
-// int main(int argc, char **argv)
-// {
-//     int	exit_status;
-//     t_command *s_command;
-
-//     s_command = malloc(sizeof(t_command));
-//     s_command->args = argv + 2;
-    
-
-//     exit_status = 0;
-//     ft_echo(s_command, &exit_status);
-//     // printf("exit_status: %d\n", exit_status);
-//     return (0);
-// }

@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export.c                                        :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 01:08:05 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/29 08:19:38 by mjadid           ###   ########.fr       */
+/*   Created: 2024/10/28 13:43:59 by abmahfou          #+#    #+#             */
+/*   Updated: 2024/10/28 13:44:09 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int     ft_export(t_data *data)
+t_token	*skip_spaces(t_token *el, int flg)
 {
-    
+	while (el && el->type == WHITE_SPACE)
+	{
+		if (flg && el->next)
+			el = el->next;
+		else if (!flg && el->prev)
+			el = el->prev;
+		else
+			break ;
+	}
+	return (el);
 }

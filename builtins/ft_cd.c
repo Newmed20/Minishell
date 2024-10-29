@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:19:39 by mjadid            #+#    #+#             */
 /*   Updated: 2024/10/29 08:27:22 by mjadid           ###   ########.fr       */
@@ -64,3 +64,8 @@ int	ft_cd(t_command *command)
 	else
 		return (handle_change_directory(command->args[1]));
 }
+
+/* int	main()
+{
+	
+} */

@@ -21,6 +21,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# include <limits.h>
 # include "libft/libft.h"
 
 # define PROMPT "\033[1;31m$ \033[0m"
@@ -158,9 +159,6 @@ t_command	*create_command(t_data *data, t_command *cmd, t_token **token);
 void		_first_arg(t_command *cmd, char ***args);
 void		tokens_loop(t_data *data, t_token **tmp, t_command **cmd);
 void		fill_args(t_token **token, t_command *cmd, t_data *data);
-
-void	print_token(t_tkn_lst *lst); // !!!!!!!!!!!!!!!
-char	*print_type(enum e_type type); // !!!!!!!!!!!!!!
 
 /* ------------------- execution ------------------- */
 
