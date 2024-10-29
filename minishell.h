@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/28 10:54:09 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/29 09:15:28 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+#include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
@@ -165,10 +166,17 @@ char	*print_type(enum e_type type); // !!!!!!!!!!!!!!
 
 int     ft_execute(t_data *data);
 char 	**ft_transform_env(t_env *env);
-void ft_redirection(t_command *cmd);
-// here-doc
-void	ft_heredoc(t_command *cmd, t_env *env, int flag);
-//pipe
-void     execute_multiple(t_data *data, char **env);
+void	ft_redirection(t_command *cmd);
+void	ft_heredoc(t_command *cmd, t_env *env, int flag);// here-doc
+void    execute_multiple(t_data *data, char **env);//pipe
+int		ft_isbuitin(char *cmd); //buitins
+void	ft_builtins(t_data *data);
+int		ft_cd(t_command *command);
+int		ft_echo(t_command *s_command);
+int		ft_pwd(void);
+int     ft_env(t_data *data);
+
+
+
 
 #endif

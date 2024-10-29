@@ -6,11 +6,12 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 10:00:34 by mjadid            #+#    #+#             */
-/*   Updated: 2024/09/18 04:47:31 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/29 07:23:24 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "../minishell.h"
+
 
 int     ft_env(t_data *data)
 {

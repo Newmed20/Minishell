@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/28 10:51:11 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/29 09:25:33 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,44 +41,21 @@ char **ft_transform_env(t_env *env)
     return (env_copy);
 }
 
-void ft_redirection(t_command *cmd)
-{
-    int fd;
-    t_redir *redir;
-    redir = cmd->input_files;
-    while(redir)
-    {
-        fd = open(redir->content, O_RDONLY);
-        dup2(fd, 0);
-        close(fd);
-        redir = redir->next;
-    }
-    redir = cmd->oa_files;
-    while(redir)
-    {
-        if(redir->type == REDIR_OUT )
-            fd = open(redir->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-        else if(redir->type == APPEND)
-            fd = open(redir->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
-        dup2(fd, 1);
-        close(fd);
-        redir = redir->next;
-    }
-}
 
 
-int     execute_one(t_data *data)
+int     execute_one(t_data *data , char **env )
 {
     t_command *comand;
-    char **env;
+    int pid;
     
     comand = data->cmd; 
-    env = ft_transform_env(data->env_copy);
-    
-    int pid;
+    if(ft_isbuitin(comand->command))
+    {
+        ft_builtins(data);
+        return (0);
+    }
+
     pid = fork();
-    
-    
     if(pid == 0)
     {
         if(comand->input_files || comand->oa_files)
@@ -106,7 +83,7 @@ int     ft_execute(t_data *data)
     env = ft_transform_env(data->env_copy);
     cmd = data->cmd;
     if(!cmd->pipe_out)
-        execute_one(data);
+        execute_one(data , env);
     else
         execute_multiple(data , env);
     return (0);

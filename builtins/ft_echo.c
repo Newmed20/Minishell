@@ -6,18 +6,19 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 03:08:36 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/28 00:13:51 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/29 09:21:35 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"      
+#include "../minishell.h"
+
 
 int	is_option(char **args, int *flag)
 {
 	int	i;
 	int	j;
 
-	i = 0;
+	i = 1;
 	while (args[i])
 	{
 		if (!ft_strncmp(args[i], "-n", 2))
