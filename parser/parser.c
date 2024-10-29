@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:48:22 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/26 10:51:49 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/27 23:36:44 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_command	*fill_struct(t_data *data)
 	return (data->cmd);
 }
 
-void	_debug(t_data *data)
+/* void	_debug(t_data *data)
 {
 	t_command	*tmp = data->cmd;
 	while (tmp)
@@ -129,7 +129,7 @@ void	_debug(t_data *data)
 		tmp = tmp->next;
 		printf("\n------------------------------\n");
 	}
-}
+} */
 
 void	ft_parser(t_data *data)
 {

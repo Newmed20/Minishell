@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 03:08:36 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/28 16:03:17 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:21:35 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_option(char **args, int *flag)
 	int	i;
 	int	j;
 
-	i = 0;
+	i = 1;
 	while (args[i])
 	{
 		if (!ft_strncmp(args[i], "-n", 2))

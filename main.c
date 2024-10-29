@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:59:13 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/26 12:59:17 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:03:46 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	init_prompt(t_data *data)
 	input = readline(PROMPT);
 	if (!input)
 	{
-		printf("exit\n");
+		// printf("exit\n");
 		return (EXIT_FAILURE);
 	}
 	if (data->prompt)

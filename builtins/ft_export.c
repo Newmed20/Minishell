@@ -6,9 +6,13 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 01:08:05 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/28 13:38:11 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/29 08:19:38 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int     ft_export(t_data *data)
+{
+    
+}
