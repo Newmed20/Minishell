@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:26:37 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/29 09:15:46 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/29 12:57:05 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ void  ft_builtins(t_data *data)
 		exit_status = ft_pwd();
 	else if (!ft_strncmp(cmd->command, "env", 4))
 		exit_status = ft_env(data);
-	// else if (!ft_strncmp(cmd->command, "export", 7))
-	// 	exit_status = ft_export(data);
+	else if (!ft_strncmp(cmd->command, "export", 7))
+		exit_status = ft_export(data);
 	// else if (!ft_strncmp(cmd->command, "unset", 6))
 	// 	exit_status = ft_unset(data);
-	// else if (!ft_strncmp(cmd->command, "exit", 5))
-	// 	ft_exit(data);
+	else if (!ft_strncmp(cmd->command, "exit", 5))
+		ft_exit(data);
 }

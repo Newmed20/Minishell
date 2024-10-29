@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/29 09:15:28 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/29 12:57:24 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,8 @@ int		ft_cd(t_command *command);
 int		ft_echo(t_command *s_command);
 int		ft_pwd(void);
 int     ft_env(t_data *data);
+int		ft_exit(t_data *data);
+int		ft_export(t_data *data);
 
 
 
