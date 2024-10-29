@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:19:39 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/29 08:27:22 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/29 11:25:59 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ int	handle_change_directory(char *path)
 int	ft_cd(t_command *command)
 {
 	char	*home_dir;
+	char	*path;
 
-	if (!command->args[1])
+	if (!command->args[1] || ft_strncmp(command->args[1], "~", 1) == 0)
 	{
 		home_dir = getenv("HOME");
 		if (home_dir == NULL)
@@ -58,14 +59,9 @@ int	ft_cd(t_command *command)
 			exit_status = 1;
 			return (1);
 		}
-		handle_change_directory(home_dir);
-		return (0);
+		path = home_dir;
 	}
 	else
-		return (handle_change_directory(command->args[1]));
+		path = command->args[1];
+	return (handle_change_directory(path));
 }
-
-/* int	main()
-{
-	
-} */
