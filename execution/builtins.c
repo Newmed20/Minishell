@@ -38,10 +38,10 @@ int  ft_isbuitin(char *cmd)
 void  ft_builtins(t_data *data)
 {
     t_command *cmd;
-    t_env *env;
+    // t_env *env;
     
     cmd = data->cmd;
-    env = data->env_copy;
+    // env = data->env_copy;
     
     if (!ft_strncmp(cmd->command, "cd", 3))
 		exit_status = ft_cd(cmd);
