@@ -14,52 +14,52 @@
 
 int	check_var(t_data *data, char *str)
 {
-	(void)data;
 	int		i;
-	int		j;
-	int		start;
 	char	*key;
 	char	*value;
 
 	i = 0;
-	key = NULL;
-	value = NULL;
 	while (str[i] && str[i] != '=')
 		i++;
-	start = i++;
-	j = i;
-	while (str[j])
-		j++;
-	key = ft_substr(str, 0, i - 1);
-	value = ft_substr(str, start + 1, j);
-	printf("key %s\n", key);
-	printf("value %s\n", value);
+	key = ft_strndup(str, i);
+	value = ft_strndup(str + i + 1, ft_strlen(str + i + 1));
+	if (!key || !value)
+	{
+		free(key);
+		free(value);
+		return (1);
+	}
+	if (get_var_value(data->env, key))
+	{
+		free(key);
+		free(value);
+		return (0);
+	}
+	add_env(&data->env, key, value);
+	free(key);
+	free(value);
 	return (0);
 }
 
 int	ft_export(t_data *data)
 {
-	t_env	*env;
-	t_token	*token;
-	char	*arg;
+	int		i;
+	int		j;
+	char	*str;
 
-	arg = NULL;
-	env = data->env_copy;
-	token = data->lexer->tokens;
-	if (token->next)
+	i = 1;
+	while (data->cmd->args[i])
 	{
-		token = skip_spaces(token->next, 1);
-		arg = ft_strdup(token->content);
-	}
-	if (!arg)
-	{
-		while (env)
+		j = 0;
+		str = data->cmd->args[i];
+		if (ft_isdigit(str[j]) || str[j] == '=')
 		{
-			printf("declare -x %s=\"%s\"\n", env->key, env->value);
-			env = env->next;
+			printf("minishell: export: `%s': not a valid identifier\n", str);
+			return (1);
 		}
+		if (check_var(data, str))
+			return (1);
+		i++;
 	}
-	else
-		check_var(data, arg);
 	return (0);
 }
