@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 10:09:31 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/21 10:26:14 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/31 10:17:54 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ t_tkn_lst	*lexer(char *line)
 	enum e_state	state;
 	int				i;
 
+	if (line[0] == '\0')
+		return (NULL);
 	i = 0;
 	tokens = NULL;
 	state = GENERAL;
