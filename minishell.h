@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/29 12:57:24 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/31 01:20:41 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ void	ft_heredoc(t_command *cmd, t_env *env, int flag);// here-doc
 void    execute_multiple(t_data *data, char **env);//pipe
 int		ft_isbuitin(char *cmd); //buitins
 void	ft_builtins(t_data *data);
+void	execute_builtins(t_data *data);
 int		ft_cd(t_command *command);
 int		ft_echo(t_command *s_command);
 int		ft_pwd(void);
