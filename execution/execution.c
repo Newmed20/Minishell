@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/29 09:25:33 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/31 01:21:08 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int     execute_one(t_data *data , char **env )
     comand = data->cmd; 
     if(ft_isbuitin(comand->command))
     {
-        ft_builtins(data);
+        execute_builtins(data);
         return (0);
     }
 
