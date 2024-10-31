@@ -6,11 +6,50 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 01:08:05 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/29 21:45:35 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/31 19:32:27 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	add_env(t_env **env, char *key, char *value)
+{
+	t_env	*new;
+	t_env	*tmp;
+
+	new = (t_env *)malloc(sizeof(t_env));
+	if (!new)
+		return ;
+	new->key = ft_strdup(key);
+	new->value = ft_strdup(value);
+	new->next = NULL;
+	if (!*env)
+	{
+		*env = new;
+		return ;
+	}
+	tmp = *env;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}
+
+int	if_exist(t_data *data, char *key, char *value)
+{
+	t_env	*tmp;
+
+	tmp = data->env_copy;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
+		{
+			tmp->value = ft_strdup(value);
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
 int	check_var(t_data *data, char *str)
 {
@@ -22,44 +61,55 @@ int	check_var(t_data *data, char *str)
 	while (str[i] && str[i] != '=')
 		i++;
 	key = ft_strndup(str, i);
-	value = ft_strndup(str + i + 1, ft_strlen(str + i + 1));
-	if (!key || !value)
-	{
-		free(key);
-		free(value);
+	if (ft_isdigit(key[0]) || key[0] == '=' || is_special(key) || str[0] == '=')
 		return (1);
-	}
-	if (get_var_value(data->env, key))
-	{
-		free(key);
-		free(value);
+	if (str[i] == '=')
+		value = ft_strdup(str + i + 1);
+	else
+		value = NULL;
+	if (if_exist(data, key, value))
 		return (0);
-	}
-	add_env(&data->env, key, value);
+	add_env(&data->env_copy, key, value);
 	free(key);
 	free(value);
 	return (0);
 }
 
+void	export_print(t_data *data)
+{
+	t_env	*tmp;
+
+	tmp = data->env_copy;
+	while (tmp)
+	{
+		if (tmp->value)
+			printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+		else
+			printf("declare -x %s\n", tmp->key);
+		tmp = tmp->next;
+	}
+}
+
 int	ft_export(t_data *data)
 {
 	int		i;
-	int		j;
 	char	*str;
 
 	i = 1;
-	while (data->cmd->args[i])
+	if (!data->cmd->args[i])
+		export_print(data);
+	else
 	{
-		j = 0;
-		str = data->cmd->args[i];
-		if (ft_isdigit(str[j]) || str[j] == '=')
+		while (data->cmd->args[i])
 		{
-			printf("minishell: export: `%s': not a valid identifier\n", str);
-			return (1);
+			str = data->cmd->args[i];
+			if (check_var(data, str) == 1)
+			{
+				printf("minishell: export: `%s': not a valid identifier\n", str);
+				return (1);
+			}
+			i++;
 		}
-		if (check_var(data, str))
-			return (1);
-		i++;
 	}
 	return (0);
 }

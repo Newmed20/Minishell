@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:19:39 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/29 11:25:59 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/31 21:26:28 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,28 @@ int	handle_change_directory(char *path)
 	return (0);
 }
 
-int	ft_cd(t_command *command)
+char	*get_home(t_data *data)
+{
+	t_env	*tmp;
+
+	tmp = data->env_copy;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->key, "HOME", 5) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+int	ft_cd(t_data *data, t_command *command)
 {
 	char	*home_dir;
 	char	*path;
 
 	if (!command->args[1] || ft_strncmp(command->args[1], "~", 1) == 0)
 	{
-		home_dir = getenv("HOME");
+		home_dir = get_home(data);
 		if (home_dir == NULL)
 		{
 			write(STDERR_FILENO, "minishell: cd: HOME not set\n", 29);
