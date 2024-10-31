@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:26:37 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/29 12:57:05 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/31 01:19:38 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,25 @@ void  ft_builtins(t_data *data)
 	// 	exit_status = ft_unset(data);
 	else if (!ft_strncmp(cmd->command, "exit", 5))
 		ft_exit(data);
+}
+
+void	execute_builtins(t_data *data)
+{
+	int			original_stdout;
+	int			original_stdin;
+	t_command	*current;
+	
+	current = data->cmd;
+
+	original_stdout = dup(STDOUT_FILENO);
+	original_stdin = dup(STDIN_FILENO);
+	if (current->heredoc_delimiters)
+		ft_heredoc(current, data->env_copy , 0);
+	if (current->input_files || current->oa_files)
+		ft_redirection(current);
+	ft_builtins(data);
+	dup2(original_stdout, STDOUT_FILENO);
+	dup2(original_stdin, STDIN_FILENO);
+	close(original_stdout);
+	close(original_stdin);
 }
