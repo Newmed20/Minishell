@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 10:51:55 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/28 10:55:59 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/10/31 07:41:45 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void     execute_multiple(t_data *data, char **env)
         }
         if (pid == 0)
         {
+            if(current->heredoc_delimiters)
+                ft_heredoc(current, data->env_copy, current->heredoc_delimiters->state);
             if (current->next)
             {
                 dup2(fds->pfd[1], STDOUT_FILENO);
@@ -63,7 +65,6 @@ void     execute_multiple(t_data *data, char **env)
             close(fds->pfd[0]);
             if (current->input_files || current->oa_files)
                 ft_redirection(current);
-
             execve(current->full_path, current->args, env);
             perror("execve");
             exit(1);
