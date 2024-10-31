@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:26:37 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/29 12:57:05 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/31 21:24:21 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,10 @@ int  ft_isbuitin(char *cmd)
 void  ft_builtins(t_data *data)
 {
     t_command *cmd;
-    // t_env *env;
     
     cmd = data->cmd;
-    // env = data->env_copy;
-    
     if (!ft_strncmp(cmd->command, "cd", 3))
-		exit_status = ft_cd(cmd);
+		exit_status = ft_cd(data, cmd);
 	else if (!ft_strncmp(cmd->command, "echo", 5))
 		exit_status = ft_echo(cmd);
 	else if (!ft_strncmp(cmd->command, "pwd", 4))
@@ -53,8 +50,8 @@ void  ft_builtins(t_data *data)
 		exit_status = ft_env(data);
 	else if (!ft_strncmp(cmd->command, "export", 7))
 		exit_status = ft_export(data);
-	// else if (!ft_strncmp(cmd->command, "unset", 6))
-	// 	exit_status = ft_unset(data);
+	else if (!ft_strncmp(cmd->command, "unset", 6))
+		exit_status = ft_unset(data);
 	else if (!ft_strncmp(cmd->command, "exit", 5))
 		ft_exit(data);
 }
