@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/29 12:57:24 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/31 21:21:26 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-#include <limits.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
@@ -136,6 +136,7 @@ char	*ft_strndup(const char *s1, int n);
 void	free_env(t_env **env);
 void	get_string(t_token **token, t_data *data, char **redir, char **file);
 void	free_str(char **str);
+int		is_special(char *s);
 
 /* ------------------- expander ------------------- */
 
@@ -170,12 +171,13 @@ void	ft_heredoc(t_command *cmd, t_env *env, int flag);// here-doc
 void    execute_multiple(t_data *data, char **env);//pipe
 int		ft_isbuitin(char *cmd); //buitins
 void	ft_builtins(t_data *data);
-int		ft_cd(t_command *command);
+int		ft_cd(t_data *data, t_command *command);
 int		ft_echo(t_command *s_command);
 int		ft_pwd(void);
 int     ft_env(t_data *data);
 int		ft_exit(t_data *data);
 int		ft_export(t_data *data);
+int		ft_unset(t_data *data);
 
 
 
