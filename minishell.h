@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/31 01:20:41 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/02 10:09:39 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-#include <limits.h>
+# include <sys/wait.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
@@ -135,6 +136,8 @@ char	*ft_strndup(const char *s1, int n);
 void	free_env(t_env **env);
 void	get_string(t_token **token, t_data *data, char **redir, char **file);
 void	free_str(char **str);
+int		is_special(char *s);
+int		check_empty(t_data *data);
 
 /* ------------------- expander ------------------- */
 
@@ -168,14 +171,14 @@ void	ft_redirection(t_command *cmd);
 void	ft_heredoc(t_command *cmd, t_env *env, int flag);// here-doc
 void    execute_multiple(t_data *data, char **env);//pipe
 int		ft_isbuitin(char *cmd); //buitins
-void	ft_builtins(t_data *data);
 void	execute_builtins(t_data *data);
-int		ft_cd(t_command *command);
+int		ft_cd(t_data *data, t_command *command);
 int		ft_echo(t_command *s_command);
 int		ft_pwd(void);
 int     ft_env(t_data *data);
 int		ft_exit(t_data *data);
 int		ft_export(t_data *data);
+int		ft_unset(t_data *data);
 
 
 

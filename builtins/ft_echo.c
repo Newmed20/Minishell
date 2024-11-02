@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 03:08:36 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/29 09:21:35 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/02 09:12:58 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	is_option(char **args, int *flag)
 
 int	ft_echo(t_command *command)
 {
-	int	i;
-	int	flag;
-    char	**args;
-    
-    args = command->args;
+	int		i;
+	int		flag;
+	char	**args;
+
+	args = command->args;
 	flag = 1;
 	i = is_option(args, &flag);
 	while (args[i])

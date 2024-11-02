@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:59:13 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/29 11:50:47 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/10/31 10:18:20 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int	init_prompt(t_data *data)
 		free(data->prompt);
 	data->prompt = input;
 	add_history(input);
-	if (data->prompt[0] == '\0')
-		return (EXIT_SUCCESS);
 	ft_parser(data);
 	return (EXIT_SUCCESS);
 }
