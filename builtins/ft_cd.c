@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:19:39 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/02 09:11:19 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/02 19:35:11 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,19 @@ void	display_chdir_error(const char *path)
 	write(STDERR_FILENO, "minishell: cd: ", 15);
 	write(STDERR_FILENO, path, ft_strlen(path));
 	write(STDERR_FILENO, ": No such file or directory\n", 29);
+}
+
+void	update_old_pwd(t_data *data, char *path)
+{
+	t_env	*tmp;
+
+	tmp = data->env_copy;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->key, "OLDPWD", 6))
+			tmp->value = ft_strdup(path);
+		tmp = tmp->next;
+	}
 }
 
 int	change_directory(const char *path)
@@ -31,13 +44,28 @@ int	change_directory(const char *path)
 	return (0);
 }
 
-int	handle_change_directory(char *path)
+void	update_pwd(t_data *data, char *path)
+{
+	t_env	*tmp;
+
+	tmp = data->env_copy;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->key, "PWD", 3))
+			tmp->value = ft_strdup(path);
+		tmp = tmp->next;
+	}
+}
+
+int	handle_change_directory(t_data *data, char *path)
 {
 	char	current_working_dir[PATH_MAX];
 
+	update_old_pwd(data, getcwd(current_working_dir, PATH_MAX));
 	if (change_directory(path) != 0)
 		return (1);
 	getcwd(current_working_dir, PATH_MAX);
+	update_pwd(data, current_working_dir);
 	return (0);
 }
 
@@ -73,5 +101,5 @@ int	ft_cd(t_data *data, t_command *command)
 	}
 	else
 		path = command->args[1];
-	return (handle_change_directory(path));
+	return (handle_change_directory(data, path));
 }
