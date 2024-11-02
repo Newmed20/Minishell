@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 01:08:05 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/02 09:53:18 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/02 10:51:18 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,17 @@ int	check_var(t_data *data, char *str)
 		i++;
 	key = ft_strndup(str, i);
 	if (ft_isdigit(key[0]) || key[0] == '=' || is_special(key) || str[0] == '=')
-		return (1);
+		return (free(key), 1);
 	if (str[i] == '=')
 		value = ft_strdup(str + i + 1);
 	else
 		value = NULL;
 	if (if_exist(data, key, value))
+	{
+		free(key);
+		free(value);
 		return (0);
+	}
 	add_env(&data->env_copy, key, value);
 	free(key);
 	free(value);
