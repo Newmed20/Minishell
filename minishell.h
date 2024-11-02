@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/31 21:21:26 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/02 09:53:43 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void	free_env(t_env **env);
 void	get_string(t_token **token, t_data *data, char **redir, char **file);
 void	free_str(char **str);
 int		is_special(char *s);
+int		check_empty(t_data *data);
 
 /* ------------------- expander ------------------- */
 
