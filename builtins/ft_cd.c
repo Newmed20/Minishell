@@ -6,12 +6,11 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:19:39 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/31 21:26:28 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/02 09:11:19 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 void	display_chdir_error(const char *path)
 {
@@ -37,11 +36,8 @@ int	handle_change_directory(char *path)
 	char	current_working_dir[PATH_MAX];
 
 	if (change_directory(path) != 0)
-	{
 		return (1);
-	}
 	getcwd(current_working_dir, PATH_MAX);
-	// printf("%s\n", current_working_dir);  // Print current working directory
 	return (0);
 }
 

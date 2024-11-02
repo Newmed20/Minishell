@@ -6,27 +6,37 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 19:24:48 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/31 21:42:17 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/02 09:55:15 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	remove_env(t_env **env, char *key)
-{
-	
-}
-
 int	_check_var(t_data *data, char *str)
 {
-	int	i;
 	t_env	*tmp;
+	t_env	*prev;
 
-	i = 0;
-	tmp = data->env_copy;
 	if (ft_isdigit(str[0]) || str[0] == '=' || is_special(str) || str[0] == '=')
 		return (1);
-	remove_env(&data->env_copy, str);
+	tmp = data->env_copy;
+	prev = NULL;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->key, str, ft_strlen(str)))
+		{
+			if (prev)
+				prev->next = tmp->next;
+			else
+				data->env_copy = tmp->next;
+			free(tmp->key);
+			free(tmp->value);
+			free(tmp);
+			return (0);
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
 	return (0);
 }
 
@@ -36,6 +46,8 @@ int	ft_unset(t_data *data)
 	char	*str;
 
 	i = 1;
+	if (check_empty(data))
+		printf("minishell: unset: `': not a valid identifier\n");
 	if (data->cmd->args[i])
 	{
 		while (data->cmd->args[i])
@@ -43,7 +55,7 @@ int	ft_unset(t_data *data)
 			str = data->cmd->args[i];
 			if (_check_var(data, str))
 			{
-				printf("minishell: export: `%s': not a valid identifier\n", str);
+				printf("minishell: unset: `%s': not a valid identifier\n", str);
 				return (1);
 			}
 			i++;

@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 01:08:05 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/31 19:32:27 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/02 09:53:18 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	if_exist(t_data *data, char *key, char *value)
 	tmp = data->env_copy;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
+		if (!ft_strncmp(tmp->key, key, ft_strlen(key)))
 		{
 			tmp->value = ft_strdup(value);
 			return (1);
@@ -96,14 +96,16 @@ int	ft_export(t_data *data)
 	char	*str;
 
 	i = 1;
-	if (!data->cmd->args[i])
+	if (check_empty(data))
+		printf("minishell: export: `': not a valid identifier\n");
+	else if (!data->cmd->args[i])
 		export_print(data);
 	else
 	{
 		while (data->cmd->args[i])
 		{
 			str = data->cmd->args[i];
-			if (check_var(data, str) == 1)
+			if (check_var(data, str) || check_empty(data))
 			{
 				printf("minishell: export: `%s': not a valid identifier\n", str);
 				return (1);
