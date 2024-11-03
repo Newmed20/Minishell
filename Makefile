@@ -1,8 +1,8 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
-LDFLAGS = -lreadline -L/Users/abmahfou/.brew/opt/readline/lib
-INCLUDES = -I/Users/abmahfou/.brew/opt/readline/include
+LDFLAGS = -lreadline -L/Users/mjadid/.brew/opt/readline/lib
+INCLUDES = -I/Users/mjadid/.brew/opt/readline/include
 
 GREEN=\033[1;32m
 YELLOW=\033[1;33m
