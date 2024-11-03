@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/02 10:09:39 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/03 11:33:36 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ void	get_string(t_token **token, t_data *data, char **redir, char **file);
 void	free_str(char **str);
 int		is_special(char *s);
 int		check_empty(t_data *data);
+void	ft_free(char *name, char *tmp, char *absolute_path);
 
 /* ------------------- expander ------------------- */
 

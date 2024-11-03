@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:43:59 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/02 10:01:54 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/03 11:30:55 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,11 @@ int	check_empty(t_data *data)
 		&& (token->next->type == S_QUOTE || token->next->type == D_QUOTE))
 		return (1);
 	return (0);
+}
+
+void	ft_free(char *name, char *tmp, char *absolute_path)
+{
+	free(name);
+	free(tmp);
+	free(absolute_path);
 }

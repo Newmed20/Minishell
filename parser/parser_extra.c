@@ -6,11 +6,21 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:47:26 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/03 10:09:04 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/03 11:30:46 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_count(char *executable)
+{
+	int	i;
+
+	i = 2;
+	while (executable[i])
+		i++;
+	return (i);
+}
 
 void	is_executable(t_command *command, char *executable)
 {
@@ -18,22 +28,21 @@ void	is_executable(t_command *command, char *executable)
 	char	*name;
 	char	*absolute_path;
 	char	*tmp;
-	int		i;
 
 	path = NULL;
 	absolute_path = NULL;
 	absolute_path = getcwd(absolute_path, PATH_MAX);
-	i = 2;
 	if (access(executable, X_OK) == 0)
 	{
-		while (executable[i])
-			i++;
-		name = ft_substr(executable, 2, i);
+		if (ft_count(executable) == 2)
+		{
+			printf("bash: ./: is a directory\n");
+			return (free(absolute_path));
+		}
+		name = ft_substr(executable, 2, ft_count(executable));
 		tmp = ft_strjoin(absolute_path, "/");
 		path = ft_strjoin(tmp, name);
-		free(name);
-		free(tmp);
-		free(absolute_path);
+		ft_free(name, tmp, absolute_path);
 		command->full_path = ft_strdup(path);
 		free(path);
 	}
