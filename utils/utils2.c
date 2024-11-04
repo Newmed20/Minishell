@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:43:59 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/03 11:30:55 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/03 23:13:22 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,24 @@ void	ft_free(char *name, char *tmp, char *absolute_path)
 	free(name);
 	free(tmp);
 	free(absolute_path);
+}
+
+void	get_heredoc_content(t_token **token, t_data *data, char **redir, char **file)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	while (*token)
+	{
+		if ((*token)->type == ENV)
+			tmp = ft_expand(data, (*token));
+		else
+			tmp = ft_strdup((*token)->content);
+		*redir = ft_strjoin(*file, tmp);
+		if (*file)
+			free(*file);
+		*file = *redir;
+		free_str(&tmp);
+		(*token) = (*token)->next;
+	}
 }
