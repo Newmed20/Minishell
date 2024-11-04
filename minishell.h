@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/03 11:33:36 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/03 22:36:17 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void	free_str(char **str);
 int		is_special(char *s);
 int		check_empty(t_data *data);
 void	ft_free(char *name, char *tmp, char *absolute_path);
+void	get_heredoc_content(t_token **token, t_data *data, char **redir, char **file);
 
 /* ------------------- expander ------------------- */
 
@@ -169,7 +170,7 @@ void		fill_args(t_token **token, t_command *cmd, t_data *data);
 int     ft_execute(t_data *data);
 char 	**ft_transform_env(t_env *env);
 void	ft_redirection(t_command *cmd);
-void	ft_heredoc(t_command *cmd, t_env *env, int flag);// here-doc
+void	ft_heredoc(t_command *cmd, t_env *env, int flag, t_data *data);// here-doc
 void    execute_multiple(t_data *data, char **env);//pipe
 int		ft_isbuitin(char *cmd); //buitins
 void	execute_builtins(t_data *data);
