@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 10:51:55 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/31 07:41:45 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/03 22:34:06 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void     execute_multiple(t_data *data, char **env)
         if (pid == 0)
         {
             if(current->heredoc_delimiters)
-                ft_heredoc(current, data->env_copy, current->heredoc_delimiters->state);
+                ft_heredoc(current, data->env_copy, current->heredoc_delimiters->state, data);
             if (current->next)
             {
                 dup2(fds->pfd[1], STDOUT_FILENO);

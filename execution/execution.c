@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/10/31 01:21:08 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/03 22:33:42 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int     execute_one(t_data *data , char **env )
         if(comand->input_files || comand->oa_files)
             ft_redirection(comand);
         if(comand->heredoc_delimiters)
-            ft_heredoc(comand , data->env_copy , comand->heredoc_delimiters->state);
+            ft_heredoc(comand , data->env_copy , comand->heredoc_delimiters->state, data);
         if(comand->full_path)
             execve(comand->full_path, comand->args, env);
         else
