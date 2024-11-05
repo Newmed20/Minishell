@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:26:37 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/03 22:34:33 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/04 19:38:37 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	execute_builtins(t_data *data)
 	original_stdout = dup(STDOUT_FILENO);
 	original_stdin = dup(STDIN_FILENO);
 	if (current->heredoc_delimiters)
-		ft_heredoc(current, data->env_copy , 0, data);
+		ft_heredoc(current, 0, data);
 	if (current->input_files || current->oa_files)
 		ft_redirection(current);
 	ft_builtins(data);

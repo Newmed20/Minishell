@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/03 11:33:36 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:51:56 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <signal.h>
 # include "libft/libft.h"
 
 # define PROMPT "\033[1;31m$ \033[0m"
@@ -139,6 +140,10 @@ void	free_str(char **str);
 int		is_special(char *s);
 int		check_empty(t_data *data);
 void	ft_free(char *name, char *tmp, char *absolute_path);
+void	get_heredoc_content(t_tkn_lst *lst, t_data *data,
+			char **redir);
+void	update_old_pwd(t_data *data, char *path);
+void	update_pwd(t_data *data, char *path);
 
 /* ------------------- expander ------------------- */
 
@@ -169,9 +174,9 @@ void		fill_args(t_token **token, t_command *cmd, t_data *data);
 int     ft_execute(t_data *data);
 char 	**ft_transform_env(t_env *env);
 void	ft_redirection(t_command *cmd);
-void	ft_heredoc(t_command *cmd, t_env *env, int flag);// here-doc
-void    execute_multiple(t_data *data, char **env);//pipe
-int		ft_isbuitin(char *cmd); //buitins
+void	ft_heredoc(t_command *cmd, int flag, t_data *data);
+void    execute_multiple(t_data *data, char **env);
+int		ft_isbuitin(char *cmd);
 void	execute_builtins(t_data *data);
 int		ft_cd(t_data *data, t_command *command);
 int		ft_echo(t_command *s_command);
@@ -182,6 +187,6 @@ int		ft_export(t_data *data);
 int		ft_unset(t_data *data);
 
 
-
+void	init_signals(void);
 
 #endif

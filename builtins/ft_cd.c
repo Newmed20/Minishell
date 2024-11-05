@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:19:39 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/02 19:35:11 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:53:21 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,6 @@ void	display_chdir_error(const char *path)
 	write(STDERR_FILENO, ": No such file or directory\n", 29);
 }
 
-void	update_old_pwd(t_data *data, char *path)
-{
-	t_env	*tmp;
-
-	tmp = data->env_copy;
-	while (tmp)
-	{
-		if (!ft_strncmp(tmp->key, "OLDPWD", 6))
-			tmp->value = ft_strdup(path);
-		tmp = tmp->next;
-	}
-}
-
 int	change_directory(const char *path)
 {
 	if (chdir(path) != 0)
@@ -42,19 +29,6 @@ int	change_directory(const char *path)
 	}
 	exit_status = 0;
 	return (0);
-}
-
-void	update_pwd(t_data *data, char *path)
-{
-	t_env	*tmp;
-
-	tmp = data->env_copy;
-	while (tmp)
-	{
-		if (!ft_strncmp(tmp->key, "PWD", 3))
-			tmp->value = ft_strdup(path);
-		tmp = tmp->next;
-	}
 }
 
 int	handle_change_directory(t_data *data, char *path)

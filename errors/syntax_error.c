@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 16:07:54 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/16 19:46:02 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/04 22:21:25 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,17 @@ int	syntax_error(t_tkn_lst *lst)
 			|| token->type == REDIR_OUT || token->type == HERE_DOC)
 		{
 			if (_redir_error(token))
-				return (print_error(1));
+				return (exit_status = 258, print_error(1));
 		}
 		else if (token->type == PIPE_LINE)
 		{
 			if (_pipe_error(token))
-				return (print_error(2));
+				return (exit_status = 258, print_error(2));
 		}
 		else if (token->type == S_QUOTE || token->type == D_QUOTE)
 		{
 			if (!_unclosed_quotes(&token, token->type))
-				return (EXIT_FAILURE);
+				return (exit_status = 258, EXIT_FAILURE);
 		}
 		token = token->next;
 	}
