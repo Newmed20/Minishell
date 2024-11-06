@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/04 22:51:56 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:47:57 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void		free_command(t_command **cmd);
 void		handle_redirections_heredoc(t_token **token, t_command *cmd, t_data *data);
 t_redir		*create_redir(t_token **token, t_data *data);
 int			is_redir(t_token *token);
-void		handle_heredoc(t_token **token, t_command *cmd, t_data *data);
+void		handle_heredoc(t_token **token, t_command *cmd);
 void		lst_add_back(t_command **cmds, t_command *cmd);
 t_command	*init_command(void);
 t_command	*create_command(t_data *data, t_command *cmd, t_token **token);
@@ -185,7 +185,6 @@ int     ft_env(t_data *data);
 int		ft_exit(t_data *data);
 int		ft_export(t_data *data);
 int		ft_unset(t_data *data);
-
 
 void	init_signals(void);
 
