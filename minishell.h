@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/06 16:47:57 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:43:49 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ typedef struct	s_env
 
 typedef struct s_fds
 {
-	int					prev_pfd[2];
 	int					pfd[2];
+	int					prev_pfd;
 }						t_fds;
 
 typedef struct	s_command
@@ -96,8 +96,12 @@ typedef struct	s_command
 	t_redir				*heredoc_content; // Content of heredoc
 	bool				cmd_found; // if found a command
 	int					pipe_out; // 1 if this c , 0 otherwise
+	int					pid; // Process ID
+	int 				fd_in;
+	int 				fd_out;
 	struct s_command	*next; // Pointer to next command in pipeline
 }	t_command;
+
 
 struct s_redir
 {
@@ -175,6 +179,7 @@ int     ft_execute(t_data *data);
 char 	**ft_transform_env(t_env *env);
 void	ft_redirection(t_command *cmd);
 void	ft_heredoc(t_command *cmd, int flag, t_data *data);
+void	ft_multiple_heredoc(t_command *cmd, int flag, t_data *data);
 void    execute_multiple(t_data *data, char **env);
 int		ft_isbuitin(char *cmd);
 void	execute_builtins(t_data *data);
