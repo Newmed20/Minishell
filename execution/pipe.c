@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 11:01:59 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/06 15:58:55 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/06 16:43:31 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void execute_multiple(t_data *data, char **env)
         cmd->fd_out = STDOUT_FILENO;
 		// handler_signal(0);
 		if (cmd->heredoc_delimiters)
-			ft_heredoc(cmd, 0 , data);
+			ft_multiple_heredoc(cmd, 0 , data);
 		cmd->pid = fork();
 		if (cmd->pid == 0)
 		{

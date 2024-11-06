@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/04 19:37:59 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:49:29 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ int     execute_one(t_data *data , char **env )
     t_command *comand;
     int pid;
     
-    comand = data->cmd; 
+    comand = data->cmd;
+    comand->fd_in = STDIN_FILENO;
+    comand->fd_out = STDOUT_FILENO;
     if(ft_isbuitin(comand->command))
     {
         execute_builtins(data);
@@ -58,10 +60,10 @@ int     execute_one(t_data *data , char **env )
     pid = fork();
     if(pid == 0)
     {
-        if(comand->input_files || comand->oa_files)
-            ft_redirection(comand);
         if(comand->heredoc_delimiters)
             ft_heredoc(comand, comand->heredoc_delimiters->state, data);
+        if(comand->input_files || comand->oa_files)
+            ft_redirection(comand);
         if(comand->full_path)
             execve(comand->full_path, comand->args, env);
         else
