@@ -165,7 +165,7 @@ void		free_command(t_command **cmd);
 void		handle_redirections_heredoc(t_token **token, t_command *cmd, t_data *data);
 t_redir		*create_redir(t_token **token, t_data *data);
 int			is_redir(t_token *token);
-void		handle_heredoc(t_token **token, t_command *cmd, t_data *data);
+void		handle_heredoc(t_token **token, t_command *cmd);
 void		lst_add_back(t_command **cmds, t_command *cmd);
 t_command	*init_command(void);
 t_command	*create_command(t_data *data, t_command *cmd, t_token **token);
@@ -190,7 +190,6 @@ int     ft_env(t_data *data);
 int		ft_exit(t_data *data);
 int		ft_export(t_data *data);
 int		ft_unset(t_data *data);
-
 
 void	init_signals(void);
 

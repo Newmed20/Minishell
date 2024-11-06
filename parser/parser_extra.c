@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:47:26 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/06 16:21:00 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/06 12:42:14 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ t_command	*create_command(t_data *data, t_command *cmd, t_token **token)
 		get_string(token, data, &full_command, &command);
 		cmd->command = command;
 		cmd->cmd_found = true;
-		if (!ft_is_command(data, cmd, cmd->command)
+		if (cmd->command[0] == '/')
+			cmd->full_path = ft_strdup(cmd->command);
+		else if (!ft_is_command(data, cmd, cmd->command)
 			&& !ft_isbuitin(cmd->command))
 		{
 			printf("%s: command not found\n", cmd->command);
 			return (cmd);
 		}
-		if (cmd->command[0] == '/')
-			cmd->full_path = ft_strdup(cmd->command);
 		else
 			is_executable(cmd, cmd->command);
 	}
