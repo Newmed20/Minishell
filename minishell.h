@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/06 16:47:57 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:49:31 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ typedef struct	s_env
 
 typedef struct s_fds
 {
-	int					prev_pfd[2];
 	int					pfd[2];
+	int					prev_pfd;
 }						t_fds;
 
 typedef struct	s_command
@@ -96,8 +96,12 @@ typedef struct	s_command
 	t_redir				*heredoc_content; // Content of heredoc
 	bool				cmd_found; // if found a command
 	int					pipe_out; // 1 if this c , 0 otherwise
+	int					pid; // Process ID
+	int 				fd_in;
+	int 				fd_out;
 	struct s_command	*next; // Pointer to next command in pipeline
 }	t_command;
+
 
 struct s_redir
 {

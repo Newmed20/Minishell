@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 07:59:06 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/04 22:53:10 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:58:13 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_heredoc3(t_command *cmd, int fd, t_data *data)
 			get_heredoc_content(tkn, data, &full_line);
 			write_in_file(full_line, fd);
 		}
-		add_history(line);
+		// add_history(line);
 		free_str(&line);
 		line = readline(">");
 	}
@@ -81,7 +81,7 @@ void	ft_herdoc1(t_command *cmd, t_data *data)
 
 void	ft_heredoc(t_command *cmd, int flag, t_data *data)
 {
-	int	fd;
+	// int	fd;
     (void)flag;
 	if (!cmd->heredoc_delimiters)
 		return ;
@@ -90,14 +90,17 @@ void	ft_heredoc(t_command *cmd, int flag, t_data *data)
 	ft_herdoc1(cmd, data);
 	if (exit_status == 1)
 		exit (1);
-	fd = open("/tmp/heredoc.txt", O_RDONLY);
-	if (fd != -1)
+	cmd->fd_in = open("/tmp/heredoc.txt", O_RDONLY);
+	if (cmd->fd_in != -1)
 	{
-		if (dup2(fd, STDIN_FILENO) == -1)
+		if (dup2(cmd->fd_in, STDIN_FILENO) == -1)
 		{
 			perror("dup2");
 			exit(1);
 		}
-		close(fd);
+		close(cmd->fd_in); 
+		// dup2(fd, STDIN_FILENO);
+		// close(STDIN_FILENO);
 	}
 }
+

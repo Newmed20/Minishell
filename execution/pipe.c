@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 10:51:55 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/04 19:38:19 by abmahfou         ###   ########.fr       */
+/*   Created: 2024/11/04 11:01:59 by mjadid            #+#    #+#             */
+/*   Updated: 2024/11/06 15:58:55 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,65 +20,105 @@ t_fds	*initiate_fds(void)
 	fds = malloc(sizeof(t_fds));
 	if (!fds)
 		exit(1);
-	fds->prev_pfd[0] = -1;
-	fds->prev_pfd[1] = -1;
+	fds->prev_pfd = -1;
 	fds->pfd[0] = -1;
 	fds->pfd[1] = -1;
 	return (fds);
 }
-void     execute_multiple(t_data *data, char **env)
-{
 
-	t_fds *fds;
-    t_command   *current ;
-    int         pid;
-	
-	fds = initiate_fds();
-	current = data->cmd;
-    while (current)
+
+void execute_multiple(t_data *data, char **env)
+{
+    t_fds *fds;
+	int status;
+    t_command *cmd;
+	t_command *head;
+	int original_stdin;
+
+
+	original_stdin = dup(STDIN_FILENO);
+
+    cmd = data->cmd;
+	head = cmd;
+    fds = initiate_fds();
+	fds->prev_pfd = -1;
+
+    while (cmd)
     {
-        if (current->next && pipe(fds->pfd) == -1)
+		data->cmd = cmd;
+		 if (cmd->next && pipe(fds->pfd) == -1)
         {
             perror("pipe");
             exit(1);
         }
-        pid = fork();
-        if (pid == -1)
-        {
-            perror("fork");
-            exit(1);
-        }
-        if (pid == 0)
-        {
-            if(current->heredoc_delimiters)
-                ft_heredoc(current, current->heredoc_delimiters->state, data);
-            if (current->next)
+        cmd->fd_in = STDIN_FILENO;
+        cmd->fd_out = STDOUT_FILENO;
+		// handler_signal(0);
+		if (cmd->heredoc_delimiters)
+			ft_heredoc(cmd, 0 , data);
+		cmd->pid = fork();
+		if (cmd->pid == 0)
+		{
+			if (fds->prev_pfd != -1)
+			{
+				dup2(fds->prev_pfd, cmd->fd_in);
+				close(fds->prev_pfd);
+			}
+			if (cmd->next != NULL)
+			{
+				dup2(fds->pfd[1], cmd->fd_out);
+				close(fds->pfd[1]);
+			}
+			close(fds->pfd[0]);
+			close(fds->pfd[1]);
+			if (cmd->input_files || cmd->oa_files)
+				ft_redirection(cmd);
+			if(ft_isbuitin(cmd->command))
+			{
+				execute_builtins(data);
+				exit(exit_status);
+			} 
+			if (cmd->command == NULL)
+				exit(exit_status);
+			if (cmd->command[0] == '\0')
+			{
+				perror("Command not found");
+				exit(127);
+			}
+            env = ft_transform_env(data->env_copy);
+            if(cmd->full_path)
             {
-                dup2(fds->pfd[1], STDOUT_FILENO);
-                close(fds->pfd[1]);
+                if (execve(cmd->full_path , cmd->args,env) == -1)
+                {
+                    perror("execve");
+                    exit(EXIT_FAILURE);
+                }     
             }
-            if (current != data->cmd)
-                dup2(fds->prev_pfd[0], STDIN_FILENO);
-
-            close(fds->prev_pfd[0]);
-            close(fds->prev_pfd[1]);
-            close(fds->pfd[0]);
-            if (current->input_files || current->oa_files)
-                ft_redirection(current);
-            execve(current->full_path, current->args, env);
-            perror("execve");
-            exit(1);
-        }
-        else
-        {
-            close(fds->prev_pfd[0]);
-            close(fds->prev_pfd[1]);
-            fds->prev_pfd[0] = fds->pfd[0];
-            fds->prev_pfd[1] = fds->pfd[1];
-            wait(NULL);
-        }
-        current = current->next;
+		}
+		else
+		{
+			if (fds->prev_pfd != -1)
+				close(fds->prev_pfd);
+			fds->prev_pfd = dup(fds->pfd[0]);
+			close(fds->pfd[0]);
+			close(fds->pfd[1]);
+		}
+        cmd = cmd->next;
     }
-    close(fds->prev_pfd[0]);
-    close(fds->prev_pfd[1]);
+	cmd = head;
+	while (cmd)
+	{
+		if (cmd->pid > 0)
+		{
+			waitpid(cmd->pid, &status, 0);
+			// handler_signal(1);
+			// if (WIFEXITED(status))
+			// 	(*env)->exit_status = WEXITSTATUS(status);
+		}
+		cmd = cmd->next;
+	}
+    dup2(original_stdin, STDIN_FILENO);
+    close(original_stdin);
 }
+
+
