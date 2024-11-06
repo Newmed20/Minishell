@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:35:09 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/22 15:12:39 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/05 12:20:50 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,5 @@ void	handle_redirections_heredoc(t_token **token, t_command *cmd,
 	else if ((*token)->type == REDIR_OUT || (*token)->type == APPEND)
 		append_to_list(&cmd->oa_files, create_redir(token, data));
 	else if ((*token)->type == HERE_DOC)
-		handle_heredoc(token, cmd, data);
+		handle_heredoc(token, cmd);
 }
