@@ -1,0 +1,16 @@
+Makefile
+README.md
+builtins
+errors
+execution
+expander
+lexer
+libft
+ll
+main.c
+minishell
+minishell.h
+objs
+parser
+signals.c
+utils
