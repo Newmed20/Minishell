@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:43:59 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/04 22:54:25 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/05 16:00:16 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	check_empty(t_data *data)
 	while (token)
 	{
 		if (!ft_strncmp(data->cmd->command, token->content,
-				ft_strlen(data->cmd->command)))
+				ft_strlen(data->cmd->command) + 1))
 			break ;
 		token = token->next;
 	}
