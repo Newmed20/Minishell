@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:19:00 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/03 15:57:02 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/06 16:36:14 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,17 @@ void	dup_close(int fd)
 	}
 	close(fd);
 }
+
+void	dup_close_in(int fd)
+{
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		perror("dup2");
+		exit(1);
+	}
+	close(fd);
+}
+
 
 int	ft_output(t_redir *output_files)
 {
@@ -65,7 +76,7 @@ int	ft_input(t_redir *input_file)
 		}
 		input_file = input_file->next;
 	}
-	dup_close(fd);
+	dup_close_in(fd);
 	return (0);
 }
 

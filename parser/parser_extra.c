@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parser_extra.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:47:26 by abmahfou          #+#    #+#             */
 /*   Updated: 2024/11/06 12:42:14 by abmahfou         ###   ########.fr       */

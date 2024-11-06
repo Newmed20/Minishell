@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/06 16:49:31 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/06 17:40:09 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ int     ft_execute(t_data *data);
 char 	**ft_transform_env(t_env *env);
 void	ft_redirection(t_command *cmd);
 void	ft_heredoc(t_command *cmd, int flag, t_data *data);
+void	ft_multiple_heredoc(t_command *cmd, int flag, t_data *data);
 void    execute_multiple(t_data *data, char **env);
 int		ft_isbuitin(char *cmd);
 void	execute_builtins(t_data *data);
