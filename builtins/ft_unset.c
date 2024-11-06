@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 19:24:48 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/02 09:55:15 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:59:02 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	_check_var(t_data *data, char *str)
 	prev = NULL;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->key, str, ft_strlen(str)))
+		if (!ft_strncmp(tmp->key, str, ft_strlen(str) + 1))
 		{
 			if (prev)
 				prev->next = tmp->next;
