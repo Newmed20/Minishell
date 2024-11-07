@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:52:42 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/06 16:46:52 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/07 21:17:59 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,13 @@ void	update_pwd(t_data *data, char *path)
 			tmp->value = ft_strdup(path);
 		tmp = tmp->next;
 	}
+}
+
+int	is_direcotry(const char *path)
+{
+	struct stat	statbuf;
+
+	if (stat(path, &statbuf))
+		return (0);
+	return (S_ISDIR(statbuf.st_mode));
 }

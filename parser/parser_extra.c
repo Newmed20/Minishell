@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_extra.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:47:26 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/06 12:42:14 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/07 21:17:52 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	is_executable(t_command *command, char *executable)
 	path = NULL;
 	absolute_path = NULL;
 	absolute_path = getcwd(absolute_path, PATH_MAX);
-	if (access(executable, X_OK) == 0)
+	if (access(executable, X_OK | F_OK) == 0)
 	{
 		if (ft_count(executable) == 2)
 		{
@@ -62,14 +62,15 @@ t_command	*create_command(t_data *data, t_command *cmd, t_token **token)
 		get_string(token, data, &full_command, &command);
 		cmd->command = command;
 		cmd->cmd_found = true;
-		if (cmd->command[0] == '/')
+		if (!cmd->command)
+			return (printf("minishell: : command not found\n"), cmd);
+		else if (is_direcotry(cmd->command))
+			printf("minishell: %s: is a direcotry\n", cmd->command);
+		else if (cmd->command[0] == '/')
 			cmd->full_path = ft_strdup(cmd->command);
 		else if (!ft_is_command(data, cmd, cmd->command)
 			&& !ft_isbuitin(cmd->command))
-		{
-			printf("%s: command not found\n", cmd->command);
-			return (cmd);
-		}
+			printf("minishell: %s: command not found\n", cmd->command);
 		else
 			is_executable(cmd, cmd->command);
 	}

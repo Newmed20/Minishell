@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:19:00 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/06 16:36:14 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/07 19:39:17 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_output(t_redir *output_files)
 					| O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
 		{
-			perror("open");
+			perror("minishell");
 			exit(1);
 		}
 		output_files = output_files->next;
@@ -71,7 +71,7 @@ int	ft_input(t_redir *input_file)
 		fd = open(input_file->content, O_RDONLY);
 		if (fd == -1)
 		{
-			perror("open");
+			perror("minishell");
 			exit(1);
 		}
 		input_file = input_file->next;

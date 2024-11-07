@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:48:22 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/03 10:10:58 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/06 17:56:07 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,49 +88,6 @@ t_command	*fill_struct(t_data *data)
 	return (data->cmd);
 }
 
-/* void	_debug(t_data *data)
-{
-	t_command	*tmp = data->cmd;
-	while (tmp)
-	{
-		t_redir	*t = tmp->input_files;
-		while (t)
-		{
-			printf("CONTENT => %s\n", t->content);
-			printf("TYPE => %s\n", print_type(t->type));
-			t = t->next;
-		}
-		t_redir	*s = tmp->oa_files;
-		while (s)
-		{
-			printf("CONTENT => %s\n", s->content);
-			printf("TYPE => %s\n", print_type(s->type));
-			s = s->next;
-		}
-		t_redir	*heredoc = tmp->heredoc_delimiters;
-		while (heredoc)
-		{
-			printf("DELIMITER => %s\n", heredoc->content);
-			printf("TYPE => %s\n", print_type(heredoc->type));
-			heredoc = heredoc->next;
-		}
-		printf("------------------------------\n");
-		printf("------------------------------\n");
-		printf("COMMAND => %s\n", tmp->command);
-		int i = 0;
-		if (!tmp->args)
-			return ;
-		while (tmp->args[i])
-			printf("%s\n", tmp->args[i++]);
-		printf("------------------------------\n");
-		printf("------------------------------\n");
-		printf("PATH => %s\n", tmp->full_path);
-		printf("ARG_COUNT: %d\n", tmp->arg_count);
-		tmp = tmp->next;
-		printf("\n------------------------------\n");
-	}
-} */
-
 void	ft_parser(t_data *data)
 {
 	data->lexer = lexer(data->prompt);
@@ -148,6 +105,5 @@ void	ft_parser(t_data *data)
 			free_command(&data->cmd);
 			return ;
 		}
-		// _debug(data);
 	}
 }
