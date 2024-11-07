@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/06 17:40:09 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/07 21:18:14 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -148,6 +149,7 @@ void	get_heredoc_content(t_tkn_lst *lst, t_data *data,
 			char **redir);
 void	update_old_pwd(t_data *data, char *path);
 void	update_pwd(t_data *data, char *path);
+int		is_direcotry(const char *path);
 
 /* ------------------- expander ------------------- */
 
@@ -192,5 +194,7 @@ int		ft_export(t_data *data);
 int		ft_unset(t_data *data);
 
 void	init_signals(void);
+
+char	*print_type(enum e_type type);
 
 #endif
