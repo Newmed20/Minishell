@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:59:13 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/04 21:54:10 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/07 19:46:42 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	init_prompt(t_data *data)
 	input = readline(PROMPT);
 	if (!input)
 	{
-		// printf("exit\n");
+		printf("exit\n");
 		return (EXIT_FAILURE);
 	}
 	if (data->prompt)
