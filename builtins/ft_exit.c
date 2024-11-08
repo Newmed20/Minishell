@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 11:46:30 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/07 19:34:19 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/08 18:12:22 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_xt(t_data *data)
 {
 	free_env(&data->env_copy);
 	free_tkn_lst(&data->lexer);
+	free_env(&data->env_copy);
 	free(data->prompt);
 	printf("exit\n");
 	exit(exit_status);
