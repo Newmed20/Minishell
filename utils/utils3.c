@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:52:42 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/08 18:01:32 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:17:31 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,14 @@ int	is_direcotry(const char *path)
 	if (stat(path, &statbuf))
 		return (0);
 	return (S_ISDIR(statbuf.st_mode));
+}
+
+int	ft_count(char *executable)
+{
+	int	i;
+
+	i = 2;
+	while (executable[i])
+		i++;
+	return (i);
 }
