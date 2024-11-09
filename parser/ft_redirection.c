@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:35:09 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/08 22:54:51 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/09 19:40:47 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	only_quotes(t_token *token)
 	tmp = token;
 	while (tmp)
 	{
-		if (tmp->type != S_QUOTE || tmp->type != D_QUOTE)
+		if (tmp->type != S_QUOTE && tmp->type != D_QUOTE
+			&& tmp->type != WHITE_SPACE)
 			return (1);
 		tmp = tmp->next;
 	}
