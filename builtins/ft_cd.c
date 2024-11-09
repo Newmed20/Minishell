@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:19:39 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/04 18:53:21 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/08 17:45:53 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_cd(t_data *data, t_command *command)
 	char	*home_dir;
 	char	*path;
 
-	if (!command->args[1] || ft_strncmp(command->args[1], "~", 1) == 0)
+	if (!command->args[1] || ft_strncmp(command->args[1], "~", 2) == 0)
 	{
 		home_dir = get_home(data);
 		if (home_dir == NULL)

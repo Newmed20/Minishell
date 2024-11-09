@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:52:42 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/04 18:53:07 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:17:31 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ void	update_old_pwd(t_data *data, char *path)
 	tmp = data->env_copy;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->key, "OLDPWD", 6))
+		if (!ft_strncmp(tmp->key, "OLDPWD", 7))
+		{
+			free(tmp->value);
 			tmp->value = ft_strdup(path);
+		}
 		tmp = tmp->next;
 	}
 }
@@ -32,8 +35,30 @@ void	update_pwd(t_data *data, char *path)
 	tmp = data->env_copy;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->key, "PWD", 3))
+		if (!ft_strncmp(tmp->key, "PWD", 4))
+		{
+			free(tmp->value);
 			tmp->value = ft_strdup(path);
+		}
 		tmp = tmp->next;
 	}
+}
+
+int	is_direcotry(const char *path)
+{
+	struct stat	statbuf;
+
+	if (stat(path, &statbuf))
+		return (0);
+	return (S_ISDIR(statbuf.st_mode));
+}
+
+int	ft_count(char *executable)
+{
+	int	i;
+
+	i = 2;
+	while (executable[i])
+		i++;
+	return (i);
 }

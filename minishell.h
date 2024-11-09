@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/06 16:43:49 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/09 21:24:41 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -99,6 +100,7 @@ typedef struct	s_command
 	int					pid; // Process ID
 	int 				fd_in;
 	int 				fd_out;
+	int					vid;
 	struct s_command	*next; // Pointer to next command in pipeline
 }	t_command;
 
@@ -148,6 +150,8 @@ void	get_heredoc_content(t_tkn_lst *lst, t_data *data,
 			char **redir);
 void	update_old_pwd(t_data *data, char *path);
 void	update_pwd(t_data *data, char *path);
+int		is_direcotry(const char *path);
+int		ft_count(char *executable);
 
 /* ------------------- expander ------------------- */
 
@@ -165,13 +169,14 @@ void		free_command(t_command **cmd);
 void		handle_redirections_heredoc(t_token **token, t_command *cmd, t_data *data);
 t_redir		*create_redir(t_token **token, t_data *data);
 int			is_redir(t_token *token);
-void		handle_heredoc(t_token **token, t_command *cmd, t_data *data);
+void		handle_heredoc(t_token **token, t_command *cmd);
 void		lst_add_back(t_command **cmds, t_command *cmd);
 t_command	*init_command(void);
 t_command	*create_command(t_data *data, t_command *cmd, t_token **token);
 void		_first_arg(t_command *cmd, char ***args);
 void		tokens_loop(t_data *data, t_token **tmp, t_command **cmd);
 void		fill_args(t_token **token, t_command *cmd, t_data *data);
+int			only_quotes(t_token *token);
 
 /* ------------------- execution ------------------- */
 
@@ -182,7 +187,7 @@ void	ft_heredoc(t_command *cmd, int flag, t_data *data);
 void	ft_multiple_heredoc(t_command *cmd, int flag, t_data *data);
 void    execute_multiple(t_data *data, char **env);
 int		ft_isbuitin(char *cmd);
-void	execute_builtins(t_data *data);
+void	execute_builtins(t_data *data, t_command *cmd);
 int		ft_cd(t_data *data, t_command *command);
 int		ft_echo(t_command *s_command);
 int		ft_pwd(void);
@@ -190,7 +195,6 @@ int     ft_env(t_data *data);
 int		ft_exit(t_data *data);
 int		ft_export(t_data *data);
 int		ft_unset(t_data *data);
-
 
 void	init_signals(void);
 

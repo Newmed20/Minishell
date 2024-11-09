@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:35:09 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/22 15:12:39 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/09 19:40:47 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,21 @@ int	is_redir(t_token *token)
 {
 	return (token->type == REDIR_IN || token->type == APPEND
 		|| token->type == REDIR_OUT || token->type == HERE_DOC);
+}
+
+int	only_quotes(t_token *token)
+{
+	t_token	*tmp;
+
+	tmp = token;
+	while (tmp)
+	{
+		if (tmp->type != S_QUOTE && tmp->type != D_QUOTE
+			&& tmp->type != WHITE_SPACE)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
 }
 
 void	get_string(t_token **token, t_data *data, char **redir, char **file)
@@ -72,5 +87,5 @@ void	handle_redirections_heredoc(t_token **token, t_command *cmd,
 	else if ((*token)->type == REDIR_OUT || (*token)->type == APPEND)
 		append_to_list(&cmd->oa_files, create_redir(token, data));
 	else if ((*token)->type == HERE_DOC)
-		handle_heredoc(token, cmd, data);
+		handle_heredoc(token, cmd);
 }

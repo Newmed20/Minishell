@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 01:08:05 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/02 10:51:18 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/08 18:15:28 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ int	if_exist(t_data *data, char *key, char *value)
 	tmp = data->env_copy;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->key, key, ft_strlen(key)))
+		if (!ft_strncmp(tmp->key, key, ft_strlen(key) + 1))
 		{
+			free(tmp->value);
 			tmp->value = ft_strdup(value);
 			return (1);
 		}

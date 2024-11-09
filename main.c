@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:59:13 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/04 21:54:10 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:23:51 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	init_prompt(t_data *data)
 	input = readline(PROMPT);
 	if (!input)
 	{
-		// printf("exit\n");
+		printf("exit\n");
 		return (EXIT_FAILURE);
 	}
 	if (data->prompt)
@@ -65,7 +65,11 @@ int	main(int ac, char **av, char **env)
 			ft_execute(&data);
 		free_tkn_lst(&data.lexer);
 		free_command(&data.cmd);
+		// printf("----------------------------\n");
 		// system("leaks minishell");
 	}
+	free_env(&data.env_copy);
+	// printf("----------------------------\n");
+	// system("leaks minishell");
 	return (EXIT_SUCCESS);
 }

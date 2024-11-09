@@ -6,15 +6,14 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 19:52:33 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/04 15:16:45 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/07 08:45:03 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	get_heredoc(t_token **token, t_data *data, char **redir, char **file)
+void	get_heredoc(t_token **token, char **redir, char **file)
 {
-	(void)data;
 	char	*tmp;
 
 	tmp = NULL;
@@ -28,6 +27,8 @@ void	get_heredoc(t_token **token, t_data *data, char **redir, char **file)
 			tmp = ft_strdup((*token)->content);
 		else if ((*token)->state == IN_DQUOTE || (*token)->state == IN_SQUOTE)
 			tmp = ft_strdup((*token)->content);
+		// if ((*token)->type == S_QUOTE || (*token)->type == D_QUOTE)
+		// 	printf("%s\n", print_type(cmd->heredoc_delimiters->type));
 		*redir = ft_strjoin(*file, tmp);
 		if (*file)
 			free(*file);
@@ -37,7 +38,7 @@ void	get_heredoc(t_token **token, t_data *data, char **redir, char **file)
 	}
 }
 
-t_redir	*create_delimiter(t_token **token, t_data *data)
+t_redir	*create_delimiter(t_token **token)
 {
 	t_redir	*node;
 	char	*file;
@@ -50,17 +51,14 @@ t_redir	*create_delimiter(t_token **token, t_data *data)
 		return (NULL);
 	node->type = (*token)->type;
 	*token = skip_spaces((*token)->next, 1);
-	get_heredoc(token, data, &delimiter, &file);
+	get_heredoc(token, &delimiter, &file);
 	node->content = ft_strdup(file);
 	free(file);
 	node->next = NULL;
 	return (node);
 }
 
-void	handle_heredoc(t_token **token, t_command *cmd, t_data *data)
+void	handle_heredoc(t_token **token, t_command *cmd)
 {
-	append_to_list(&cmd->heredoc_delimiters, create_delimiter(token, data));
-	// if ((*token)->next 
-	// 	&& ((*token)->next->type == D_QUOTE || (*token)->next->type == S_QUOTE))
-	// 	cmd->heredoc_delimiters->state = 1;
+	append_to_list(&cmd->heredoc_delimiters, create_delimiter(token));
 }

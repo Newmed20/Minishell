@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 11:01:59 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/06 16:43:31 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/08 22:06:54 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void execute_multiple(t_data *data, char **env)
 
     while (cmd)
     {
-		data->cmd = cmd;
 		 if (cmd->next && pipe(fds->pfd) == -1)
         {
             perror("pipe");
@@ -75,9 +74,9 @@ void execute_multiple(t_data *data, char **env)
 				ft_redirection(cmd);
 			if(ft_isbuitin(cmd->command))
 			{
-				execute_builtins(data);
+				execute_builtins(data, cmd);
 				exit(exit_status);
-			} 
+			}
 			if (cmd->command == NULL)
 				exit(exit_status);
 			if (cmd->command[0] == '\0')
@@ -94,6 +93,8 @@ void execute_multiple(t_data *data, char **env)
                     exit(EXIT_FAILURE);
                 }     
             }
+			if(!cmd->next && !cmd->full_path)
+				exit(exit_status);
 		}
 		else
 		{
@@ -117,6 +118,7 @@ void execute_multiple(t_data *data, char **env)
 		}
 		cmd = cmd->next;
 	}
+	free(fds);
     dup2(original_stdin, STDIN_FILENO);
     close(original_stdin);
 }
