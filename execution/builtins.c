@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:26:37 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/04 19:38:37 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/08 22:03:33 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,8 @@ int  ft_isbuitin(char *cmd)
 		return (0);
 }
 
-void  ft_builtins(t_data *data)
+void  ft_builtins(t_data *data, t_command *cmd)
 {
-    t_command *cmd;
-    
-    cmd = data->cmd;
     if (!ft_strncmp(cmd->command, "cd", 3))
 		exit_status = ft_cd(data, cmd);
 	else if (!ft_strncmp(cmd->command, "echo", 5))
@@ -56,7 +53,7 @@ void  ft_builtins(t_data *data)
 		ft_exit(data);
 }
 
-void	execute_builtins(t_data *data)
+void	execute_builtins(t_data *data, t_command *cmd)
 {
 	int			original_stdout;
 	int			original_stdin;
@@ -70,7 +67,7 @@ void	execute_builtins(t_data *data)
 		ft_heredoc(current, 0, data);
 	if (current->input_files || current->oa_files)
 		ft_redirection(current);
-	ft_builtins(data);
+	ft_builtins(data, cmd);
 	dup2(original_stdout, STDOUT_FILENO);
 	dup2(original_stdin, STDIN_FILENO);
 	close(original_stdout);

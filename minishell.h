@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/07 21:18:14 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:24:41 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct	s_command
 	int					pid; // Process ID
 	int 				fd_in;
 	int 				fd_out;
+	int					vid;
 	struct s_command	*next; // Pointer to next command in pipeline
 }	t_command;
 
@@ -150,6 +151,7 @@ void	get_heredoc_content(t_tkn_lst *lst, t_data *data,
 void	update_old_pwd(t_data *data, char *path);
 void	update_pwd(t_data *data, char *path);
 int		is_direcotry(const char *path);
+int		ft_count(char *executable);
 
 /* ------------------- expander ------------------- */
 
@@ -174,6 +176,7 @@ t_command	*create_command(t_data *data, t_command *cmd, t_token **token);
 void		_first_arg(t_command *cmd, char ***args);
 void		tokens_loop(t_data *data, t_token **tmp, t_command **cmd);
 void		fill_args(t_token **token, t_command *cmd, t_data *data);
+int			only_quotes(t_token *token);
 
 /* ------------------- execution ------------------- */
 
@@ -184,7 +187,7 @@ void	ft_heredoc(t_command *cmd, int flag, t_data *data);
 void	ft_multiple_heredoc(t_command *cmd, int flag, t_data *data);
 void    execute_multiple(t_data *data, char **env);
 int		ft_isbuitin(char *cmd);
-void	execute_builtins(t_data *data);
+void	execute_builtins(t_data *data, t_command *cmd);
 int		ft_cd(t_data *data, t_command *command);
 int		ft_echo(t_command *s_command);
 int		ft_pwd(void);
@@ -194,7 +197,5 @@ int		ft_export(t_data *data);
 int		ft_unset(t_data *data);
 
 void	init_signals(void);
-
-char	*print_type(enum e_type type);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/08 19:36:45 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/08 22:04:58 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	execute_one(t_data *data , char **env )
 	comand->fd_out = STDOUT_FILENO;
 	if(ft_isbuitin(comand->command))
 	{
-		execute_builtins(data);
+		execute_builtins(data, comand);
 		return (0);
 	}
 	pid = fork();

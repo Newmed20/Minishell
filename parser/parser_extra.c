@@ -6,21 +6,11 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:47:26 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/07 21:17:52 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:17:21 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	ft_count(char *executable)
-{
-	int	i;
-
-	i = 2;
-	while (executable[i])
-		i++;
-	return (i);
-}
 
 void	is_executable(t_command *command, char *executable)
 {
@@ -50,6 +40,21 @@ void	is_executable(t_command *command, char *executable)
 		free(absolute_path);
 }
 
+void	ifif(t_command *cmd, t_data *data)
+{
+	if (!cmd->command && !cmd->vid)
+		cmd->cmd_found = 0;
+	else if (is_direcotry(cmd->command))
+		printf("minishell: %s: is a direcotry\n", cmd->command);
+	else if (cmd->command[0] == '/')
+		cmd->full_path = ft_strdup(cmd->command);
+	else if (!ft_is_command(data, cmd, cmd->command)
+		&& !ft_isbuitin(cmd->command))
+		printf("minishell: %s: command not found\n", cmd->command);
+	else
+		is_executable(cmd, cmd->command);
+}
+
 t_command	*create_command(t_data *data, t_command *cmd, t_token **token)
 {
 	char	*command;
@@ -59,20 +64,14 @@ t_command	*create_command(t_data *data, t_command *cmd, t_token **token)
 	full_command = NULL;
 	if (!cmd->cmd_found)
 	{
+		if (!only_quotes(*token))
+			cmd->vid = 1;
 		get_string(token, data, &full_command, &command);
 		cmd->command = command;
 		cmd->cmd_found = true;
-		if (!cmd->command)
+		if (!cmd->command && cmd->vid)
 			return (printf("minishell: : command not found\n"), cmd);
-		else if (is_direcotry(cmd->command))
-			printf("minishell: %s: is a direcotry\n", cmd->command);
-		else if (cmd->command[0] == '/')
-			cmd->full_path = ft_strdup(cmd->command);
-		else if (!ft_is_command(data, cmd, cmd->command)
-			&& !ft_isbuitin(cmd->command))
-			printf("minishell: %s: command not found\n", cmd->command);
-		else
-			is_executable(cmd, cmd->command);
+		ifif(cmd, data);
 	}
 	fill_args(token, cmd, data);
 	return (cmd);
@@ -80,6 +79,8 @@ t_command	*create_command(t_data *data, t_command *cmd, t_token **token)
 
 void	_first_arg(t_command *cmd, char ***args)
 {
+	if (!cmd->command)
+		return ;
 	*args = malloc(sizeof(char *) * 2);
 	if (!args)
 		return ;
