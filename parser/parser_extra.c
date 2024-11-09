@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:47:26 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/07 21:17:52 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/08 22:53:23 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,19 @@ t_command	*create_command(t_data *data, t_command *cmd, t_token **token)
 	full_command = NULL;
 	if (!cmd->cmd_found)
 	{
+		if (!only_quotes(*token))
+		{
+			printf("here\n");
+			cmd->vid = 1;
+		}
+		printf("%d\n", cmd->vid);
 		get_string(token, data, &full_command, &command);
 		cmd->command = command;
 		cmd->cmd_found = true;
-		if (!cmd->command)
+		if (!cmd->command && cmd->vid)
 			return (printf("minishell: : command not found\n"), cmd);
+		else if (!cmd->command && cmd->vid)
+			printf("fjkfs\n");
 		else if (is_direcotry(cmd->command))
 			printf("minishell: %s: is a direcotry\n", cmd->command);
 		else if (cmd->command[0] == '/')
