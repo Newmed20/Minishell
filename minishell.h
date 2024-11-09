@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/07 21:18:14 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/08 22:41:09 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct	s_command
 	int					pid; // Process ID
 	int 				fd_in;
 	int 				fd_out;
+	int					vid;
 	struct s_command	*next; // Pointer to next command in pipeline
 }	t_command;
 
@@ -184,7 +185,7 @@ void	ft_heredoc(t_command *cmd, int flag, t_data *data);
 void	ft_multiple_heredoc(t_command *cmd, int flag, t_data *data);
 void    execute_multiple(t_data *data, char **env);
 int		ft_isbuitin(char *cmd);
-void	execute_builtins(t_data *data);
+void	execute_builtins(t_data *data, t_command *cmd);
 int		ft_cd(t_data *data, t_command *command);
 int		ft_echo(t_command *s_command);
 int		ft_pwd(void);
@@ -194,7 +195,6 @@ int		ft_export(t_data *data);
 int		ft_unset(t_data *data);
 
 void	init_signals(void);
-
-char	*print_type(enum e_type type);
+int	only_quotes(t_token *token);
 
 #endif
