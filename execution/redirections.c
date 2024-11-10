@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:19:00 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 07:31:50 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/10 14:12:26 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-
 
 void	out_dup_close(int fd)
 {
@@ -34,11 +32,11 @@ void	in_dup_close(int fd)
 	close(fd);
 }
 
-
 int	ft_output_redirection(t_redir *output_files)
 {
-	int	fd = -1;
+	int	fd;
 
+	fd = -1;
 	while (output_files)
 	{
 		if (fd != -1)
@@ -62,8 +60,9 @@ int	ft_output_redirection(t_redir *output_files)
 
 int	ft_input_redirection(t_redir *input_file)
 {
-	int	fd = -1;
+	int	fd;
 
+	fd = -1;
 	while (input_file)
 	{
 		if (fd != -1)
@@ -80,7 +79,7 @@ int	ft_input_redirection(t_redir *input_file)
 	return (0);
 }
 
-void ft_redirection(t_command *cmd)
+void	ft_redirection(t_command *cmd)
 {
 	if (cmd->input_files)
 		ft_input_redirection(cmd->input_files);

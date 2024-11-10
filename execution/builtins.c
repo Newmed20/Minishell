@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:26:37 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 08:06:35 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/10 15:35:52 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../minishell.h" 
 
-int  ft_isbuitin(char *cmd)
+int	ft_isbuitin(char *cmd)
 {
-    if (!cmd)
+	if (!cmd)
 		return (0);
 	if (!ft_strncmp(cmd, "cd", 3))
 		return (1);
@@ -35,20 +34,20 @@ int  ft_isbuitin(char *cmd)
 		return (0);
 }
 
-void  ft_builtins(t_data *data, t_command *cmd)
+void	ft_builtins(t_data *data, t_command *cmd)
 {
-    if (!ft_strncmp(cmd->command, "cd", 3))
-		exit_status = ft_cd(data, cmd);
+	if (!ft_strncmp(cmd->command, "cd", 3))
+		g_exit_status = ft_cd(data, cmd);
 	else if (!ft_strncmp(cmd->command, "echo", 5))
-		exit_status = ft_echo(cmd);
+		g_exit_status = ft_echo(cmd);
 	else if (!ft_strncmp(cmd->command, "pwd", 4))
-		exit_status = ft_pwd();
+		g_exit_status = ft_pwd();
 	else if (!ft_strncmp(cmd->command, "env", 4))
-		exit_status = ft_env(data);
+		g_exit_status = ft_env(data);
 	else if (!ft_strncmp(cmd->command, "export", 7))
-		exit_status = ft_export(data);
+		g_exit_status = ft_export(data);
 	else if (!ft_strncmp(cmd->command, "unset", 6))
-		exit_status = ft_unset(data);
+		g_exit_status = ft_unset(data);
 	else if (!ft_strncmp(cmd->command, "exit", 5))
 		ft_exit(data);
 }
@@ -58,13 +57,12 @@ void	execute_builtins(t_data *data, t_command *cmd)
 	int			original_stdout;
 	int			original_stdin;
 	t_command	*current;
-	
-	current = data->cmd;
 
+	current = data->cmd;
 	original_stdout = dup(STDOUT_FILENO);
 	original_stdin = dup(STDIN_FILENO);
 	if (current->heredoc_delimiters)
-		ft_heredoc(current,data , 0);
+		ft_heredoc(current, data, 0);
 	if (current->input_files || current->oa_files)
 		ft_redirection(current);
 	ft_builtins(data, cmd);

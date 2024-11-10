@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 12:58:22 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/10 16:27:11 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int exit_status = 0;
+int	g_exit_status = 0;
 
-char **ft_transform_env(t_env *env)
+char	**ft_transform_env(t_env *env)
 {
 	char	**env_copy;
 	int		i;
@@ -23,7 +23,7 @@ char **ft_transform_env(t_env *env)
 
 	i = 0;
 	tmp = env;
-	while(tmp)
+	while (tmp)
 	{
 		i++;
 		tmp = tmp->next;
@@ -31,7 +31,7 @@ char **ft_transform_env(t_env *env)
 	env_copy = (char **)malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	tmp = env;
-	while(tmp)
+	while (tmp)
 	{
 		key = ft_strjoin(tmp->key, "=");
 		env_copy[i] = ft_strjoin(key, tmp->value);
@@ -43,81 +43,80 @@ char **ft_transform_env(t_env *env)
 	return (env_copy);
 }
 
-void	one_child(t_command *comand , t_data *data)
+void	one_child(t_command *comand, t_data *data)
 {
-	char **env;
+	char	**env;
 
 	env = ft_transform_env(data->env_copy);
 	signal(SIGQUIT, SIG_DFL);
-	if(comand->heredoc_delimiters)
-		ft_heredoc(comand, data , 0);
+	if (comand->heredoc_delimiters)
+		ft_heredoc(comand, data, 0);
 	signal (SIGINT, controlc_handler);
-	if(comand->input_files || comand->oa_files)
+	if (comand->input_files || comand->oa_files)
 		ft_redirection(comand);
 	if (comand->command == NULL)
+		exit(g_exit_status);
+	if (comand->full_path)
 	{
-		exit(exit_status);
-		
+		if (execve(comand->full_path, comand->args, env) == -1)
+		{
+			perror("execve");
+			exit(EXIT_FAILURE);
+		}
 	}
-	if(comand->full_path)
-    {
-    	if (execve(comand->full_path , comand->args, env) == -1)
-        {
-            perror("execve");
-            exit(EXIT_FAILURE);
-        }     
-    }
-	if(exit_status != 127)
+	if(g_exit_status==127)
+		exit(g_exit_status);
+	else
 		exit(EXIT_FAILURE);
+	
 }
-void 	one_parent(int pid)
+
+void	one_parent(int pid)
 {
-	int signum;
+	int	signum;
+
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	waitpid(pid, &exit_status, 0);
-	if (WIFEXITED(exit_status))
-		exit_status = WEXITSTATUS(exit_status);
-	else if (WIFSIGNALED(exit_status))
+	waitpid(pid, &g_exit_status, 0);
+	if (WIFEXITED(g_exit_status))
+		g_exit_status = WEXITSTATUS(g_exit_status);
+	else if (WIFSIGNALED(g_exit_status))
 	{
-		signum = WTERMSIG(exit_status);
+		signum = WTERMSIG(g_exit_status);
 		handle_signal_exit_status(signum);
 	}
 }
 
 void	execute_one(t_data *data)
 {
-	t_command *comand;
-	int pid;
-		
+	t_command	*comand;
+	int			pid;
+
 	comand = data->cmd;
-	if(ft_isbuitin(comand->command))
+	if (ft_isbuitin(comand->command))
 		execute_builtins(data, comand);
 	else
-	{	
+	{
 		pid = fork();
-		if(pid == 0)
-			one_child(comand , data);
+		if (pid == 0)
+			one_child(comand, data);
 		else
 			one_parent(pid);
 		signal(SIGINT, controlc_handler);
 	}
 }
 
-
-
-
 int	ft_execute(t_data *data)
 {
-	t_command *cmd;
-	char **env;
-	
+	t_command	*cmd;
+	char		**env;
+
 	env = ft_transform_env(data->env_copy);
 	cmd = data->cmd;
-	if(!cmd->pipe_out)
+	if (!cmd->pipe_out)
 		execute_one(data);
 	else
-		execute_multiple(data , env);
+		execute_multiple(data, env);
 	free_split(env);
 	return (0);
 }

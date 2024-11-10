@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   pipe_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:19:00 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 07:22:54 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/10 14:01:34 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-
-void	dup_close_out(int fd , t_command *cmd)
+void	dup_close_out(int fd, t_command *cmd)
 {
 	if (dup2(fd, cmd->fd_out) == -1)
 	{
@@ -24,7 +22,7 @@ void	dup_close_out(int fd , t_command *cmd)
 	close(fd);
 }
 
-void	dup_close_in(int fd , t_command *cmd)
+void	dup_close_in(int fd, t_command *cmd)
 {
 	if (dup2(fd, cmd->fd_in) == -1)
 	{
@@ -34,11 +32,11 @@ void	dup_close_in(int fd , t_command *cmd)
 	close(fd);
 }
 
-
-int	ft_output(t_redir *output_files , t_command *cmd)
+int	ft_output(t_redir *output_files, t_command *cmd)
 {
-	int	fd = -1;
+	int	fd;
 
+	fd = -1;
 	while (output_files)
 	{
 		if (fd != -1)
@@ -56,14 +54,15 @@ int	ft_output(t_redir *output_files , t_command *cmd)
 		}
 		output_files = output_files->next;
 	}
-	dup_close_out(fd , cmd);
+	dup_close_out(fd, cmd);
 	return (0);
 }
 
-int	ft_input(t_redir *input_file , t_command *cmd)
+int	ft_input(t_redir *input_file, t_command *cmd)
 {
-	int	fd = -1;
+	int	fd;
 
+	fd = -1;
 	while (input_file)
 	{
 		if (fd != -1)
@@ -76,14 +75,14 @@ int	ft_input(t_redir *input_file , t_command *cmd)
 		}
 		input_file = input_file->next;
 	}
-	dup_close_in(fd , cmd);
+	dup_close_in(fd, cmd);
 	return (0);
 }
 
-void ft_pipe_redirection(t_command *cmd)
+void	ft_pipe_redirection(t_command *cmd)
 {
 	if (cmd->input_files)
-		ft_input(cmd->input_files , cmd);
+		ft_input(cmd->input_files, cmd);
 	if (cmd->oa_files)
-		ft_output(cmd->oa_files , cmd);
+		ft_output(cmd->oa_files, cmd);
 }
