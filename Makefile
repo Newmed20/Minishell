@@ -23,7 +23,7 @@ SRCS = main.c signals.c print_tokens.c \
 	   utils/utils1.c utils/clean_up.c utils/utils2.c utils/utils3.c \
 	   builtins/ft_cd.c builtins/ft_echo.c builtins/ft_env.c builtins/ft_pwd.c builtins/ft_export.c builtins/ft_exit.c builtins/ft_unset.c \
 	   execution/execution.c execution/heredoc.c execution/pipe.c execution/redirections.c execution/builtins.c \
-	   execution/pipe_redirections.c 
+	   execution/pipe_redirections.c execution/utils.c
 
 OBJ_DIR = objs/
 
