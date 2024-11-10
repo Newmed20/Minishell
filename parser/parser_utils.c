@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 23:48:46 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/10 10:06:02 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:05:02 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_command	*init_command(void)
 	cmd->arg_count = 0;
 	cmd->args = NULL;
 	cmd->full_path = NULL;
-	cmd->heredoc_content = NULL;
 	cmd->heredoc_delimiters = NULL;
 	cmd->input_files = NULL;
 	cmd->oa_files = NULL;
