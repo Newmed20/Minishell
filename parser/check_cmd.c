@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:41:16 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/07 19:20:02 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 10:44:39 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ int	ft_is_command(t_data *data, t_command *command, char *cmd)
 	paths = get_full_path(data);
 	if (!paths)
 		return (0);
-	if (access(cmd, X_OK | F_OK) == 0)
+	if (access(cmd, X_OK) == 0)
 		return (free_split(paths), 1);
 	while (paths[++i])
 	{
 		tmp = ft_strjoin(paths[i], "/");
 		full_cmd = ft_strjoin(tmp, cmd);
 		free(tmp);
-		if (access(full_cmd, X_OK | F_OK) == 0)
+		if (access(full_cmd, X_OK) == 0)
 		{
 			command->full_path = ft_strdup(full_cmd);
 			free(full_cmd);

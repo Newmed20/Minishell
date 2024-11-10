@@ -6,11 +6,25 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 23:48:46 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/08 22:42:19 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 10:06:02 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_redir	*init_list(void)
+{
+	t_redir	*lst;
+
+	lst = malloc(sizeof(t_redir));
+	if (!lst)
+		return (NULL);
+	lst->content = NULL;
+	lst->next = NULL;
+	lst->type = 0;
+	lst->state = 1;
+	return (lst);
+}
 
 t_command	*init_command(void)
 {
@@ -32,20 +46,6 @@ t_command	*init_command(void)
 	cmd->pipe_out = 0;
 	cmd->vid = 0;
 	return (cmd);
-}
-
-t_redir	*init_list(void)
-{
-	t_redir	*lst;
-
-	lst = malloc(sizeof(t_redir));
-	if (!lst)
-		return (NULL);
-	lst->content = NULL;
-	lst->next = NULL;
-	lst->type = 0;
-	lst->state = 0;
-	return (lst);
 }
 
 void	append_to_list(t_redir **lst, t_redir *new)
