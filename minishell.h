@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/09 21:24:41 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 08:05:48 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,8 +183,9 @@ int			only_quotes(t_token *token);
 int     ft_execute(t_data *data);
 char 	**ft_transform_env(t_env *env);
 void	ft_redirection(t_command *cmd);
-void	ft_heredoc(t_command *cmd, int flag, t_data *data);
-void	ft_multiple_heredoc(t_command *cmd, int flag, t_data *data);
+void 	ft_pipe_redirection(t_command *cmd);
+void	ft_multiple_heredoc(t_command *cmd, t_data *data , int flag);
+void	ft_heredoc(t_command *cmd, t_data *data , int flag);
 void    execute_multiple(t_data *data, char **env);
 int		ft_isbuitin(char *cmd);
 void	execute_builtins(t_data *data, t_command *cmd);
@@ -197,5 +198,11 @@ int		ft_export(t_data *data);
 int		ft_unset(t_data *data);
 
 void	init_signals(void);
+void	controlc_handler(int sig);
+void	handle_signal_exit_status(int signum);
+void	handle_sigint(int sig);
+void	sighdl(int sig);
+void	sighdl2(int sig);
+
 
 #endif

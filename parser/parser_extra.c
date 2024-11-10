@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_extra.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:47:26 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/09 21:17:21 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 09:15:46 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,18 @@ void	ifif(t_command *cmd, t_data *data)
 	if (!cmd->command && !cmd->vid)
 		cmd->cmd_found = 0;
 	else if (is_direcotry(cmd->command))
+	{
 		printf("minishell: %s: is a direcotry\n", cmd->command);
+		exit_status = 126;
+	}
 	else if (cmd->command[0] == '/')
 		cmd->full_path = ft_strdup(cmd->command);
 	else if (!ft_is_command(data, cmd, cmd->command)
 		&& !ft_isbuitin(cmd->command))
+	{
 		printf("minishell: %s: command not found\n", cmd->command);
+		exit_status = 127;
+	}
 	else
 		is_executable(cmd, cmd->command);
 }
@@ -70,7 +76,10 @@ t_command	*create_command(t_data *data, t_command *cmd, t_token **token)
 		cmd->command = command;
 		cmd->cmd_found = true;
 		if (!cmd->command && cmd->vid)
+		{
+			exit_status = 127;
 			return (printf("minishell: : command not found\n"), cmd);
+		}
 		ifif(cmd, data);
 	}
 	fill_args(token, cmd, data);

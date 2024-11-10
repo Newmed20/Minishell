@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 11:59:13 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/09 21:23:51 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 09:59:13 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,10 @@ int	main(int ac, char **av, char **env)
 
 	if (init_data(ac, av, env, &data) == 1)
 		return (EXIT_SUCCESS);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		init_signals();
+		signal(SIGINT, handle_sigint);
 		if (init_prompt(&data))
 			break ;
 		if(data.cmd)

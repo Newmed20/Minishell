@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:19:00 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 07:31:50 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/10 07:22:54 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 
 
-void	out_dup_close(int fd)
+void	dup_close_out(int fd , t_command *cmd)
 {
-	if (dup2(fd, STDOUT_FILENO) == -1)
+	if (dup2(fd, cmd->fd_out) == -1)
 	{
 		perror("dup2");
 		exit(1);
@@ -24,9 +24,9 @@ void	out_dup_close(int fd)
 	close(fd);
 }
 
-void	in_dup_close(int fd)
+void	dup_close_in(int fd , t_command *cmd)
 {
-	if (dup2(fd, STDIN_FILENO) == -1)
+	if (dup2(fd, cmd->fd_in) == -1)
 	{
 		perror("dup2");
 		exit(1);
@@ -35,7 +35,7 @@ void	in_dup_close(int fd)
 }
 
 
-int	ft_output_redirection(t_redir *output_files)
+int	ft_output(t_redir *output_files , t_command *cmd)
 {
 	int	fd = -1;
 
@@ -56,11 +56,11 @@ int	ft_output_redirection(t_redir *output_files)
 		}
 		output_files = output_files->next;
 	}
-	out_dup_close(fd);
+	dup_close_out(fd , cmd);
 	return (0);
 }
 
-int	ft_input_redirection(t_redir *input_file)
+int	ft_input(t_redir *input_file , t_command *cmd)
 {
 	int	fd = -1;
 
@@ -76,14 +76,14 @@ int	ft_input_redirection(t_redir *input_file)
 		}
 		input_file = input_file->next;
 	}
-	in_dup_close(fd);
+	dup_close_in(fd , cmd);
 	return (0);
 }
 
-void ft_redirection(t_command *cmd)
+void ft_pipe_redirection(t_command *cmd)
 {
 	if (cmd->input_files)
-		ft_input_redirection(cmd->input_files);
+		ft_input(cmd->input_files , cmd);
 	if (cmd->oa_files)
-		ft_output_redirection(cmd->oa_files);
+		ft_output(cmd->oa_files , cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 07:59:06 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/06 16:44:47 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/10 10:09:35 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,28 @@ void	ft_heredoc3(t_command *cmd, int fd, t_data *data)
 	{
 		if (cmd->heredoc_delimiters->next == NULL && line)
 		{
-			full_line = NULL;
-			tkn = lexer(line);
-			if (!tkn)
+			if(cmd->heredoc_delimiters->state == 1)
 			{
-				free(line);
-				line = readline(">");
-				continue ;
+				full_line = NULL;
+				tkn = lexer(line);
+				if (!tkn)
+				{
+					free(line);
+					line = readline(">");
+					continue ;
+				}
+				get_heredoc_content(tkn, data, &full_line);
+				write_in_file(full_line, fd);
 			}
-			get_heredoc_content(tkn, data, &full_line);
-			write_in_file(full_line, fd);
+			else
+				write_in_file(line, fd);
 		}
 		free_str(&line);
 		line = readline(">");
 	}
 }
 
-void	ft_herdoc1(t_command *cmd, t_data *data)
+void	ft_herdoc1(t_command *cmd, t_data *data , int flag)
 {
 	int	pid;
 	int		fd;
@@ -57,6 +62,10 @@ void	ft_herdoc1(t_command *cmd, t_data *data)
 	pid = fork();
 	if (pid == 0)
 	{	
+		if (flag == 0)
+			signal (SIGINT, sighdl);
+		else
+			signal(SIGINT, sighdl2);
 		while (cmd->heredoc_delimiters)
 		{
 			unlink("/tmp/heredoc.txt");
@@ -69,17 +78,21 @@ void	ft_herdoc1(t_command *cmd, t_data *data)
 		exit(exit_status);
 	}
 	else
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		waitpid(pid, &exit_status, 0);
+	}
 }
 
-void	ft_multiple_heredoc(t_command *cmd, int flag, t_data *data)
+void	ft_multiple_heredoc(t_command *cmd, t_data *data , int flag)
 {
     (void)flag;
 	if (!cmd->heredoc_delimiters)
 		return ;
 	if (exit_status == 24)
 		return ;
-	ft_herdoc1(cmd, data);
+	ft_herdoc1(cmd, data , flag);
 	if (exit_status == 1)
 		exit (1);
 	cmd->fd_in = open("/tmp/heredoc.txt", O_RDONLY);
@@ -93,7 +106,7 @@ void	ft_multiple_heredoc(t_command *cmd, int flag, t_data *data)
 		close(cmd->fd_in); 
 	}
 }
-void	ft_heredoc(t_command *cmd, int flag, t_data *data)
+void	ft_heredoc(t_command *cmd, t_data *data , int flag)
 {
 	int	fd;
     (void)flag;
@@ -101,7 +114,7 @@ void	ft_heredoc(t_command *cmd, int flag, t_data *data)
 		return ;
 	if (exit_status == 24)
 		return ;
-	ft_herdoc1(cmd, data);
+	ft_herdoc1(cmd, data , flag);
 	if (exit_status == 1)
 		exit (1);
 	fd = open("/tmp/heredoc.txt", O_RDONLY);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/08 22:04:58 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 09:58:20 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,35 +43,59 @@ char **ft_transform_env(t_env *env)
 	return (env_copy);
 }
 
-int	execute_one(t_data *data , char **env )
+void	one_child(t_command *comand , t_data *data)
+{
+	char **env;
+
+	env = ft_transform_env(data->env_copy);
+	signal(SIGQUIT, SIG_DFL);
+	if(comand->heredoc_delimiters)
+		ft_heredoc(comand, data , 0);
+	signal (SIGINT, controlc_handler);
+	if(comand->input_files || comand->oa_files)
+		ft_redirection(comand);
+	if (comand->command == NULL)
+		exit(exit_status);
+	if(comand->full_path)
+		execve(comand->full_path, comand->args, env);
+	else
+		exit(EXIT_FAILURE);
+}
+void 	one_parent(int pid)
+{
+	int signum;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	waitpid(pid, &exit_status, 0);
+	if (WIFEXITED(exit_status))
+		exit_status = WEXITSTATUS(exit_status);
+	else if (WIFSIGNALED(exit_status))
+	{
+		signum = WTERMSIG(exit_status);
+		handle_signal_exit_status(signum);
+	}
+}
+
+void	execute_one(t_data *data)
 {
 	t_command *comand;
 	int pid;
 		
 	comand = data->cmd;
-	comand->fd_in = STDIN_FILENO;
-	comand->fd_out = STDOUT_FILENO;
 	if(ft_isbuitin(comand->command))
-	{
 		execute_builtins(data, comand);
-		return (0);
-	}
-	pid = fork();
-	if(pid == 0)
-	{
-		if(comand->heredoc_delimiters)
-			ft_heredoc(comand, comand->heredoc_delimiters->state, data);
-		if(comand->input_files || comand->oa_files)
-			ft_redirection(comand);
-		if(comand->full_path)
-			execve(comand->full_path, comand->args, env);
-		else
-			exit(EXIT_FAILURE);
-	}
 	else
-		waitpid(pid, &exit_status, 0);
-	return (0);
+	{	
+		pid = fork();
+		if(pid == 0)
+			one_child(comand , data);
+		else
+			one_parent(pid);
+		signal(SIGINT, controlc_handler);
+	}
 }
+
+
 
 
 int	ft_execute(t_data *data)
@@ -82,7 +106,7 @@ int	ft_execute(t_data *data)
 	env = ft_transform_env(data->env_copy);
 	cmd = data->cmd;
 	if(!cmd->pipe_out)
-		execute_one(data , env);
+		execute_one(data);
 	else
 		execute_multiple(data , env);
 	free_split(env);
