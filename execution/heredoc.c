@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 07:59:06 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 15:36:53 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:49:19 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	ft_heredoc3(t_command *cmd, int fd, t_data *data)
 void	herdoc_child(int fd, t_command *cmd, t_data *data, int flag)
 {
 	if (flag == 0)
-		signal (SIGINT, sighdl);
+		signal (SIGINT, sig_one);
 	else
-		signal(SIGINT, sighdl2);
+		signal(SIGINT, sig_pipe);
 	while (cmd->heredoc_delimiters)
 	{
 		unlink("/tmp/heredoc.txt");
@@ -62,6 +62,10 @@ void	ft_herdoc1(t_command *cmd, t_data *data, int flag)
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		waitpid(pid, &g_exit_status, 0);
+		if (WIFEXITED(g_exit_status))
+			g_exit_status = WEXITSTATUS(g_exit_status);
+		else if (WIFSIGNALED(g_exit_status))
+			g_exit_status = 128 + WTERMSIG(g_exit_status);
 	}
 }
 

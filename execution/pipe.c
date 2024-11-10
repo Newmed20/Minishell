@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 11:01:59 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 14:10:01 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 19:55:45 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	multiple_child(t_fds *fds, t_command *cmd, t_data *data, char **env)
 	signal(SIGQUIT, SIG_DFL);
 	fds_dupping(fds, cmd);
 	if (cmd->input_files || cmd->oa_files)
-		ft_pipe_redirection(cmd);
+		ft_pipe_redirection(cmd , 1);
 	if (ft_isbuitin(cmd->command))
 	{
 		execute_builtins(data, cmd);
@@ -26,6 +26,8 @@ void	multiple_child(t_fds *fds, t_command *cmd, t_data *data, char **env)
 	}
 	if (cmd->command == NULL)
 		exit(0);
+	if (!cmd->full_path)
+		exit(g_exit_status);
 	if (cmd->full_path)
 	{
 		if (execve(cmd->full_path, cmd->args, env) == -1)
@@ -34,8 +36,6 @@ void	multiple_child(t_fds *fds, t_command *cmd, t_data *data, char **env)
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (!cmd->full_path)
-		exit(g_exit_status);
 }
 
 void	multiple_parent(t_fds *fds)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 19:30:21 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/10 15:13:03 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:49:43 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,17 @@ void	controlc_handler(int sig)
 	exit(130);
 }
 
-
-
-void	sighdl(int sig)
+void	sig_one(int sig)
 {
 	(void)sig;
 	write (1, "\n", 1);
 	exit(1);
 }
 
-void	sighdl2(int sig)
+void	sig_pipe(int sig)
 {
 	(void)sig;
 	write (1, "\n", 1);
-	// g_signal = 24;
 	exit(24);
 }
 

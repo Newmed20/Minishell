@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 16:32:03 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 19:50:05 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	one_child(t_command *comand, t_data *data)
 		ft_heredoc(comand, data, 0);
 	signal (SIGINT, controlc_handler);
 	if (comand->input_files || comand->oa_files)
-		ft_redirection(comand);
+		ft_redirection(comand , 0);
 	if (comand->command == NULL)
 		exit(g_exit_status);
 	if (comand->full_path)

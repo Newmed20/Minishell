@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:26:37 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 15:35:52 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 19:50:54 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	execute_builtins(t_data *data, t_command *cmd)
 	if (current->heredoc_delimiters)
 		ft_heredoc(current, data, 0);
 	if (current->input_files || current->oa_files)
-		ft_redirection(current);
+		ft_redirection(current , 0);
 	ft_builtins(data, cmd);
 	dup2(original_stdout, STDOUT_FILENO);
 	dup2(original_stdin, STDIN_FILENO);
