@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 19:07:14 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/10/21 10:08:43 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:05:29 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	free_command(t_command **cmd)
 		free_cmd_cmd(&(*cmd)->input_files);
 		free_cmd_cmd(&(*cmd)->oa_files);
 		free_cmd_cmd(&(*cmd)->heredoc_delimiters);
-		free_cmd_cmd(&(*cmd)->heredoc_content);
 		free(*cmd);
 		*cmd = tmp;
 	}
