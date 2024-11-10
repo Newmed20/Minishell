@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 09:58:20 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/10 12:58:22 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,19 @@ void	one_child(t_command *comand , t_data *data)
 	if(comand->input_files || comand->oa_files)
 		ft_redirection(comand);
 	if (comand->command == NULL)
+	{
 		exit(exit_status);
+		
+	}
 	if(comand->full_path)
-		execve(comand->full_path, comand->args, env);
-	else
+    {
+    	if (execve(comand->full_path , comand->args, env) == -1)
+        {
+            perror("execve");
+            exit(EXIT_FAILURE);
+        }     
+    }
+	if(exit_status != 127)
 		exit(EXIT_FAILURE);
 }
 void 	one_parent(int pid)
@@ -102,7 +111,7 @@ int	ft_execute(t_data *data)
 {
 	t_command *cmd;
 	char **env;
-
+	
 	env = ft_transform_env(data->env_copy);
 	cmd = data->cmd;
 	if(!cmd->pipe_out)
