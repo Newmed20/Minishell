@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 11:46:30 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/08 18:12:22 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 15:15:50 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	ft_xt(t_data *data)
 	free_env(&data->env_copy);
 	free(data->prompt);
 	printf("exit\n");
-	exit(exit_status);
-	return (exit_status);
+	exit(g_exit_status);
+	return (g_exit_status);
 }
 
 int	chck_var(t_data *data, char *arg)
@@ -45,7 +45,7 @@ int	chck_var(t_data *data, char *arg)
 			return (1);
 		i++;
 	}
-	exit_status = ft_atoi(arg);
+	g_exit_status = ft_atoi(arg);
 	if (data->cmd->arg_count > 2)
 		return (2);
 	return (0);
@@ -69,7 +69,7 @@ int	ft_exit(t_data *data)
 			if (chck_var(data, arg) == 1)
 			{
 				printf("minishell: exit: %s: numeric argument required\n", arg);
-				return (exit_status = 255, ft_xt(data));
+				return (g_exit_status = 255, ft_xt(data));
 			}
 			else if (chck_var(data, arg) == 2)
 				return (printf("minishell: exit: too many arguments\n"), 255);

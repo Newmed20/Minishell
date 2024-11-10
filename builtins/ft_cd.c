@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:19:39 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/08 17:45:53 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 15:14:22 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int	change_directory(const char *path)
 	if (chdir(path) != 0)
 	{
 		display_chdir_error(path);
-		exit_status = 1;
+		g_exit_status = 1;
 		return (1);
 	}
-	exit_status = 0;
+	g_exit_status = 0;
 	return (0);
 }
 
@@ -68,7 +68,7 @@ int	ft_cd(t_data *data, t_command *command)
 		if (home_dir == NULL)
 		{
 			write(STDERR_FILENO, "minishell: cd: HOME not set\n", 29);
-			exit_status = 1;
+			g_exit_status = 1;
 			return (1);
 		}
 		path = home_dir;

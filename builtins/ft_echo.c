@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 03:08:36 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/02 09:12:58 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 15:14:31 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ int	ft_echo(t_command *command)
 	}
 	if (!args[1] || flag)
 		ft_putstr_fd("\n", 1);
-	exit_status = 0;
+	g_exit_status = 0;
 	return (0);
 }
