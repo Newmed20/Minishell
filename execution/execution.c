@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 16:27:11 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:32:03 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,10 @@ void	one_child(t_command *comand, t_data *data)
 			exit(EXIT_FAILURE);
 		}
 	}
-	if(g_exit_status==127)
-		exit(g_exit_status);
+	if (g_exit_status == 127)
+		exit (g_exit_status);
 	else
 		exit(EXIT_FAILURE);
-	
 }
 
 void	one_parent(int pid)
