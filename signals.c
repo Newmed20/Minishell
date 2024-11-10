@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 19:30:21 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/10 10:00:25 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/10 15:13:03 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ void	handle_signal_exit_status(int signum)
 {
 	if (signum == 3 || signum == 2)
 	{
-		exit_status = 128 + WTERMSIG(exit_status);
-		if (exit_status == 129)
-			exit_status = 1;
-		if (exit_status == 131)
+		g_exit_status = 128 + WTERMSIG(g_exit_status);
+		if (g_exit_status == 129)
+			g_exit_status = 1;
+		if (g_exit_status == 131)
 			ft_putstr_fd("Quit: 3\n", 2);
 	}
 }
