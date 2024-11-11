@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_redirections.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:19:00 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 19:54:29 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/10 21:01:30 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	dup_close_in(int fd, t_command *cmd)
 	close(fd);
 }
 
-int	ft_output(t_redir *output_files, t_command *cmd , int j)
+int	ft_output(t_redir *output_files, t_command *cmd, int j)
 {
 	int	fd;
 
@@ -60,7 +60,7 @@ int	ft_output(t_redir *output_files, t_command *cmd , int j)
 	return (0);
 }
 
-int	ft_input(t_redir *input_file, t_command *cmd , int j)
+int	ft_input(t_redir *input_file, t_command *cmd, int j)
 {
 	int	fd;
 
@@ -73,7 +73,7 @@ int	ft_input(t_redir *input_file, t_command *cmd , int j)
 		if (fd == -1)
 		{
 			perror("minishell");
-			if(j == 0)
+			if (j == 0)
 				return (1);
 			exit(1);
 		}
@@ -83,10 +83,10 @@ int	ft_input(t_redir *input_file, t_command *cmd , int j)
 	return (0);
 }
 
-void	ft_pipe_redirection(t_command *cmd , int j)
+void	ft_pipe_redirection(t_command *cmd, int j)
 {
 	if (cmd->input_files)
-		ft_input(cmd->input_files, cmd , j);
+		ft_input(cmd->input_files, cmd, j);
 	if (cmd->oa_files)
 		ft_output(cmd->oa_files, cmd, j);
 }

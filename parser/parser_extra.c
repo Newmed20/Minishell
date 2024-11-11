@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:47:26 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/10 16:27:32 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/11 15:36:31 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ void	ifif(t_command *cmd, t_data *data)
 		g_exit_status = 126;
 	}
 	else if (cmd->command[0] == '/')
-		cmd->full_path = ft_strdup(cmd->command);
+	{
+		if (access(cmd->command, X_OK) == 0)
+			cmd->full_path = ft_strdup(cmd->command);
+	}
 	else if (!ft_is_command(data, cmd, cmd->command)
 		&& !ft_isbuitin(cmd->command))
-	{
-		printf("minishell: %s: command not found\n", cmd->command);
 		g_exit_status = 127;
-	}
 	else
 		is_executable(cmd, cmd->command);
 }

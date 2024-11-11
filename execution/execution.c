@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 19:50:05 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/11 15:37:14 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	one_child(t_command *comand, t_data *data)
 		ft_heredoc(comand, data, 0);
 	signal (SIGINT, controlc_handler);
 	if (comand->input_files || comand->oa_files)
-		ft_redirection(comand , 0);
+		ft_redirection(comand, 0);
 	if (comand->command == NULL)
 		exit(g_exit_status);
 	if (comand->full_path)
@@ -64,7 +64,9 @@ void	one_child(t_command *comand, t_data *data)
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (g_exit_status == 127)
+	if (!comand->full_path)
+		printf("minishell: %s: command not found\n", comand->command);
+	if ( g_exit_status == 126)
 		exit (g_exit_status);
 	else
 		exit(EXIT_FAILURE);

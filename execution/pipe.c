@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 11:01:59 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 19:55:45 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/11 15:22:56 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	multiple_child(t_fds *fds, t_command *cmd, t_data *data, char **env)
 	signal(SIGQUIT, SIG_DFL);
 	fds_dupping(fds, cmd);
 	if (cmd->input_files || cmd->oa_files)
-		ft_pipe_redirection(cmd , 1);
+		ft_pipe_redirection(cmd, 1);
 	if (ft_isbuitin(cmd->command))
 	{
 		execute_builtins(data, cmd);
@@ -28,6 +28,8 @@ void	multiple_child(t_fds *fds, t_command *cmd, t_data *data, char **env)
 		exit(0);
 	if (!cmd->full_path)
 		exit(g_exit_status);
+	if(!cmd->full_path)
+		printf("minishell: %s: command not found\n", cmd->command);
 	if (cmd->full_path)
 	{
 		if (execve(cmd->full_path, cmd->args, env) == -1)

@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 11:46:30 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/10 15:15:50 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/11 12:35:39 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int	ft_exit(t_data *data)
 				return (g_exit_status = 255, ft_xt(data));
 			}
 			else if (chck_var(data, arg) == 2)
-				return (printf("minishell: exit: too many arguments\n"), 255);
+				return (printf("minishell: exit: too many arguments\n"),
+					g_exit_status = 1);
 			i++;
 		}
 	}
