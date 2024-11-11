@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/11 15:37:14 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/11 20:18:54 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ void	one_child(t_command *comand, t_data *data)
 			exit(EXIT_FAILURE);
 		}
 	}
-	if (!comand->full_path)
-		printf("minishell: %s: command not found\n", comand->command);
-	if ( g_exit_status == 126)
+	if ( g_exit_status == 127 || g_exit_status == 126)
 		exit (g_exit_status);
 	else
 		exit(EXIT_FAILURE);

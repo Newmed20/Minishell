@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_extra.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:47:26 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/11 15:36:31 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/11 20:15:26 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	is_executable(t_command *command, char *executable)
+int	is_executable(t_command *command, char *executable)
 {
 	char	*path;
 	char	*name;
@@ -27,7 +27,7 @@ void	is_executable(t_command *command, char *executable)
 		if (ft_count(executable) == 2)
 		{
 			printf("bash: ./: is a directory\n");
-			return (free(absolute_path));
+			return (free(absolute_path), 2);
 		}
 		name = ft_substr(executable, 2, ft_count(executable));
 		tmp = ft_strjoin(absolute_path, "/");
@@ -35,16 +35,18 @@ void	is_executable(t_command *command, char *executable)
 		ft_free(name, tmp, absolute_path);
 		command->full_path = ft_strdup(path);
 		free(path);
+		return (1);
 	}
 	else
 		free(absolute_path);
+	return (0);
 }
 
 void	ifif(t_command *cmd, t_data *data)
 {
 	if (!cmd->command && !cmd->vid)
 		cmd->cmd_found = false;
-	else if (is_direcotry(cmd->command))
+	else if (is_direcotry(cmd->command) && (cmd->command[0] == '/' || cmd->command[0] == '.'))
 	{
 		printf("minishell: %s: is a direcotry\n", cmd->command);
 		g_exit_status = 126;
@@ -53,12 +55,36 @@ void	ifif(t_command *cmd, t_data *data)
 	{
 		if (access(cmd->command, X_OK) == 0)
 			cmd->full_path = ft_strdup(cmd->command);
+		else if (access(cmd->command, F_OK) != 0)
+		{
+			printf("minishell: %s: No such file or directory\n", cmd->command);
+			g_exit_status = 127;
+		}
+		else
+		{
+			printf("minishell: %s: Permission denied\n", cmd->command);
+			g_exit_status = 126;
+		}
+	}
+	else if (cmd->command[0] == '.')
+	{
+		if (access(cmd->command, X_OK) != 0 && access(cmd->command, F_OK) == 0)
+		{
+			printf("minishell: %s: Permission denied\n", cmd->command);
+			g_exit_status = 126;
+		}
+		else if (is_executable(cmd, cmd->command) == 0)
+		{
+			printf("minishell: %s: No such file or directory\n", cmd->command);
+			g_exit_status = 127;
+		}
 	}
 	else if (!ft_is_command(data, cmd, cmd->command)
 		&& !ft_isbuitin(cmd->command))
+	{
+		printf("minishell: %s: command not found\n", cmd->command);
 		g_exit_status = 127;
-	else
-		is_executable(cmd, cmd->command);
+	}
 }
 
 t_command	*create_command(t_data *data, t_command *cmd, t_token **token)
