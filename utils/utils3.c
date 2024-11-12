@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:52:42 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/09 21:17:31 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/12 01:18:57 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,33 @@ int	ft_count(char *executable)
 	while (executable[i])
 		i++;
 	return (i);
+}
+
+int	is_executable(t_command *command, char *executable)
+{
+	char	*path;
+	char	*name;
+	char	*absolute_path;
+	char	*tmp;
+
+	path = NULL;
+	absolute_path = NULL;
+	absolute_path = getcwd(absolute_path, PATH_MAX);
+	if (access(executable, X_OK | F_OK) == 0)
+	{
+		if (ft_count(executable) == 2)
+		{
+			printf("bash: ./: is a directory\n");
+			return (free(absolute_path), 2);
+		}
+		name = ft_substr(executable, 2, ft_count(executable));
+		tmp = ft_strjoin(absolute_path, "/");
+		path = ft_strjoin(tmp, name);
+		ft_free(name, tmp, absolute_path);
+		command->full_path = ft_strdup(path);
+		return (free(path), 1);
+	}
+	else
+		free(absolute_path);
+	return (0);
 }

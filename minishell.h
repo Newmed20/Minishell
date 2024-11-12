@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/12 00:02:07 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/12 01:25:20 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <limits.h>
 # include <signal.h>
 # include "libft/libft.h"
-#include <errno.h>
 
 
 # define PROMPT "\033[1;31m$ \033[0m"
@@ -147,12 +146,12 @@ void		free_str(char **str);
 int			is_special(char *s);
 int			check_empty(t_data *data);
 void		ft_free(char *name, char *tmp, char *absolute_path);
-void		get_heredoc_content(t_tkn_lst *lst, t_data *data,
-				char **redir);
+char		*get_heredoc_content(t_tkn_lst *lst, t_data *data);
 void		update_old_pwd(t_data *data, char *path);
 void		update_pwd(t_data *data, char *path);
 int			is_direcotry(const char *path);
 int			ft_count(char *executable);
+int			is_executable(t_command *command, char *executable);
 
 /* ------------------- expander ------------------- */
 

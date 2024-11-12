@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:43:59 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/05 16:00:16 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/11 22:21:10 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ void	ft_free(char *name, char *tmp, char *absolute_path)
 	free(absolute_path);
 }
 
-void	get_heredoc_content(t_tkn_lst *lst, t_data *data,
-			char **redir)
+char	*get_heredoc_content(t_tkn_lst *lst, t_data *data)
 {
 	t_token	*token;
 	char	*tmp;
 	char	*file;
+	char	*full_l;
 
 	token = lst->tokens;
 	tmp = NULL;
@@ -88,9 +88,10 @@ void	get_heredoc_content(t_tkn_lst *lst, t_data *data,
 			tmp = ft_expand(data, (token));
 		else
 			tmp = ft_strdup((token)->content);
-		*redir = ft_strjoin(file, tmp);
-		file = *redir;
+		full_l = ft_strjoin(file, tmp);
+		file = full_l;
 		free_str(&tmp);
 		token = token->next;
 	}
+	return (full_l);
 }
