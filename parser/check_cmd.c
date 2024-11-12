@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:41:16 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/11 20:10:57 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/11 23:08:09 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_is_command(t_data *data, t_command *command, char *cmd)
 	i = -1;
 	paths = get_full_path(data);
 	if (!paths)
-		return (0);
+		return (free_split(paths), 0);
 	if (access(cmd, X_OK) == 0 && !is_direcotry(cmd))
 		return (free_split(paths), 1);
 	while (paths[++i])

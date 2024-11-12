@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 14:09:31 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/10 15:36:01 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/11 22:21:37 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,14 @@ void	process_heredoc_line(t_command *cmd, char *line, int fd, t_data *data)
 		tkn = lexer(line);
 		if (!tkn)
 		{
+			free_tkn_lst(&tkn);
 			free(line);
 			return ;
 		}
-		get_heredoc_content(tkn, data, &full_line);
+		full_line = get_heredoc_content(tkn, data);
 		write_in_file(full_line, fd);
+		free(full_line);
+		free_tkn_lst(&tkn);
 	}
 	else
 		write_in_file(line, fd);
