@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/12 01:25:20 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/12 01:31:26 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <limits.h>
 # include <signal.h>
 # include "libft/libft.h"
-
 
 # define PROMPT "\033[1;31m$ \033[0m"
 # define EXIT_FAILURE 1
@@ -210,8 +209,5 @@ void		sig_exit(int signum);
 void		handle_sigint(int sig);
 void		sig_one(int sig);
 void		sig_pipe(int sig);
-
-void	check_bin(t_command *cmd, char **envp);
-void    handle_errors(char *cmd, bool is_path);
 
 #endif
