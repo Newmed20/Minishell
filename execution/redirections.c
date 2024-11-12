@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 07:19:00 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 21:01:58 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/12 01:08:49 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	ft_output_redirection(t_redir *output_files, int j)
 			perror("minishell");
 			if (j == 0)
 				return (1);
+			g_exit_status = 1;
 			exit(1);
 		}
 		output_files = output_files->next;
@@ -64,6 +65,7 @@ int	ft_input_redirection(t_redir *input_file, int j)
 {
 	int	fd;
 
+	(void)j;
 	fd = -1;
 	while (input_file)
 	{
@@ -73,8 +75,7 @@ int	ft_input_redirection(t_redir *input_file, int j)
 		if (fd == -1)
 		{
 			perror("minishell");
-			if (j == 0)
-				return (1);
+			g_exit_status = 1;
 			exit (1);
 		}
 		input_file = input_file->next;

@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 07:59:06 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/10 16:49:19 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/12 01:06:44 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ void	ft_herdoc1(t_command *cmd, t_data *data, int flag)
 		waitpid(pid, &g_exit_status, 0);
 		if (WIFEXITED(g_exit_status))
 			g_exit_status = WEXITSTATUS(g_exit_status);
-		else if (WIFSIGNALED(g_exit_status))
-			g_exit_status = 128 + WTERMSIG(g_exit_status);
+		if (WIFSIGNALED(g_exit_status) && flag == 0)
+			g_exit_status = 1;
+		if (WIFSIGNALED(g_exit_status) && flag == 1)
+			g_exit_status = 0;
 	}
 }
 

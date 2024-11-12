@@ -6,7 +6,7 @@
 /*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/11 18:40:56 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/12 00:02:07 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void		process_heredoc_line(t_command *cmd, char *line,
 /* ------------------- signals ------------------- */
 
 void		controlc_handler(int sig);
-void		handle_signal_exit_status(int signum);
+void		sig_exit(int signum);
 void		handle_sigint(int sig);
 void		sig_one(int sig);
 void		sig_pipe(int sig);

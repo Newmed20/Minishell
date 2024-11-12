@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 11:01:59 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/11 15:22:56 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/12 01:07:37 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,6 @@ void	multiple_child(t_fds *fds, t_command *cmd, t_data *data, char **env)
 	fds_dupping(fds, cmd);
 	if (cmd->input_files || cmd->oa_files)
 		ft_pipe_redirection(cmd, 1);
-	if (ft_isbuitin(cmd->command))
-	{
-		execute_builtins(data, cmd);
-		exit(g_exit_status);
-	}
-	if (cmd->command == NULL)
-		exit(0);
-	if (!cmd->full_path)
-		exit(g_exit_status);
-	if(!cmd->full_path)
-		printf("minishell: %s: command not found\n", cmd->command);
 	if (cmd->full_path)
 	{
 		if (execve(cmd->full_path, cmd->args, env) == -1)
@@ -38,6 +27,15 @@ void	multiple_child(t_fds *fds, t_command *cmd, t_data *data, char **env)
 			exit(EXIT_FAILURE);
 		}
 	}
+	if (ft_isbuitin(cmd->command))
+	{
+		execute_builtins(data, cmd);
+		exit(g_exit_status);
+	}
+	if (g_exit_status == 127 || g_exit_status == 126)
+		exit(g_exit_status);
+	else
+		exit(EXIT_FAILURE);
 }
 
 void	multiple_parent(t_fds *fds)
@@ -63,7 +61,7 @@ void	waiting(t_command *cmd)
 		else if (WIFSIGNALED(g_exit_status))
 		{
 			signum = WTERMSIG(g_exit_status);
-			handle_signal_exit_status(signum);
+			sig_exit(signum);
 		}
 		cmd = cmd->next;
 	}

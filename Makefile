@@ -15,7 +15,7 @@ LIBFHDR = libft/libft.h
 
 LIBFT = libft/libft.a
 
-SRCS = main.c signals.c  \
+SRCS = main.c  \
 	   lexer/lexer.c lexer/lexer_utils.c lexer/lexer_utils_2.c  \
 	   errors/errors_utils.c errors/syntax_error.c \
 	   expander/expander.c expander/env_lst.c \
@@ -23,7 +23,7 @@ SRCS = main.c signals.c  \
 	   utils/utils1.c utils/clean_up.c utils/utils2.c utils/utils3.c \
 	   builtins/ft_cd.c builtins/ft_echo.c builtins/ft_env.c builtins/ft_pwd.c builtins/ft_export.c builtins/ft_exit.c builtins/ft_unset.c \
 	   execution/execution.c execution/heredoc.c execution/pipe.c execution/redirections.c execution/builtins.c \
-	   execution/pipe_redirections.c execution/utils.c 
+	   execution/pipe_redirections.c execution/utils.c  execution/signals.c \
 
 OBJ_DIR = objs/
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 19:30:21 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/10 21:10:00 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/11 22:23:11 by mjadid           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	sig_pipe(int sig)
 {
 	(void)sig;
 	write (1, "\n", 1);
-	exit(24);
+	exit(1);
 }
 
-void	handle_signal_exit_status(int signum)
+void	sig_exit(int signum)
 {
 	if (signum == 3 || signum == 2)
 	{
