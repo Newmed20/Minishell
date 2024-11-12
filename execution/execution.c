@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 21:47:21 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/12 01:06:25 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/12 03:16:37 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	one_child(t_command *comand, t_data *data)
 
 	env = ft_transform_env(data->env_copy);
 	signal(SIGQUIT, SIG_DFL);
-	if (g_exit_status == 127 || g_exit_status == 126)
-		exit (g_exit_status);
 	if (comand->heredoc_delimiters)
 		ft_heredoc(comand, data, 0);
 	signal (SIGINT, controlc_handler);
@@ -62,10 +60,13 @@ void	one_child(t_command *comand, t_data *data)
 	{
 		if (execve(comand->full_path, comand->args, env) == -1)
 		{
-			perror("execve");
+			if (g_exit_status != 127 && g_exit_status != 126)
+				perror("execve");
 			exit(EXIT_FAILURE);
 		}
 	}
+	if (g_exit_status == 127 || g_exit_status == 126)
+		exit (g_exit_status);
 	else
 		exit(EXIT_FAILURE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjadid <mjadid@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 07:59:06 by mjadid            #+#    #+#             */
-/*   Updated: 2024/11/12 01:06:44 by mjadid           ###   ########.fr       */
+/*   Updated: 2024/11/12 03:35:09 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ void	ft_heredoc(t_command *cmd, t_data *data, int flag)
 	if (g_exit_status == 24)
 		return ;
 	ft_herdoc1(cmd, data, flag);
-	if (g_exit_status == 1)
-		exit (1);
 	fd = open("/tmp/heredoc.txt", O_RDONLY);
 	if (fd != -1)
 	{

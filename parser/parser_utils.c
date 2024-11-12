@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 23:48:46 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/10 16:05:02 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/12 04:01:44 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_command	*init_command(void)
 	cmd->next = NULL;
 	cmd->cmd_found = false;
 	cmd->pipe_out = 0;
-	cmd->vid = 0;
 	return (cmd);
 }
 

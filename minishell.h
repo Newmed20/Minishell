@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:47:07 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/12 01:31:26 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/12 04:00:53 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ typedef struct s_command
 	int					pid;
 	int					fd_in;
 	int					fd_out;
-	int					vid;
 	struct s_command	*next;
 }	t_command;
 

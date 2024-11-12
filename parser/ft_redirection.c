@@ -6,7 +6,7 @@
 /*   By: abmahfou <abmahfou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:35:09 by abmahfou          #+#    #+#             */
-/*   Updated: 2024/11/12 01:03:23 by abmahfou         ###   ########.fr       */
+/*   Updated: 2024/11/12 02:49:07 by abmahfou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	get_string(t_token **token, t_data *data, char **redir, char **file)
 	char	*tmp;
 
 	tmp = NULL;
-	if (!only_quotes(*token))
-		tmp = ft_strdup("");
 	while (*token)
 	{
 		if (((*token)->type == WHITE_SPACE && (*token)->state == GENERAL)
