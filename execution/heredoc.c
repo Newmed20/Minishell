@@ -49,10 +49,10 @@ void	ft_herdoc1(t_command *cmd, t_data *data, int flag)
 {
 	int		pid;
 	int		fd;
-	t_redir	*tmp;
+	// t_redir	*tmp;
 
 	fd = 0;
-	tmp = cmd->heredoc_delimiters;
+	// tmp = cmd->heredoc_delimiters;
 	signal(SIGQUIT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
